@@ -1,0 +1,41 @@
+{
+  "name": "charisworksfrontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.12",
+    "@mui/material": "^5.14.11",
+    "@types/node": "20.6.4",
+    "@types/react": "18.2.22",
+    "@types/react-dom": "18.2.7",
+    "@types/recoil": "^0.0.9",
+    "autoprefixer": "10.4.16",
+    "bootstrap": "^5.3.2",
+    "eslint": "8.50.0",
+    "eslint-config-next": "13.5.2",
+    "firebase": "^10.4.0",
+    "js-cookie": "^3.0.5",
+    "markdown-to-jsx": "^7.3.2",
+    "next": "^13.5.4",
+    "postcss": "^8.4.31",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.9.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.47.0",
+    "reactstrap": "^9.2.0",
+    "recoil": "^0.7.7",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@types/requirejs": "^2.1.35"
+  }
+}
