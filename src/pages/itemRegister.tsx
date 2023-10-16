@@ -101,7 +101,7 @@ export default function SignUpPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            ログイン
+            商品の追加
           </Typography>
           <Box
             component="form"

@@ -50,7 +50,7 @@ export const FireBaseDeleteUser = async () => {
   await deleteUser(auth.currentUser);
   return idToken;
 };
-//アカウントのパスワードをリセット　挙動未確認
+//アカウントのパスワードをリセット
 export const FireBaseSendPassResetEmail = async (email:string) => {
   const auth = getAuth();
   await sendPasswordResetEmail(auth, email);

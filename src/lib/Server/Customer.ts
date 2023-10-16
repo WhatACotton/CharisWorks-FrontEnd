@@ -8,7 +8,7 @@ interface MyData {
   Address:string;
   CreatedDate:string;
   IsEmailVerified:boolean;
-  IsRegistered:boolean;
+  StripeAccountID:string;
 }
 //顧客情報の取得
 export const CustomerGet = async () => {
@@ -64,6 +64,34 @@ export const Purchase = async () => {
   }
 };
 
+
+interface TransactionItem {
+  InfoID: string;
+  Quantity: number;
+  TransactionID: string;
+}
+
+interface Transaction {
+  TransactionID: string;
+  Name: string;
+  TotalAmount: number;
+  Address: string;
+  PhoneNumber: string;
+  TransactionTime: string;
+  StripeID: string;
+  status: string;
+  items: TransactionItem[];
+}
+
+export interface TransactionData {
+  TransactionLists: Transaction[];
+  Transactions: TransactionItem[][];
+}
+
+export interface TransactionCardProps {
+  transaction: Transaction;
+}
+
 //購入履歴を取得する　購入履歴をjsonで返す
 export const TransactionGet = async () => {
   try {
@@ -86,6 +114,18 @@ export const TransactionGet = async () => {
   }
 };
 
+
+
+export interface CartItem {
+  Order: number;
+  ItemID: string;
+  Quantity: number;
+  Status: string;
+  ItemName: string;
+  Price: number;
+  Stock: number;
+}
+
 //カートに入っている商品を取得する
 export const CartGet = async () => {
   try {
@@ -99,6 +139,7 @@ export const CartGet = async () => {
     });
     const json = await response.json();
     console.log(json);
+    return json;
   } catch (error) {
     console.log(error);
   }

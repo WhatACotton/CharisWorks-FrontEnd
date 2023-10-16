@@ -29,6 +29,8 @@ import Charis_logo from "../../public/images/icon.png";
 import { CenterFocusStrong } from "@mui/icons-material";
 import Topbar from "../components/Topbar";
 import { RecoilRoot } from "recoil";
+import { grey } from "@mui/material/colors";
+import { ItemGetMaker } from "../lib/Server/ItemAPI";
 const sidebar = {
   title: "Charis Worksとは",
   description:
@@ -42,12 +44,21 @@ const sidebar = {
 };
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: grey[800],
+    },
+    secondary: {
+      main: grey[300],
+    },
+  },
+});
 const defaultTheme = createTheme();
 
 export default function Album() {
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <RecoilRoot>
         <Topbar />

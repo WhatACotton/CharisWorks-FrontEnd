@@ -1,11 +1,21 @@
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 
-
+interface MyData {
+  Name: string;
+  ZipCode: string;
+  Address: string;
+}
 //IdTokenが必要なアカウント関係の処理
 //サインアップ処理
-export const SignUp = async (idToken:string) => {
+export const SignUp = async (idToken:string,MyData:MyData) => {
   try {
     console.log(idToken);
+    const data = JSON.stringify({
+      Name: MyData.Name,
+      ZipCode: MyData.ZipCode,
+      Address: MyData.Address,
+    })
+    console.log(data)
     const response = await fetch("http://" + IPAddress + ":80/go/SignUp", {
       method: "POST",
       mode: "cors",
@@ -14,7 +24,9 @@ export const SignUp = async (idToken:string) => {
         Authorization: idToken,
       },
       credentials: "include",
+      body:data,
     });
+
     const json = await response.json();
     console.log(json);
   } catch (error) {

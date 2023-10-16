@@ -9,25 +9,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 //@ts-ignore
 import Charis_logo from "../../public/images/icon.png";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useEffect, useState } from "react";
-import {
-  RecoilRoot,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
-import {
-  ContactStore,
-  RegisteredStore,
-  UserIDStore,
-  loginState,
-  EmailVerifiedStore,
-  ZipCodeStore,
-  AddressStore,
-  CreatedDateStore,
-  NameStore,
-} from "./recoil/atoms";
-import { CustomerGet } from "../lib/Server/Customer";
 import Cookies from "js-cookie";
 export default function Topbar() {
   const [isLogin, setIsLogin] = useState(false);
@@ -64,8 +47,12 @@ export default function Topbar() {
               </Box>
             </Button>
           </Grid>
+
           <Grid item>
             <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Button color="inherit" href="./cart">
+                <ShoppingCartIcon />
+              </Button>
               <Button color="inherit" href="./about">
                 Charis Worksについて
               </Button>

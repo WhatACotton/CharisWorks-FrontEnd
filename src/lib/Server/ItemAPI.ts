@@ -1,6 +1,15 @@
-const IPAddress = process.env.IP_ADDRESS;
-
-
+const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
+export interface ItemData {
+  ItemID: string;
+  Status: string;
+  Name: string;
+  Price: number;
+  Stock: number;
+  Description: string;
+  Color: string;
+  Series: string;
+  Size: string;
+}
 //認証なしでのリクエスト用
 //現在購入可能な商品をすべて取得する
 export const ItemGetALL = async () => {
@@ -35,3 +44,20 @@ export const ItemGetTop = async () => {
     console.log(error);
   }
 };
+
+export const ItemGetMaker = async (maker:string) => {
+  try {
+    const response = await fetch("http://" + IPAddress + ":80/go/item/maker/"+maker, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+  } catch (error) {
+    console.log(error);
+  }
+};
+

@@ -5,9 +5,9 @@ const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 export const StripeAccountCreate = async () => {
   try {
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/CreateStripeAccount",
+      "http://" + IPAddress + ":80/go/Maker/AccountCreate",
       {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
@@ -158,3 +158,20 @@ export const MakerStripeAccountCreate = async () => {
     console.log(error);
   }
 };
+export const MakerItemGet = async () => {
+  try {
+    const response = await fetch("http://" + IPAddress + ":80/go/Maker/GetItem", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
+  }
+};
+

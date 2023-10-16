@@ -31,9 +31,9 @@ const firebaseConfig = {
   appId: "1:155658937570:web:968428199b75bb618ceabb",
   measurementId: "G-MF7MGV4D71",
 };
-initializeApp(firebaseConfig);
 // .envファイルで設定した環境変数をfirebaseConfigに入れる
-const IPAddress = "192.168.10.179";
+const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
+
 const endserver = async () => {
   try {
     const response = await fetch("http://" + IPAddress + ":80/go/SessionEnd", {
