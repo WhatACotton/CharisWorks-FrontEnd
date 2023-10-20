@@ -24,10 +24,16 @@ import { FireBaseSignIn } from "../lib/FireBase/reqForFirebase";
 import { SignIn } from "../lib/Server/FireBase";
 import { useRouter } from "next/router";
 import fbinitialize from "../lib/FireBase/firebaseConfig";
+import { PictureInput } from "../components/pictureInputForm";
 import { grey } from "@mui/material/colors";
 interface IFormInput {
-  email: string;
-  password: string;
+  Name: string;
+  Price: number;
+  Stock: number;
+  Series: string;
+  Size: string;
+  Color: string;
+  Description: string;
 }
 import { useState } from "react";
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -51,36 +57,6 @@ export default function SignUpPage() {
   const router = useRouter();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
-    FireBaseSignIn(data.email, data.password)
-      .then((idToken: string) => {
-        console.log(idToken);
-        SignIn(idToken)
-          .then((res) => {
-            console.log(res);
-            router.push("/mypage");
-          })
-          .catch((error) => {
-            console.log(error);
-            throw new Error(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        switch (error.message) {
-          case "Firebase: Error (auth/invalid-email).":
-            setError("無効なメールアドレスです。");
-            break;
-          case "Firebase: Error (auth/missing-password).":
-            setError("パスワードを入力してください");
-            break;
-          case "Firebase: Error (auth/invalid-login-credentials).":
-            setError("メールアドレスまたはパスワードが間違っています");
-            break;
-          default:
-            setError("エラーが発生しました");
-            break;
-        }
-      });
   };
   return (
     <ThemeProvider theme={theme}>
@@ -97,9 +73,6 @@ export default function SignUpPage() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
           <Typography component="h1" variant="h5">
             商品の追加
           </Typography>
@@ -114,22 +87,81 @@ export default function SignUpPage() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  autoComplete="email"
-                  {...register("email")}
+                  id="Name"
+                  label="商品名"
+                  autoComplete="Name"
+                  {...register("Name")}
+                  variant="standard"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password")}
+                  id="Price"
+                  label="価格"
+                  autoComplete="Price"
+                  {...register("Price")}
+                  variant="standard"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Stock"
+                  label="在庫"
+                  autoComplete="Stock"
+                  {...register("Stock")}
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Series"
+                  label="シリーズ"
+                  autoComplete="Series"
+                  {...register("Series")}
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Size"
+                  label="サイズ"
+                  autoComplete="Size"
+                  {...register("Size")}
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Color"
+                  label="色"
+                  autoComplete="Color"
+                  {...register("Color")}
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Description"
+                  label="説明"
+                  autoComplete="Description"
+                  {...register("Description")}
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <PictureInput />
               </Grid>
               {error && (
                 <Grid item xs={12}>

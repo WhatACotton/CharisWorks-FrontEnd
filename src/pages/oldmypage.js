@@ -22,18 +22,10 @@ import {
   Row,
   Button,
 } from "reactstrap";
-const firebaseConfig = {
-  apiKey: "AIzaSyAeGNz6VkosSnQJ5mJcQjMZVNxg08C9Jf4",
-  authDomain: "charisworks-a1ef5.firebaseapp.com",
-  projectId: "charisworks-a1ef5",
-  storageBucket: "charisworks-a1ef5.appspot.com",
-  messagingSenderId: "155658937570",
-  appId: "1:155658937570:web:968428199b75bb618ceabb",
-  measurementId: "G-MF7MGV4D71",
-};
+import fbinitialize from "../lib/FireBase/firebaseConfig";
 // .envファイルで設定した環境変数をfirebaseConfigに入れる
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
-
+fbinitialize();
 const endserver = async () => {
   try {
     const response = await fetch("http://" + IPAddress + ":80/go/SessionEnd", {

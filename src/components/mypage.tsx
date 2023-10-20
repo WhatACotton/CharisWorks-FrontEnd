@@ -8,7 +8,7 @@ import { Grid, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { LogOut } from "../lib/Server/Customer";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { CustomerGet, TransactionGet } from "../lib/Server/Customer";
 import {
@@ -31,6 +31,8 @@ import {
 } from "recoil";
 import { StripeAccountCreate } from "../lib/Server/Maker";
 import { FireBaseSendEmailVerification } from "../lib/FireBase/reqForFirebase";
+import fbinitialize from "../lib/FireBase/firebaseConfig";
+fbinitialize();
 export default function Mypage() {
   const router = useRouter();
   const register = useRecoilValue(RegisteredStore);
@@ -55,23 +57,29 @@ export default function Mypage() {
           router.push("/signin");
           alert("ログインしてください");
         } else {
+          window.localStorage.removeItem("idToken");
           console.log(response);
-          setData(response.UserID);
-          setUserID(response.UserID);
-          setContact(response.Contact);
-          if (response.IsEmailVerified === true) {
-            setEmailVerified("yes");
+          if (response.IsRegistered === true) {
+            setData(response.UserID);
+            setUserID(response.UserID);
+            setContact(response.Contact);
+            if (response.IsEmailVerified === true) {
+              setEmailVerified("yes");
+            } else {
+              setEmailVerified("no");
+            }
+            setCreatedDate(response.CreatedDate);
+            setName(response.Name);
+            setZipCode(response.ZipCode);
+            setAddress(response.Address);
+            if (response.StripeAccountID == undefined) {
+              setStripeAccountID("not maker");
+            } else {
+              setStripeAccountID(response.StripeAccountID);
+            }
           } else {
-            setEmailVerified("no");
-          }
-          setCreatedDate(response.CreatedDate);
-          setName(response.Name);
-          setZipCode(response.ZipCode);
-          setAddress(response.Address);
-          if (response.StripeAccountID == undefined) {
-            setStripeAccountID("not maker");
-          } else {
-            setStripeAccountID(response.StripeAccountID);
+            alert("本登録に進みます。");
+            router.push("/signup");
           }
         }
         console.log(response.UserID);

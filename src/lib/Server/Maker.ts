@@ -1,6 +1,5 @@
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 
-
 //stripeアカウント作成　アカウント作成サイトへのURLを返す
 export const StripeAccountCreate = async () => {
   try {
@@ -24,14 +23,26 @@ export const StripeAccountCreate = async () => {
 };
 
 //商品の出品　ItemMain(ItemID,Status,ItemName,Price,Stock)を登録する
-export const ItemPost = async (ItemID:string, Status:string, ItemName:string, Price:number, Stock:number) => {
+export const ItemPost = async (
+  ItemName: string,
+  Price: number,
+  Stock: number,
+  Series: string,
+  Size: string,
+  Color: string,
+  Description: string
+) => {
   try {
     const UserreqPayload = {
-      ItemID: ItemID,
-      Status: Status,
-      ItemName: ItemName,
+      ItemID: "testItemID",
       Price: Price,
       Stock: Stock,
+      Series: Series,
+      Size: Size,
+      Color: Color,
+      Status: "inactive",
+      ItemName: ItemName,
+      Description: Description,
     };
     console.log(UserreqPayload);
     const response = await fetch(
@@ -54,11 +65,11 @@ export const ItemPost = async (ItemID:string, Status:string, ItemName:string, Pr
 };
 //商品の詳細の作成　ItemDetail(ItemID,Description,Color,Series,Size)を登録する
 export const ItemDetailsPost = async (
-  ItemID:string,
-  Description:string,
-  Color:string,
-  Series:string,
-  Size:string
+  ItemID: string,
+  Description: string,
+  Color: string,
+  Series: string,
+  Size: string
 ) => {
   try {
     const UserreqPayload = {
@@ -89,7 +100,7 @@ export const ItemDetailsPost = async (
 };
 
 //出品者情報の登録　出品者しか実行できないので注意
-export const MakerRegister = async (Name:string, Description:string) => {
+export const MakerRegister = async (Name: string, Description: string) => {
   const data = {
     MakerName: Name,
     MakerDescription: Description,
@@ -160,13 +171,16 @@ export const MakerStripeAccountCreate = async () => {
 };
 export const MakerItemGet = async () => {
   try {
-    const response = await fetch("http://" + IPAddress + ":80/go/Maker/GetItem", {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/Maker/GetItem",
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
     console.log(json);
     return json;
@@ -174,4 +188,3 @@ export const MakerItemGet = async () => {
     console.log(error);
   }
 };
-

@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm, SubmitHandler, set } from "react-hook-form";
 import { FireBaseSignUp } from "../lib/FireBase/reqForFirebase";
-import { SignUp } from "../lib/Server/FireBase";
+import { Register } from "../lib/Server/FireBase";
 import { useRouter } from "next/router";
 import fbinitialize from "../lib/FireBase/firebaseConfig";
 import { GetAddress } from "../lib/Address";
@@ -40,26 +40,23 @@ export default function SignUpForm() {
   fbinitialize();
   const { register, handleSubmit } = useForm<IFormInput>();
   const router = useRouter();
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
-    FireBaseSignUp(data.email, data.password)
-      .then((idToken: string) => {
-        console.log(idToken);
-        const MyData = {
-          Name: data.name,
-          ZipCode: data.zipcode,
-          Address: data.address,
-        };
-        console.log(MyData);
-        SignUp(idToken, MyData)
-          .then((res) => {
-            console.log(res);
-            router.push("/mypage");
-          })
-          .catch((error) => {
-            console.log(error);
-            throw new Error(error);
-          });
+    const MyData = {
+      Name: data.name,
+      ZipCode: data.zipcode,
+      Address: data.address,
+    };
+    console.log(MyData);
+    Register(MyData)
+      .then((res) => {
+        console.log(res);
+        router.push("/mypage");
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new Error(error);
       })
       .catch((error) => {
         console.log(error);
@@ -158,27 +155,6 @@ export default function SignUpForm() {
               variant="standard"
               autoComplete="address"
               {...register("address")}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              variant="standard"
-              label="メールアドレス"
-              autoComplete="email"
-              {...register("email")}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              label="パスワード"
-              type="password"
-              variant="standard"
-              autoComplete="new-password"
-              {...register("password")}
             />
           </Grid>
         </Grid>

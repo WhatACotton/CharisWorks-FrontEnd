@@ -8,7 +8,7 @@ function UncontrolledExample() {
         <ExampleCarouselImage text="First slide" />
         <Carousel.Caption>
           <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <p>Nulla vitae elit 3libero, a pharetra augue mollis interdum.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={5000}>

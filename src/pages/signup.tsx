@@ -22,7 +22,6 @@ import Topbar from "../components/Topbar";
 import Footer from "../components/Footer";
 import { RecoilRoot } from "recoil";
 import { FireBaseSignUp } from "../lib/FireBase/reqForFirebase";
-import { SignUp } from "../lib/Server/FireBase";
 import { useRouter } from "next/router";
 import fbinitialize from "../lib/FireBase/firebaseConfig";
 import { Input } from "reactstrap";

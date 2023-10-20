@@ -20,11 +20,16 @@ import Image from "next/image";
 import PersonIcon from "@mui/icons-material/Person";
 import Topbar from "../components/Topbar";
 import Footer from "../components/Footer";
-import { FireBaseSignIn } from "../lib/FireBase/reqForFirebase";
+import {
+  FireBaseSignIn,
+  MicrosoftSignIn,
+} from "../lib/FireBase/reqForFirebase";
 import { SignIn } from "../lib/Server/FireBase";
 import { useRouter } from "next/router";
 import fbinitialize from "../lib/FireBase/firebaseConfig";
 import { grey } from "@mui/material/colors";
+import { FireBaseGoogleSignIn } from "../lib/FireBase/reqForFirebase";
+
 interface IFormInput {
   email: string;
   password: string;
@@ -33,18 +38,17 @@ import { useState } from "react";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
-
-export default function SignUpPage() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: grey[800],
-      },
-      secondary: {
-        main: grey[300],
-      },
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: grey[800],
     },
-  });
+    secondary: {
+      main: grey[300],
+    },
+  },
+});
+export default function SignUpPage() {
   fbinitialize();
   const { register, handleSubmit } = useForm<IFormInput>();
   const [error, setError] = useState<string>("");
@@ -109,56 +113,34 @@ export default function SignUpPage() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  autoComplete="email"
-                  {...register("email")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password")}
-                />
-              </Grid>
-              {error && (
-                <Grid item xs={12}>
-                  <Typography color="error">{error}</Typography>
-                </Grid>
-              )}
-            </Grid>
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              ログイン
-            </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
+              <Typography variant="body1" gutterBottom>
+                アカウントの作成・ログインにはgoogleアカウントの認証が必要です。
+              </Typography>
               <Grid item>
-                <Typography variant="body2">
-                  <Link href="./signup" variant="body2">
-                    アカウントを持っていませんか？新規登録
-                  </Link>
-                </Typography>
-                <Typography variant="body2">
-                  パスワードを忘れた方はこちら
-                  <Link href="./passreset" variant="body2">
-                    再設定
-                  </Link>
-                </Typography>{" "}
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    FireBaseGoogleSignIn().then((idToken) => {
+                      if (!idToken) return;
+
+                      SignIn(idToken)
+                        .then((res) => {
+                          console.log(res);
+                          router.push("/mypage");
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                          throw new Error(error);
+                        });
+                    });
+                  }}
+                >
+                  <Typography variant="h6" noWrap>
+                    google認証をする
+                  </Typography>
+                </Button>
               </Grid>
             </Grid>
           </Box>

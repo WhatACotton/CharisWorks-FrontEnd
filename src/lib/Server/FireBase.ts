@@ -7,25 +7,26 @@ interface MyData {
 }
 //IdTokenが必要なアカウント関係の処理
 //サインアップ処理
-export const SignUp = async (idToken:string,MyData:MyData) => {
+export const Register = async (MyData: MyData) => {
   try {
-    console.log(idToken);
     const data = JSON.stringify({
       Name: MyData.Name,
       ZipCode: MyData.ZipCode,
       Address: MyData.Address,
-    })
-    console.log(data)
-    const response = await fetch("http://" + IPAddress + ":80/go/SignUp", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: idToken,
-      },
-      credentials: "include",
-      body:data,
     });
+    console.log(data);
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/Registration",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: data,
+      }
+    );
 
     const json = await response.json();
     console.log(json);
@@ -35,7 +36,7 @@ export const SignUp = async (idToken:string,MyData:MyData) => {
 };
 
 //ログイン処理
-export const SignIn = async (idToken:string) => {
+export const SignIn = async (idToken: string) => {
   try {
     console.log(idToken);
     const response = await fetch("http://" + IPAddress + ":80/go/Login", {
@@ -54,7 +55,7 @@ export const SignIn = async (idToken:string) => {
   }
 };
 //アカウント削除
-export const UserDelete = async (idToken:string) => {
+export const UserDelete = async (idToken: string) => {
   try {
     const response = await fetch(
       "http://" + IPAddress + ":80/go/DeleteCustomer",

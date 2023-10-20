@@ -20,14 +20,15 @@ import {
   useSetRecoilState,
 } from "recoil";
 import Cart from "../components/Cart";
+import { theme } from "../lib/theme";
+
 import MakerItem from "../components/makerItem";
 export default function Mypage() {
   const router = useRouter();
-  const defaultTheme = createTheme();
 
   return (
     <RecoilRoot>
-      <ThemeProvider theme={defaultTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Topbar />
         <Container maxWidth="lg">

@@ -22,6 +22,11 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    ".next/types/**/*.ts",
+    "src/components/pictureInputForm.js"
+  ],
   "exclude": ["node_modules"]
 }

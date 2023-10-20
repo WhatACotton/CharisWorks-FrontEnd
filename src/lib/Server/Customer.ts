@@ -2,13 +2,14 @@ const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 interface MyData {
   Email: string;
   UserID: string;
-  Contact:string;
-  Name:string;
-  ZipCode:string;
-  Address:string;
-  CreatedDate:string;
-  IsEmailVerified:boolean;
-  StripeAccountID:string;
+  Contact: string;
+  Name: string;
+  ZipCode: string;
+  Address: string;
+  CreatedDate: string;
+  IsEmailVerified: boolean;
+  StripeAccountID: string;
+  IsRegistered: boolean;
 }
 //顧客情報の取得
 export const CustomerGet = async () => {
@@ -21,7 +22,7 @@ export const CustomerGet = async () => {
       },
       credentials: "include",
     });
-    const json:MyData = await response.json();
+    const json: MyData = await response.json();
     return json;
   } catch (error) {
     console.log(error);
@@ -63,7 +64,6 @@ export const Purchase = async () => {
     console.log(error);
   }
 };
-
 
 interface TransactionItem {
   InfoID: string;
@@ -114,8 +114,6 @@ export const TransactionGet = async () => {
   }
 };
 
-
-
 export interface CartItem {
   Order: number;
   ItemID: string;
@@ -146,7 +144,11 @@ export const CartGet = async () => {
 };
 
 //アカウント情報の修正
-export const CustomerModify = async (Name:string, ZipCode:string, Address:string) => {
+export const CustomerModify = async (
+  Name: string,
+  ZipCode: string,
+  Address: string
+) => {
   try {
     const UserreqPayload = {
       Name: Name,
@@ -170,7 +172,7 @@ export const CustomerModify = async (Name:string, ZipCode:string, Address:string
   }
 };
 //カートへの商品の登録
-export const CartPost = async (ItemID:string, Quantity:number) => {
+export const CartPost = async (ItemID: string, Quantity: number) => {
   const data = {
     itemid: ItemID,
     Quantity: Quantity,
