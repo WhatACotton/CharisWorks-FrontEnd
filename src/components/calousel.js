@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Carousel from "react-bootstrap/Carousel";
 
-export default function App() {
+const App = () => {
   return (
     <div style={{ display: "block", width: 700, padding: 30 }}>
       <h4>React-Bootstrap Carousel Component</h4>
@@ -32,4 +32,5 @@ export default function App() {
       </Carousel>
     </div>
   );
-}
+};
+export default App;

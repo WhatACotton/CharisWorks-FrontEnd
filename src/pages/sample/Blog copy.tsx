@@ -7,12 +7,12 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import MainFeaturedPost from "../components/MainFeaturedPost";
-import FeaturedPost from "../components/FeaturedPost";
-import Main from "../components/Main";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import MainFeaturedPost from "../../components/MainFeaturedPost";
+import FeaturedPost from "../../components/FeaturedPost";
+import Main from "../../components/Main";
+import Sidebar from "../../components/Sidebar";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
 
 const sections = [
   { title: "Technology", url: "#" },

@@ -22,7 +22,7 @@ import {
   Row,
   Button,
 } from "reactstrap";
-import fbinitialize from "../lib/FireBase/firebaseConfig";
+import fbinitialize from "../../lib/FireBase/firebaseConfig";
 // .envファイルで設定した環境変数をfirebaseConfigに入れる
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 fbinitialize();

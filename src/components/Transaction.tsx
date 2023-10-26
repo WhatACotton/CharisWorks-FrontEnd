@@ -5,9 +5,7 @@ import {
   TransactionGet,
 } from "../lib/Server/Customer";
 
-const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
-
-function Card({ transaction }: TransactionCardProps) {
+const Card = ({ transaction }: TransactionCardProps) => {
   return (
     <div className="card">
       <h2>Transaction ID: {transaction.TransactionID}</h2>
@@ -28,9 +26,9 @@ function Card({ transaction }: TransactionCardProps) {
       </ul>
     </div>
   );
-}
+};
 
-function CardList() {
+const CardList = () => {
   const [data, setData] = useState<TransactionData>({
     TransactionLists: [],
     Transactions: [],
@@ -85,7 +83,7 @@ function CardList() {
       })}
     </div>
   );
-}
+};
 
 function TransactionLists() {
   return (

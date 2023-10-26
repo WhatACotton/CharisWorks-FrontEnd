@@ -36,7 +36,7 @@ export const Register = async (MyData: MyData) => {
 };
 
 //ログイン処理
-export const SignIn = async (idToken: string) => {
+export const SignInServer = async (idToken: string) => {
   try {
     console.log(idToken);
     const response = await fetch("http://" + IPAddress + ":80/go/Login", {

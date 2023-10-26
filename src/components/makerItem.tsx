@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ItemData } from "../lib/Server/ItemAPI";
 import { MakerItemGet } from "../lib/Server/Maker";
 
-const API_URL = process.env.NEXT_PUBLIC_IP_ADDRESS;
-function Card({ Item }: { Item: ItemData }) {
+const Card = ({ Item }: { Item: ItemData }) => {
   return (
     <div className="card border-1">
       <p>ItemID: {Item.ItemID}</p>
@@ -17,11 +16,10 @@ function Card({ Item }: { Item: ItemData }) {
       <p>Description: {Item.Description}</p>
     </div>
   );
-}
+};
 
-function MakerItem() {
+const MakerItem = () => {
   const [Items, setItems] = useState<ItemData[]>([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,6 +44,6 @@ function MakerItem() {
       </div>
     </div>
   );
-}
+};
 
 export default MakerItem;

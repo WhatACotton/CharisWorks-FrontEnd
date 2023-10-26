@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export interface ExampleCarouselImageProps {
   title?: string | undefined;
@@ -6,7 +6,7 @@ export interface ExampleCarouselImageProps {
 }
 
 const ExampleCarouselImage: React.FC<ExampleCarouselImageProps> = ({
-  title = 'Placeholder',
+  title = "Placeholder",
   text,
 }) => (
   <svg
@@ -27,6 +27,6 @@ const ExampleCarouselImage: React.FC<ExampleCarouselImageProps> = ({
   </svg>
 );
 
-ExampleCarouselImage.displayName = 'ExampleCarouselImage';
+ExampleCarouselImage.displayName = "ExampleCarouselImage";
 
 export default ExampleCarouselImage;

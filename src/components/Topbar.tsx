@@ -1,32 +1,19 @@
 import * as React from "react";
-import Grid from "@mui/material/Grid";
-import { AppBar } from "@mui/material";
-import Toolbar from "@mui/material/Toolbar";
-import Image from "next/image";
-import PersonIcon from "@mui/icons-material/Person";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-//@ts-ignore
-import Charis_logo from "../../public/images/icon.png";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-export default function Topbar() {
-  const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    const cookie = Cookies.get("SessionKey");
-    console.log(cookie);
-    if (cookie == undefined) {
-      setIsLogin(false);
-    } else {
-      if (cookie.length > 110) {
-        setIsLogin(true);
-      } else {
-        setIsLogin(false);
-      }
-    }
-  }, []);
+
+import {
+  AppBar,
+  Toolbar,
+  Grid,
+  Box,
+  Button,
+  Typography,
+  ShoppingCartIcon,
+} from "../lib/mui";
+import { IsLogInProvider } from "../lib/Contexts/LogInContext";
+import { Image } from "react-bootstrap";
+import LogInStatus from "./LogInStatus";
+const Topbar = () => {
+  const RegisterContext = React.createContext(false);
 
   return (
     <AppBar position="relative" color="secondary">
@@ -40,8 +27,13 @@ export default function Topbar() {
           <Grid item alignItems="center">
             <Button href="/" color="inherit">
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Image src={Charis_logo} alt="Charis Works Logo" width={50} />
-                <Typography variant="h6" color="inherit" noWrap>
+                <Image
+                  src="/images/icon.png"
+                  alt="Charis Works Logo"
+                  width={50}
+                  height={50}
+                />
+                <Typography variant="h6" color="inherit" noWrap sx={{ ml: 1 }}>
                   Charis Works
                 </Typography>
               </Box>
@@ -50,30 +42,20 @@ export default function Topbar() {
 
           <Grid item>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button color="inherit" href="./cart">
+              <Button color="inherit" href="/user/cartList">
                 <ShoppingCartIcon />
               </Button>
-              <Button color="inherit" href="./about">
+              <Button color="inherit" href="../article/about">
                 Charis Worksについて
               </Button>
-
-              <Grid>
-                {isLogin === false ? (
-                  <Button color="inherit" href="./signin">
-                    <PersonIcon />
-                    ログイン
-                  </Button>
-                ) : (
-                  <Button color="inherit" href="./mypage">
-                    <PersonIcon />
-                    マイページ
-                  </Button>
-                )}
-              </Grid>
+              <IsLogInProvider>
+                <LogInStatus />
+              </IsLogInProvider>
             </Box>
           </Grid>
         </Grid>
       </Toolbar>
     </AppBar>
   );
-}
+};
+export default Topbar;

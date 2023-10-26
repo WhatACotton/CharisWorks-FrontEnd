@@ -24,7 +24,7 @@ export const StripeAccountCreate = async () => {
 
 //商品の出品　ItemMain(ItemID,Status,ItemName,Price,Stock)を登録する
 export const ItemPost = async (
-  ItemName: string,
+  Name: string,
   Price: number,
   Stock: number,
   Series: string,
@@ -35,13 +35,13 @@ export const ItemPost = async (
   try {
     const UserreqPayload = {
       ItemID: "testItemID",
-      Price: Price,
-      Stock: Stock,
+      Price: Number(Price),
+      Stock: Number(Stock),
       Series: Series,
       Size: Size,
       Color: Color,
       Status: "inactive",
-      ItemName: ItemName,
+      Name: Name,
       Description: Description,
     };
     console.log(UserreqPayload);
@@ -125,7 +125,13 @@ export const MakerRegister = async (Name: string, Description: string) => {
   }
   console.log(postDemoforcustomer());
 };
-
+export interface MakerData {
+  Maker: {
+    MakerName: string;
+    MakerDescription: string;
+    StripeAccountID: string;
+  };
+}
 //出品者の詳細情報の取得
 export const MakerDetailsGet = async () => {
   try {
@@ -140,7 +146,7 @@ export const MakerDetailsGet = async () => {
         credentials: "include",
       }
     );
-    const json = await response.json();
+    const json: MakerData = await response.json();
     console.log(json);
     return json;
   } catch (error) {
@@ -169,10 +175,31 @@ export const MakerStripeAccountCreate = async () => {
     console.log(error);
   }
 };
+
 export const MakerItemGet = async () => {
   try {
     const response = await fetch(
       "http://" + IPAddress + ":80/go/Maker/GetItem",
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const MakerItemIDGet = async (StripeAccountID: string) => {
+  try {
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/item/maker/id/" + StripeAccountID,
       {
         method: "GET",
         mode: "cors",

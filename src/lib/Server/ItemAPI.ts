@@ -9,6 +9,11 @@ export interface ItemData {
   Color: string;
   Series: string;
   Size: string;
+  MakerName: string;
+  MakerDescription: string;
+}
+export interface Item {
+  Item: ItemData;
 }
 //認証なしでのリクエスト用
 //現在購入可能な商品をすべて取得する
@@ -22,7 +27,8 @@ export const ItemGetALL = async () => {
       },
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
+    return json;
   } catch (error) {
     console.log(error);
   }
@@ -39,25 +45,48 @@ export const ItemGetTop = async () => {
       },
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
+    return json;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const ItemGetMaker = async (maker:string) => {
+export const ItemGetMaker = async (maker: string) => {
   try {
-    const response = await fetch("http://" + IPAddress + ":80/go/item/maker/"+maker, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/item/maker/" + maker,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
+    return json;
   } catch (error) {
     console.log(error);
   }
 };
-
+export const ItemGetDetails = async (ItemID: string) => {
+  try {
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/item/details/" + ItemID,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json: Item = await response.json();
+    // console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
+  }
+};

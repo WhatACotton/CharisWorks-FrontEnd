@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 enum GenderEnum {
@@ -12,8 +11,7 @@ interface IFormInput {
   firstName: string;
   gender: GenderEnum;
 }
-
-export default function TestForm() {
+const TestForm = () => {
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
 
@@ -30,4 +28,5 @@ export default function TestForm() {
       <input type="submit" />
     </form>
   );
-}
+};
+export default TestForm;

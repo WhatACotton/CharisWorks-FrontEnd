@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { CartGet, CartItem } from "../lib/Server/Customer";
-
-const API_URL = process.env.NEXT_PUBLIC_IP_ADDRESS;
-
+import { CartGet, CartItem, Purchase } from "../lib/Server/Customer";
+import { useRouter } from "next/router";
+import { Button, CheckIcon } from "../lib/mui";
 function Card({ cart }: { cart: CartItem }) {
   return (
     <div className="card border-1">
@@ -16,9 +15,9 @@ function Card({ cart }: { cart: CartItem }) {
   );
 }
 
-function Cart() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
+const Cart = () => {
+  const [cartItems, setCartItems] = useState<CartItem[] | string>([]);
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,17 +32,39 @@ function Cart() {
 
     fetchData();
   }, []);
-
-  return (
-    <div>
-      <h1>Cart List</h1>
-      <div className="card-container">
-        {cartItems.map((cart, index) => (
-          <Card key={index} cart={cart} />
-        ))}
+  if (typeof cartItems === "object") {
+    return (
+      <div>
+        <h1>Cart List</h1>
+        <div className="card-container">
+          {cartItems.map((cart, index) => (
+            <Card key={index} cart={cart} />
+          ))}
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            Purchase().then((response) => {
+              alert("購入ページに進みます");
+              if (response) {
+                router.push(response);
+              }
+            });
+          }}
+        >
+          <CheckIcon />
+          購入する
+        </Button>
       </div>
-    </div>
-  );
-}
+    );
+  } else {
+    return (
+      <div>
+        <h1>カートが空です</h1>
+      </div>
+    );
+  }
+};
 
 export default Cart;

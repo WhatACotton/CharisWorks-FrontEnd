@@ -1,13 +1,15 @@
 import * as React from "react";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Button from "@mui/material/Button";
-import SearchIcon from "@mui/icons-material/Search";
+import {
+  Grid,
+  Paper,
+  Typography,
+  Autocomplete,
+  TextField,
+  Button,
+  SearchIcon,
+  Link,
+  Stack,
+} from "../lib/mui";
 interface SidebarProps {
   archives: ReadonlyArray<{
     url: string;
@@ -21,7 +23,7 @@ interface SidebarProps {
   title: string;
 }
 
-export default function Sidebar(props: SidebarProps) {
+const Sidebar = (props: SidebarProps) => {
   const { archives, description, social, title } = props;
   const options = [
     { label: "ピンク", id: 1 },
@@ -31,7 +33,7 @@ export default function Sidebar(props: SidebarProps) {
     { label: "xxシリーズ", id: 5 },
   ];
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} pl={1}>
       <Paper elevation={4} sx={{ p: 2, bgcolor: "grey.200" }}>
         <Typography variant="h6" gutterBottom>
           {title}
@@ -95,4 +97,5 @@ export default function Sidebar(props: SidebarProps) {
       ))}
     </Grid>
   );
-}
+};
+export default Sidebar;

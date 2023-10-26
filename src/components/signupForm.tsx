@@ -1,20 +1,19 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useForm, SubmitHandler, set } from "react-hook-form";
-import { FireBaseSignUp } from "../lib/FireBase/reqForFirebase";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Register } from "../lib/Server/FireBase";
 import { useRouter } from "next/router";
 import fbinitialize from "../lib/FireBase/firebaseConfig";
 import { GetAddress } from "../lib/Address";
 import { useState } from "react";
+import {
+  Box,
+  Avatar,
+  LockOutlinedIcon,
+  Typography,
+  Grid,
+  TextField,
+  Button,
+} from "../lib/mui";
 interface IFormInput {
   name: string;
   zipcode: string;
@@ -23,7 +22,7 @@ interface IFormInput {
   password: string;
 }
 // TODO remove, this demo shouldn't need to reset the theme.
-function normalizeZipcode(zipcode) {
+const normalizeZipcode = (zipcode: string) => {
   // 正規表現で郵便番号のフォーマットにマッチするか判定
   const isValidFormat = /^\d{3}-?\d{4}$/.test(zipcode);
 
@@ -33,10 +32,9 @@ function normalizeZipcode(zipcode) {
 
   // ハイフンを削除して返す
   return zipcode.replace("-", "");
-}
-const defaultTheme = createTheme();
+};
 
-export default function SignUpForm() {
+const SignUpForm = () => {
   fbinitialize();
   const { register, handleSubmit } = useForm<IFormInput>();
   const router = useRouter();
@@ -114,24 +112,25 @@ export default function SignUpForm() {
               <Button
                 onClick={async () => {
                   const zipcode = normalizeZipcode(ZipCode);
-
-                  GetAddress(zipcode)
-                    .then((addressData) => {
-                      if (addressData) {
-                        for (const address of addressData) {
-                          console.log(
-                            `住所: ${address.address1}${address.address2}${address.address3}`
-                          );
-                          setAddress(
-                            `${address.address1}${address.address2}${address.address3}`
-                          );
+                  if (zipcode) {
+                    GetAddress(zipcode)
+                      .then((addressData) => {
+                        if (addressData) {
+                          for (const address of addressData) {
+                            console.log(
+                              `住所: ${address.address1}${address.address2}${address.address3}`
+                            );
+                            setAddress(
+                              `${address.address1}${address.address2}${address.address3}`
+                            );
+                          }
+                          console.log(addressData);
                         }
-                        console.log(addressData);
-                      }
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                    });
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  }
                 }}
               >
                 住所検索
@@ -166,14 +165,8 @@ export default function SignUpForm() {
         >
           新規登録
         </Button>
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Link href="./signin" variant="body2">
-              すでにアカウントを持っていますか？ログイン
-            </Link>
-          </Grid>
-        </Grid>
       </Box>
     </Box>
   );
-}
+};
+export default SignUpForm;

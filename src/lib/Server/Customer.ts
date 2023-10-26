@@ -135,7 +135,7 @@ export const CartGet = async () => {
       },
       credentials: "include",
     });
-    const json = await response.json();
+    const json: CartItem[] = await response.json();
     console.log(json);
     return json;
   } catch (error) {
@@ -178,8 +178,8 @@ export const CartPost = async (ItemID: string, Quantity: number) => {
     Quantity: Quantity,
   };
   console.log(data);
-  function postDemoforcustomer() {
-    return fetch("http://" + IPAddress + ":80/go/PostCart", {
+  try {
+    const response = await fetch("http://" + IPAddress + ":80/go/PostCart", {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -187,15 +187,11 @@ export const CartPost = async (ItemID: string, Quantity: number) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        return json;
-      });
+    });
+    const json: CartItem[] = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
   }
-  console.log(postDemoforcustomer());
-
-  alert("仮登録が完了しました。");
 };
