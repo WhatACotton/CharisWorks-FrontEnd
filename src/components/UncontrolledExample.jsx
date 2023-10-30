@@ -7,23 +7,18 @@ function UncontrolledExample() {
       <Carousel.Item interval={5000}>
         <ExampleCarouselImage text="First slide" />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit 3libero, a pharetra augue mollis interdum.</p>
+          <h3>カリスワークスの素晴らしい作品たち</h3>
+          <p>
+            カリスワーカーたちによる一つ一つ手丁寧に作成された作品を提供しています。
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={5000}>
         <ExampleCarouselImage text="Second slide" />
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={5000}>
-        <ExampleCarouselImage text="Third slide" />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>個人開発のシステム</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            バックエンド開発・フロントエンド開発など、一から作成されております。
           </p>
         </Carousel.Caption>
       </Carousel.Item>

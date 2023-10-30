@@ -12,6 +12,7 @@ import {
 import { IsLogInProvider } from "../lib/Contexts/LogInContext";
 import { Image } from "react-bootstrap";
 import LogInStatus from "./LogInStatus";
+import CartCount from "./CartCountStatus";
 const Topbar = () => {
   const RegisterContext = React.createContext(false);
 
@@ -43,7 +44,7 @@ const Topbar = () => {
           <Grid item>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Button color="inherit" href="/user/cartList">
-                <ShoppingCartIcon />
+                <CartCount />
               </Button>
               <Button color="inherit" href="../article/about">
                 Charis Worksについて

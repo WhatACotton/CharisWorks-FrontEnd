@@ -3,11 +3,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
 import { theme } from "../../lib/theme";
 import CartList from "../../app/user/cart";
+import { CartCountProvider } from "../../lib/Contexts/CartContext";
 export default function SignUpPage() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <CartList />
-    </ThemeProvider>
+    <CartCountProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <CartList />
+      </ThemeProvider>
+    </CartCountProvider>
   );
 }

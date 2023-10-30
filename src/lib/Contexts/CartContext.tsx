@@ -1,27 +1,39 @@
-import React, { ReactNode, useState, createContext, useEffect } from "react";
-import Cookies from "js-cookie";
+import React, { ReactNode, useState, createContext } from "react";
 import { CartGet } from "../Server/Customer";
+import { useEffect } from "react";
 type Count = number | null;
 
 // Contextオブジェクトを生成する
-export const CartCountContext = createContext<Count>(0);
+export const CartCountContext = createContext<{
+  CartCount: Count;
+  CartGets: () => Promise<void>;
+}>({
+  CartCount: 0,
+  CartGets: () => Promise.resolve(),
+});
 // 生成したContextオブジェクトのProviderを定義する
+
 export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [CartCount, setCartCount] = useState<Count>(0);
-  function CartGets() {
-    CartGet().then((res) => {
+  const [CartCount, setCartCount] = useState<Count>(null);
+
+  const CartGets = async () => {
+    try {
+      const res = await CartGet();
       if (res !== undefined) {
         if (typeof res !== "string") {
           setCartCount(res.length);
         }
       }
-    });
-  }
-  CartGets();
+    } catch (error) {
+      // エラーハンドリング
+      console.error(error);
+    }
+  };
+
   return (
-    <CartCountContext.Provider value={CartCount}>
+    <CartCountContext.Provider value={{ CartCount, CartGets }}>
       {children}
     </CartCountContext.Provider>
   );

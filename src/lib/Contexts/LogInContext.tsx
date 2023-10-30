@@ -27,7 +27,7 @@ export const IsLogInProvider: React.FC<{ children: ReactNode }> = ({
         }
       }
     }
-  }, []);
+  }, [isLogIn]);
   const value: LogIn = isLogIn;
   return (
     <IsLogInContext.Provider value={value}>{children}</IsLogInContext.Provider>

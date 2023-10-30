@@ -67,22 +67,29 @@ const CardList = () => {
 
     return null;
   };
+  if (data.TransactionLists !== null) {
+    return (
+      <div className="card-container">
+        {data.TransactionLists.map((transaction, index) => {
+          const transactionData = getTransactionByTransactionID(
+            transaction.TransactionID
+          );
 
-  return (
-    <div className="card-container">
-      {data.TransactionLists.map((transaction, index) => {
-        const transactionData = getTransactionByTransactionID(
-          transaction.TransactionID
-        );
+          if (transactionData) {
+            return <Card key={index} transaction={transactionData} />;
+          }
 
-        if (transactionData) {
-          return <Card key={index} transaction={transactionData} />;
-        }
-
-        return null;
-      })}
-    </div>
-  );
+          return null;
+        })}
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h1>取引履歴がありません</h1>
+      </div>
+    );
+  }
 };
 
 function TransactionLists() {

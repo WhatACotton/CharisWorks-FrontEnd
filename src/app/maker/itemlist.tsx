@@ -1,7 +1,7 @@
 import * as React from "react";
 import Footer from "../../components/Footer";
 import Topbar from "../../components/Topbar";
-import { Container, Typography, Grid, Button } from "../../lib/mui";
+import { Container, Typography, Grid, Button, Link } from "../../lib/mui";
 import MakerItem from "../../components/makerItem";
 const ItemList = () => {
   return (
@@ -17,13 +17,11 @@ const ItemList = () => {
         </Typography>
         <Typography variant="h4" gutterBottom sx={{ mt: 5 }}>
           あなたの商品一覧
-          <Button
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            href="/maker/itemRegister"
-          >
-            商品を追加する
-          </Button>
+          <Link href="/maker/itemRegister">
+            <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
+              商品を追加する
+            </Button>
+          </Link>
         </Typography>
 
         <MakerItem />

@@ -3,12 +3,13 @@ import { MuiFileInput } from "../../node_modules/mui-file-input";
 import { useState } from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { Image } from "react-bootstrap";
 
 function CropDemo({ src }) {
   const [crop, setCrop] = useState("");
   return (
     <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-      <img src={src} />
+      <Image src={src} alt="image" />
     </ReactCrop>
   );
 }

@@ -22,12 +22,17 @@ const Mypage = () => {
   const [Address, setAddress] = useState("");
   const [StripeAccountID, setStripeAccountID] = useState("");
   // フェッチする非同期関数の例
+  useEffect(() => {
+    fetchData();
+  }),
+    [];
   const fetchData = async () => {
     try {
       const response = await CustomerGet();
       if (response) {
         if (response.UserID == undefined) {
           BackToSignIn();
+          return;
         } else {
           window.localStorage.removeItem("idToken");
           console.log(response);
@@ -60,11 +65,10 @@ const Mypage = () => {
       console.error("Error fetching data:", error);
     }
   };
-  fetchData(); // マウント時にデータをフェッチする
   console.log(data);
-  async function BackToSignIn() {
+  function BackToSignIn() {
     setData("notlogin");
-    await router.push("./user/signIn");
+    router.push("./user/signIn");
     alert("ログインしてください");
   }
   return (

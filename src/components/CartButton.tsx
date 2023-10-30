@@ -3,6 +3,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import React from "react";
 import { CartPost } from "../lib/Server/Customer";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { CartCountContext } from "../lib/Contexts/CartContext";
 interface Props {
   ItemID: string;
   Quantity: number;
@@ -11,11 +15,17 @@ interface IFormInput {
   Quantity: number;
 }
 const CartButton = (Props: Props) => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
-    const carts: any = CartPost(Props.ItemID, Number(data.Quantity));
+  const { CartCount, CartGets } = useContext(CartCountContext);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    await CartPost(Props.ItemID, Number(data.Quantity));
+    console.log(CartCount);
+    await CartGets();
+    alert("カートに追加しました");
+    router.push("/");
   };
+
   return (
     <Box
       component="form"

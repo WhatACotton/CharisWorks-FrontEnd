@@ -5,6 +5,7 @@ import { ItemGetDetails } from "../lib/Server/ItemAPI";
 import ExampleCarouselImage from "../components/ExampleCarouselImage";
 import { Container, Grid, Typography } from "../lib/mui";
 import CartButton from "../components/CartButton";
+import { CartCountProvider } from "../lib/Contexts/CartContext";
 interface Props {
   ItemID: string | string[];
 }
