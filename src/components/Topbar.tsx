@@ -10,6 +10,7 @@ import {
   ShoppingCartIcon,
 } from "../lib/mui";
 import { IsLogInProvider } from "../lib/Contexts/LogInContext";
+import { CartCountProvider } from "../lib/Contexts/CartContext";
 import { Image } from "react-bootstrap";
 import LogInStatus from "./LogInStatus";
 import CartCount from "./CartCountStatus";

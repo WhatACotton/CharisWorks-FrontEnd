@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, createContext } from "react";
+import React, { ReactNode, useState, createContext, useRef, use } from "react";
 import { CartGet } from "../Server/Customer";
 import { useEffect } from "react";
 type Count = number | null;
@@ -16,14 +16,15 @@ export const CartCountContext = createContext<{
 export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [CartCount, setCartCount] = useState<Count>(null);
+  const [CartCount, setCartCount] = useState<Count>(0);
 
   const CartGets = async () => {
     try {
       const res = await CartGet();
       if (res !== undefined) {
         if (typeof res !== "string") {
-          setCartCount(res.length);
+          console.log("CartGets Called", res.length);
+          localStorage.setItem("CartCount", String(res.length));
         }
       }
     } catch (error) {

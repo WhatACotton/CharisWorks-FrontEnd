@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { CartCountContext } from "../lib/Contexts/CartContext";
+import Link from "next/link";
 interface Props {
   ItemID: string;
   Quantity: number;
@@ -18,11 +19,14 @@ const CartButton = (Props: Props) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
   const { CartCount, CartGets } = useContext(CartCountContext);
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    console.log(data);
     await CartPost(Props.ItemID, Number(data.Quantity));
-    console.log(CartCount);
     await CartGets();
     alert("カートに追加しました");
+    console.log("Button", CartCount);
+
     router.push("/");
   };
 
