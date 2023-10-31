@@ -39,28 +39,22 @@ const CartButton = (Props: Props) => {
       onSubmit={handleSubmit(onSubmit)}
       sx={{ mt: 3 }}
     >
-      {isLogin ? (
-        <>
-          <TextField
-            required
-            fullWidth
-            id="Quantity"
-            label="数量"
-            type="number"
-            autoComplete="Quantity"
-            {...register("Quantity")}
-            variant="standard"
-          />
-          <Button variant="contained" color="primary" type="submit">
-            <ShoppingCartIcon />
-            カートに追加
-          </Button>
-        </>
-      ) : (
-        <>
-          <Typography>カートに追加するにはログインしてください。</Typography>
-        </>
-      )}
+      <>
+        <TextField
+          required
+          fullWidth
+          id="Quantity"
+          label="数量"
+          type="number"
+          autoComplete="Quantity"
+          {...register("Quantity")}
+          variant="standard"
+        />
+        <Button variant="contained" color="primary" type="submit">
+          <ShoppingCartIcon />
+          カートに追加
+        </Button>
+      </>
     </Box>
   );
 };

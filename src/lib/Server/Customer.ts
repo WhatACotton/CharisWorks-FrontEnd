@@ -5,7 +5,10 @@ interface MyData {
   Contact: string;
   Name: string;
   ZipCode: string;
-  Address: string;
+  Address1: string;
+  Address2: string;
+  Address3: string;
+  PhoneNumber: string;
   CreatedDate: string;
   IsEmailVerified: boolean;
   StripeAccountID: string;
@@ -27,6 +30,10 @@ export const CustomerGet = async () => {
       credentials: "include",
     });
     const json: Customer = await response.json();
+
+    if (response.status === 401) {
+      localStorage.setItem("IsRegistered", "false");
+    }
     return json;
   } catch (error) {
     console.log(error);
@@ -79,7 +86,10 @@ interface Transaction {
   TransactionID: string;
   Name: string;
   TotalAmount: number;
-  Address: string;
+  ZipCode: string;
+  Address1: string;
+  Address2: string;
+  Address3: string;
   PhoneNumber: string;
   TransactionTime: string;
   StripeID: string;
@@ -146,20 +156,11 @@ export const CartGet = async () => {
     console.log(error);
   }
 };
-
+import { CustomerRegisterPayload } from "./FireBase";
 //アカウント情報の修正
-export const CustomerModify = async (
-  Name: string,
-  ZipCode: string,
-  Address: string
-) => {
+export const CustomerModify = async (MyData: CustomerRegisterPayload) => {
   try {
-    const UserreqPayload = {
-      Name: Name,
-      ZipCode: ZipCode,
-      Address: Address,
-    };
-    console.log(UserreqPayload);
+    console.log(MyData);
     const response = await fetch("http://" + IPAddress + ":80/go/Modify", {
       method: "POST",
       mode: "cors",
@@ -167,7 +168,7 @@ export const CustomerModify = async (
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(UserreqPayload),
+      body: JSON.stringify(MyData),
     });
     const json = await response.json();
     console.log(json);

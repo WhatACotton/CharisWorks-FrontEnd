@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { MakerDetailsGet, MakerRegister } from "../../lib/Server/Maker";
+import { useEffect } from "react";
 import {
   CssBaseline,
   Container,
@@ -33,19 +34,17 @@ const Modify = () => {
       router.push("/maker");
     });
   };
-  try {
-    async function fetchData() {
-      const response = await MakerDetailsGet();
-      console.log(response);
-      if (response) {
-        setMakerName(response.Maker.MakerName);
-        setMakerDescription(response.Maker.MakerDescription);
-      }
+  async function fetchData() {
+    const response = await MakerDetailsGet();
+    console.log(response);
+    if (response) {
+      setMakerName(response.Maker.MakerName);
+      setMakerDescription(response.Maker.MakerDescription);
     }
-    fetchData();
-  } catch (e) {
-    console.log(e);
   }
+  useEffect(() => {
+    fetchData();
+  }, []);
   const [MakerName, setMakerName] = useState<string>("");
   const [MakerDescription, setMakerDescription] = useState<string>("");
 
@@ -85,6 +84,10 @@ const Modify = () => {
                     {...register("MakerName")}
                     variant="standard"
                     placeholder={MakerName}
+                    value={MakerName}
+                    onChange={(e) => {
+                      setMakerName(e.target.value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -98,6 +101,10 @@ const Modify = () => {
                     {...register("MakerDescription")}
                     variant="standard"
                     placeholder={MakerDescription}
+                    value={MakerDescription}
+                    onChange={(e) => {
+                      setMakerDescription(e.target.value);
+                    }}
                   />
                 </Grid>
               </Grid>

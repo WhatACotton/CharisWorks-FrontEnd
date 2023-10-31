@@ -4,7 +4,6 @@ import React from "react";
 import { Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { useContext } from "react";
-import CartCount from "./CartCountStatus";
 
 const LogInStatus = () => {
   const { isLogin, updateLoginStatus } = useContext(IsLogInContext);
@@ -18,9 +17,6 @@ const LogInStatus = () => {
         </Button>
       ) : (
         <>
-          <Button color="inherit" href="/user/cartList">
-            <CartCount />
-          </Button>
           <Button color="inherit" href="../mypage">
             <PersonIcon />
             マイページ

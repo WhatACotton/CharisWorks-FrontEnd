@@ -1,20 +1,17 @@
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 
-interface MyData {
+export interface CustomerRegisterPayload {
   Name: string;
   ZipCode: string;
-  Address: string;
+  Address1: string;
+  Address2: string;
+  Address3: string;
+  PhoneNumber: string;
 }
 //IdTokenが必要なアカウント関係の処理
 //サインアップ処理
-export const Register = async (MyData: MyData) => {
+export const Register = async (MyData: CustomerRegisterPayload) => {
   try {
-    const data = JSON.stringify({
-      Name: MyData.Name,
-      ZipCode: MyData.ZipCode,
-      Address: MyData.Address,
-    });
-    console.log(data);
     const response = await fetch(
       "http://" + IPAddress + ":80/go/Registration",
       {
@@ -24,7 +21,7 @@ export const Register = async (MyData: MyData) => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: data,
+        body: JSON.stringify(MyData),
       }
     );
 
