@@ -28,10 +28,13 @@ export const IsLogInProvider: React.FC<{ children: ReactNode }> = ({
   const updateLoginStatus = async () => {
     try {
       const res = await Cookies.get("SessionKey");
-      if (res.length > 110) {
-        localStorage.setItem("isLogin", "true");
-      } else {
-        localStorage.setItem("isLogin", "false");
+      if (res) {
+        console.log(res?.length);
+        if (res?.length > 110) {
+          localStorage.setItem("isLogin", "true");
+        } else {
+          localStorage.setItem("isLogin", "false");
+        }
       }
     } catch (error) {
       // エラーハンドリング

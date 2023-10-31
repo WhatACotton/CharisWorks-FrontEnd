@@ -66,7 +66,7 @@ const Mypage = () => {
         console.log(Customer.UserID);
       }
       if (Cart) {
-        CartGets();
+        localStorage.setItem("CartCount", String(Cart.length));
         setCartCount(Cart.length);
       } else {
         localStorage.removeItem("CartCount");
