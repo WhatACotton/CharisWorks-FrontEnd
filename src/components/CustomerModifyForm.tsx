@@ -14,6 +14,8 @@ import {
   TextField,
   Button,
 } from "../lib/mui";
+import { useEffect } from "react";
+import { CustomerGet, CustomerModify } from "../lib/Server/Customer";
 type Address = {
   address1: string;
   address2: string;
@@ -29,12 +31,12 @@ interface IFormInput {
   password: string;
 }
 
-const SignUpForm = () => {
+const ModifyForm = () => {
   // TODO remove, this demo shouldn't need to reset the theme.
   const normalizeZipcode = (zipcode: string) => {
     // 正規表現で郵便番号のフォーマットにマッチするか判定
     if (zipcode == "") {
-      setZipCodeError("この欄は必須です。");
+      if (ZipCode == "") setZipCodeError("この欄は必須です。");
     } else {
       const isValidFormat = /^\d{3}-?\d{4}$/.test(zipcode);
 
@@ -106,27 +108,52 @@ const SignUpForm = () => {
   fbinitialize();
   const { register, handleSubmit } = useForm<IFormInput>();
   const router = useRouter();
+  const [Name, setName] = useState<string>("");
   const [Address1, setAddress1] = useState<string>("");
   const [Address2, setAddress2] = useState<string>("");
+  const [Address3, setAddress3] = useState<string>("");
   const [ZipCode, setZipCode] = useState<string>("");
+  const [PhoneNumber, setPhoneNumber] = useState<string>("");
 
-  const [NameError, setNameError] = useState<string | null>(null);
-  const [Address1Error, setAddress1Error] = useState<string | null>(null);
-  const [Address2Error, setAddress2Error] = useState<string | null>(null);
-  const [ZipCodeError, setZipCodeError] = useState<string | null>(null);
-  const [PhoneNumberError, setPhoneNumberError] = useState<string | null>(null);
-
+  const [NameError, setNameError] = useState<string | null>("");
+  const [Address1Error, setAddress1Error] = useState<string | null>("");
+  const [Address2Error, setAddress2Error] = useState<string | null>("");
+  const [ZipCodeError, setZipCodeError] = useState<string | null>("");
+  const [PhoneNumberError, setPhoneNumberError] = useState<string | null>("");
+  async function fetchData() {
+    const response = await CustomerGet();
+    console.log(response);
+    if (response) {
+      const Customer = response.Customer;
+      setName(Customer.Name);
+      setAddress1(Customer.Address1);
+      setAddress2(Customer.Address2);
+      setAddress3(Customer.Address3);
+      setZipCode(Customer.ZipCode);
+      setPhoneNumber(Customer.PhoneNumber);
+    }
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       console.log(data);
-      await normalizeZipcode(data.zipcode);
-      await NameCheck(data.name);
-      await Address1Check(data.address1);
-      await Address2Check(data.address2);
-      await PhoneNumberCheck(data.phoneNumber);
+      console.log(ZipCode);
+      console.log(Address1);
+      console.log(Address2);
+      console.log(Address3);
+      console.log(PhoneNumber);
+
+      await normalizeZipcode(ZipCode);
+      await NameCheck(Name);
+      await Address1Check(Address1);
+      await Address2Check(Address2);
+      await PhoneNumberCheck(PhoneNumber);
       console.log(PhoneNumberError);
       console.log(NameError);
       console.log(Address1Error);
+
       console.log(Address2Error);
       console.log(ZipCodeError);
       if (
@@ -138,15 +165,15 @@ const SignUpForm = () => {
       ) {
         console.log(data);
         const MyData = {
-          Name: data.name,
-          ZipCode: data.zipcode,
-          Address1: data.address1,
-          Address2: data.address2,
-          Address3: data.address3,
-          PhoneNumber: data.phoneNumber,
+          Name: Name,
+          ZipCode: ZipCode,
+          Address1: Address1,
+          Address2: Address2,
+          Address3: Address3,
+          PhoneNumber: PhoneNumber,
         };
         console.log(MyData);
-        const res = await Register(MyData);
+        const res = await CustomerModify(MyData);
         console.log(res);
         router.push("/mypage");
       } else {
@@ -183,12 +210,15 @@ const SignUpForm = () => {
             {!NameError ? (
               <>
                 <TextField
+                  autoFocus
                   required
                   fullWidth
                   label="氏名"
                   variant="standard"
                   autoComplete="name"
+                  value={Name}
                   {...register("name")}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </>
             ) : (
@@ -200,8 +230,10 @@ const SignUpForm = () => {
                   label="氏名"
                   variant="standard"
                   autoComplete="name"
+                  value={Name}
                   helperText={NameError}
                   {...register("name")}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </>
             )}
@@ -217,6 +249,7 @@ const SignUpForm = () => {
                     variant="standard"
                     autoComplete="zipcode"
                     placeholder="000-0000"
+                    value={ZipCode}
                     {...register("zipcode")}
                     onChange={(e) => setZipCode(e.target.value)}
                   />
@@ -231,6 +264,7 @@ const SignUpForm = () => {
                     variant="standard"
                     autoComplete="zipcode"
                     placeholder="000-0000"
+                    value={ZipCode}
                     helperText={ZipCodeError}
                     {...register("zipcode")}
                     onChange={(e) => setZipCode(e.target.value)}
@@ -313,7 +347,9 @@ const SignUpForm = () => {
                 label="マンション等"
                 variant="standard"
                 autoComplete="address"
+                value={Address3}
                 {...register("address3")}
+                onChange={(e) => setAddress3(e.target.value)}
               />
             </>
           </Grid>
@@ -327,7 +363,9 @@ const SignUpForm = () => {
                   variant="standard"
                   placeholder="000-0000-0000"
                   autoComplete="phoneNumber"
+                  value={PhoneNumber}
                   {...register("phoneNumber")}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </>
             ) : (
@@ -341,7 +379,10 @@ const SignUpForm = () => {
                   placeholder="000-0000-0000"
                   autoComplete="phoneNumber"
                   helperText={PhoneNumberError}
+                  value={PhoneNumber}
                   {...register("phoneNumber")}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
                 />
               </>
             )}
@@ -359,4 +400,4 @@ const SignUpForm = () => {
     </Box>
   );
 };
-export default SignUpForm;
+export default ModifyForm;

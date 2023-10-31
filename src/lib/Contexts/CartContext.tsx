@@ -20,18 +20,24 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [CartCount, setCartCount] = useState<Count>(0);
   useEffect(() => {
-    const count = localStorage.getItem("CartCount");
-    if (count) {
-      setCartCount(Number(count));
+    const Carts = localStorage.getItem("CartCount");
+    if (Carts) {
+      const count = JSON.parse(Carts)?.length;
+      console.log("CartCountProvider Called", count);
+      if (count) {
+        setCartCount(Number(count));
+      }
     }
   }, []);
   const CartGets = async () => {
     try {
       const res = await CartGet();
       if (res !== undefined) {
-        if (typeof res !== "string") {
+        if (typeof res === "object") {
           console.log("CartGets Called", res.length);
-          localStorage.setItem("CartCount", String(res.length));
+          localStorage.setItem("CartCount", JSON.stringify(res));
+        } else {
+          localStorage.setItem("CartCount", String(0));
         }
       }
     } catch (error) {

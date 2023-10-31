@@ -47,6 +47,9 @@ const Topbar = () => {
               <Button color="inherit" href="../article/about">
                 Charis Worksについて
               </Button>
+              <Button color="inherit" href="/user/cartList">
+                <CartCount />
+              </Button>
               <IsLogInProvider>
                 <LogInStatus />
               </IsLogInProvider>

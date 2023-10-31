@@ -11,6 +11,8 @@ import fbinitialize from "../lib/FireBase/firebaseConfig";
 import { Container, Typography, Grid, Button } from "../lib/mui";
 import { CartCountContext } from "../lib/Contexts/CartContext";
 import { useContext } from "react";
+import LogoutButton from "../components/LogoutButton";
+import Link from "next/link";
 fbinitialize();
 const Mypage = () => {
   const router = useRouter();
@@ -21,7 +23,10 @@ const Mypage = () => {
   const [CreatedDate, setCreatedDate] = useState("");
   const [Name, setName] = useState("");
   const [ZipCode, setZipCode] = useState("");
-  const [Address, setAddress] = useState("");
+  const [Address1, setAddress1] = useState("");
+  const [Address2, setAddress2] = useState("");
+  const [Address3, setAddress3] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
   const [StripeAccountID, setStripeAccountID] = useState("");
   const { CartCount, CartGets, setCartCount } = useContext(CartCountContext);
   // フェッチする非同期関数の例
@@ -52,7 +57,10 @@ const Mypage = () => {
             setCreatedDate(Customer.CreatedDate);
             setName(Customer.Name);
             setZipCode(Customer.ZipCode);
-            setAddress(Customer.Address);
+            setAddress1(Customer.Address1);
+            setAddress2(Customer.Address2);
+            setAddress3(Customer.Address3);
+            setPhoneNumber(Customer.PhoneNumber);
             if (Customer.StripeAccountID == undefined) {
               setStripeAccountID("not maker");
             } else {
@@ -64,9 +72,11 @@ const Mypage = () => {
           }
         }
         console.log(Customer.UserID);
+      } else {
+        BackToSignIn();
       }
       if (Cart) {
-        localStorage.setItem("CartCount", String(Cart.length));
+        localStorage.setItem("CartCount", JSON.stringify(Cart));
         setCartCount(Cart.length);
       } else {
         localStorage.removeItem("CartCount");
@@ -78,7 +88,7 @@ const Mypage = () => {
   console.log(data);
   function BackToSignIn() {
     setData("notlogin");
-    router.push("./user/signIn");
+    router.push("/user/signIn");
     alert("ログインしてください");
   }
   return (
@@ -108,23 +118,17 @@ const Mypage = () => {
               <br />
               住所:{ZipCode}
               <br />
-              {Address}
+              {Address1}
+              <br />
+              {Address2}
+              <br />
+              {Address3.replace(/&#(\d+);/g, (match, p1) =>
+                String.fromCharCode(parseInt(p1, 10))
+              )}
+              <br />
+              電話番号:{PhoneNumber}
             </Typography>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => {
-                LogOut();
-                localStorage.removeItem("CartCount");
-
-                router.push("/");
-              }}
-            >
-              <Typography variant="h6" noWrap>
-                ログアウト
-              </Typography>
-              {}
-            </Button>
+            <LogoutButton />
           </Grid>
           <Grid>
             {EmailVerified === "no" ? (
@@ -145,17 +149,20 @@ const Mypage = () => {
               </Grid>
             ) : (
               <Grid>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={() => {
-                    router.push("./user/transaction");
-                  }}
-                >
-                  <Typography variant="h6" noWrap>
-                    購入履歴の確認
-                  </Typography>
-                </Button>
+                <Link href="./user/transaction">
+                  <Button color="primary" variant="contained">
+                    <Typography variant="h6" noWrap>
+                      購入履歴の確認
+                    </Typography>
+                  </Button>
+                </Link>
+                <Link href="./user/modify">
+                  <Button color="primary" variant="contained">
+                    <Typography variant="h6" noWrap>
+                      登録情報の修正
+                    </Typography>
+                  </Button>
+                </Link>
               </Grid>
             )}
             {StripeAccountID.startsWith("acct") ? (

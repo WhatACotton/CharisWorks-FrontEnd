@@ -11,7 +11,11 @@ const Card = ({ transaction }: TransactionCardProps) => {
       <h2>Transaction ID: {transaction.TransactionID}</h2>
       <p>Name: {transaction.Name}</p>
       <p>Total Amount: {transaction.TotalAmount}</p>
-      <p>Address: {transaction.Address}</p>
+      <p>Address: {transaction.Address1}</p>
+      <p>{transaction.Address2}</p>
+      <p>{transaction.Address3}</p>
+      <p>Zip Code: {transaction.ZipCode}</p>
+
       <p>Phone Number: {transaction.PhoneNumber}</p>
       <p>Transaction Time: {transaction.TransactionTime}</p>
       <p>Stripe ID: {transaction.StripeID}</p>
