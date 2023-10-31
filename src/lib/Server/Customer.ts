@@ -11,6 +11,10 @@ interface MyData {
   StripeAccountID: string;
   IsRegistered: boolean;
 }
+interface Customer {
+  Customer: MyData;
+  Cart: CartItem[];
+}
 //顧客情報の取得
 export const CustomerGet = async () => {
   try {
@@ -22,7 +26,7 @@ export const CustomerGet = async () => {
       },
       credentials: "include",
     });
-    const json: MyData = await response.json();
+    const json: Customer = await response.json();
     return json;
   } catch (error) {
     console.log(error);

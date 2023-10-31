@@ -9,6 +9,8 @@ import { StripeAccountCreate } from "../lib/Server/Maker";
 import { FireBaseSendEmailVerification } from "../lib/FireBase/reqForFirebase";
 import fbinitialize from "../lib/FireBase/firebaseConfig";
 import { Container, Typography, Grid, Button } from "../lib/mui";
+import { CartCountContext } from "../lib/Contexts/CartContext";
+import { useContext } from "react";
 fbinitialize();
 const Mypage = () => {
   const router = useRouter();
@@ -21,6 +23,7 @@ const Mypage = () => {
   const [ZipCode, setZipCode] = useState("");
   const [Address, setAddress] = useState("");
   const [StripeAccountID, setStripeAccountID] = useState("");
+  const { CartCount, CartGets, setCartCount } = useContext(CartCountContext);
   // フェッチする非同期関数の例
   useEffect(() => {
     fetchData();
@@ -29,37 +32,44 @@ const Mypage = () => {
   const fetchData = async () => {
     try {
       const response = await CustomerGet();
-      if (response) {
-        if (response.UserID == undefined) {
+      const Customer = response?.Customer;
+      const Cart = response?.Cart;
+      if (Customer) {
+        if (Customer.UserID == undefined) {
           BackToSignIn();
           return;
         } else {
-          window.localStorage.removeItem("idToken");
-          console.log(response);
-          if (response.IsRegistered === true) {
-            setData(response.UserID);
-            setUserID(response.UserID);
-            setContact(response.Contact);
-            if (response.IsEmailVerified === true) {
+          console.log(Customer);
+          if (Customer.IsRegistered === true) {
+            setData(Customer.UserID);
+            setUserID(Customer.UserID);
+            setContact(Customer.Contact);
+            if (Customer.IsEmailVerified === true) {
               setEmailVerified("yes");
             } else {
               setEmailVerified("no");
             }
-            setCreatedDate(response.CreatedDate);
-            setName(response.Name);
-            setZipCode(response.ZipCode);
-            setAddress(response.Address);
-            if (response.StripeAccountID == undefined) {
+            setCreatedDate(Customer.CreatedDate);
+            setName(Customer.Name);
+            setZipCode(Customer.ZipCode);
+            setAddress(Customer.Address);
+            if (Customer.StripeAccountID == undefined) {
               setStripeAccountID("not maker");
             } else {
-              setStripeAccountID(response.StripeAccountID);
+              setStripeAccountID(Customer.StripeAccountID);
             }
           } else {
             alert("本登録に進みます。");
             router.push("./user/signUp");
           }
         }
-        console.log(response.UserID);
+        console.log(Customer.UserID);
+      }
+      if (Cart) {
+        CartGets();
+        setCartCount(Cart.length);
+      } else {
+        localStorage.removeItem("CartCount");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -105,6 +115,8 @@ const Mypage = () => {
               variant="contained"
               onClick={() => {
                 LogOut();
+                localStorage.removeItem("CartCount");
+
                 router.push("/");
               }}
             >

@@ -44,9 +44,6 @@ const Topbar = () => {
 
           <Grid item>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button color="inherit" href="/user/cartList">
-                <CartCount />
-              </Button>
               <Button color="inherit" href="../article/about">
                 Charis Worksについて
               </Button>

@@ -6,6 +6,7 @@ import ExampleCarouselImage from "../components/ExampleCarouselImage";
 import { Container, Grid, Typography } from "../lib/mui";
 import CartButton from "../components/CartButton";
 import { CartCountProvider } from "../lib/Contexts/CartContext";
+import { IsLogInProvider } from "../lib/Contexts/LogInContext";
 interface Props {
   ItemID: string | string[];
 }
@@ -85,7 +86,9 @@ const Item = ({ ItemID }: Props) => {
             <Typography variant="h5" gutterBottom>
               メーカー説明: {ItemMakerDescription}
             </Typography>
-            <CartButton ItemID={ItemID.toString()} Quantity={1} />
+            <IsLogInProvider>
+              <CartButton ItemID={ItemID.toString()} Quantity={1} />
+            </IsLogInProvider>
           </Grid>
         </Grid>
       </Container>

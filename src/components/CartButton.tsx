@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "../lib/mui";
+import { Box, Button, TextField, Typography } from "../lib/mui";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import React from "react";
 import { CartPost } from "../lib/Server/Customer";
@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { CartCountContext } from "../lib/Contexts/CartContext";
 import Link from "next/link";
+import { IsLogInContext } from "../lib/Contexts/LogInContext";
 interface Props {
   ItemID: string;
   Quantity: number;
@@ -19,7 +20,7 @@ const CartButton = (Props: Props) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
   const { CartCount, CartGets } = useContext(CartCountContext);
-
+  const { isLogin, updateLoginStatus } = useContext(IsLogInContext);
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     await CartPost(Props.ItemID, Number(data.Quantity));
@@ -29,6 +30,7 @@ const CartButton = (Props: Props) => {
 
     router.push("/");
   };
+  console.log(isLogin);
 
   return (
     <Box
@@ -37,20 +39,28 @@ const CartButton = (Props: Props) => {
       onSubmit={handleSubmit(onSubmit)}
       sx={{ mt: 3 }}
     >
-      <TextField
-        required
-        fullWidth
-        id="Quantity"
-        label="数量"
-        type="number"
-        autoComplete="Quantity"
-        {...register("Quantity")}
-        variant="standard"
-      />
-      <Button variant="contained" color="primary" type="submit">
-        <ShoppingCartIcon />
-        カートに追加
-      </Button>
+      {isLogin ? (
+        <>
+          <TextField
+            required
+            fullWidth
+            id="Quantity"
+            label="数量"
+            type="number"
+            autoComplete="Quantity"
+            {...register("Quantity")}
+            variant="standard"
+          />
+          <Button variant="contained" color="primary" type="submit">
+            <ShoppingCartIcon />
+            カートに追加
+          </Button>
+        </>
+      ) : (
+        <>
+          <Typography>カートに追加するにはログインしてください。</Typography>
+        </>
+      )}
     </Box>
   );
 };

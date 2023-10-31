@@ -10,16 +10,22 @@ import { useState } from "react";
 import { useEffect } from "react";
 const CartCount = () => {
   const [Count, setCount] = useState<string | null>(null);
-  useEffect(() => {
-    setCount(localStorage.getItem("CartCount"));
-  }, []);
+  const { CartCount } = useContext(CartCountContext);
   console.log("Badge", Count);
 
   return (
     <>
-      <Badge badgeContent={Count} color="primary">
-        <ShoppingCartIcon />
-      </Badge>
+      {Count?.length === 0 ? (
+        <>
+          <ShoppingCartIcon />
+        </>
+      ) : (
+        <>
+          <Badge badgeContent={CartCount} color="primary">
+            <ShoppingCartIcon />
+          </Badge>
+        </>
+      )}
     </>
   );
 };

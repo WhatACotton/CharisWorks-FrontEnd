@@ -4,20 +4,28 @@ import React from "react";
 import { Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { useContext } from "react";
+import CartCount from "./CartCountStatus";
+
 const LogInStatus = () => {
-  const IsLogin = useContext(IsLogInContext);
+  const { isLogin, updateLoginStatus } = useContext(IsLogInContext);
+  updateLoginStatus();
   return (
     <div>
-      {IsLogin === false ? (
+      {isLogin === false ? (
         <Button color="inherit" href="./user/signIn">
           <PersonIcon />
           ログイン
         </Button>
       ) : (
-        <Button color="inherit" href="../mypage">
-          <PersonIcon />
-          マイページ
-        </Button>
+        <>
+          <Button color="inherit" href="/user/cartList">
+            <CartCount />
+          </Button>
+          <Button color="inherit" href="../mypage">
+            <PersonIcon />
+            マイページ
+          </Button>
+        </>
       )}
     </div>
   );
