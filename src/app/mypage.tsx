@@ -32,8 +32,7 @@ const Mypage = () => {
   // フェッチする非同期関数の例
   useEffect(() => {
     fetchData();
-  }),
-    [];
+  }, []);
   const fetchData = async () => {
     try {
       const response = await CustomerGet();
