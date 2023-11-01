@@ -1,5 +1,5 @@
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
-interface MyData {
+export interface Customer {
   Email: string;
   UserID: string;
   Contact: string;
@@ -14,8 +14,8 @@ interface MyData {
   StripeAccountID: string;
   IsRegistered: boolean;
 }
-interface Customer {
-  Customer: MyData;
+interface CustomerAndCart {
+  Customer: Customer;
   Cart: CartItem[];
 }
 //顧客情報の取得
@@ -29,7 +29,7 @@ export const CustomerGet = async () => {
       },
       credentials: "include",
     });
-    const json: Customer = await response.json();
+    const json: CustomerAndCart = await response.json();
 
     if (response.status === 401) {
       localStorage.setItem("IsRegistered", "false");
