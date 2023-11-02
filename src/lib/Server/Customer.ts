@@ -77,7 +77,7 @@ export const Purchase = async () => {
 };
 
 interface TransactionItem {
-  InfoID: string;
+  ItemID: string;
   Quantity: number;
   TransactionID: string;
 }

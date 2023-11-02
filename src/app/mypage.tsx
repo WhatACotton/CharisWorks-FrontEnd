@@ -13,6 +13,7 @@ import { CartCountContext } from "../lib/Contexts/CartContext";
 import { useContext } from "react";
 import LogoutButton from "../components/LogoutButton";
 import Link from "next/link";
+import Cookies from "js-cookie";
 fbinitialize();
 const Mypage = () => {
   const router = useRouter();
@@ -89,6 +90,9 @@ const Mypage = () => {
     setData("notlogin");
     router.push("/user/signIn");
     alert("ログインしてください");
+    localStorage.removeItem("CartCount");
+    localStorage.setItem("isLogin", "false");
+    Cookies.remove("SessionKey");
   }
   return (
     <>

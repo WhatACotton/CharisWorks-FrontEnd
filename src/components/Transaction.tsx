@@ -24,7 +24,7 @@ const Card = ({ transaction }: TransactionCardProps) => {
       <ul>
         {transaction.items.map((item, index) => (
           <li key={index}>
-            Item ID: {item.InfoID}, Quantity: {item.Quantity}
+            Item ID: {item.ItemID}, Quantity: {item.Quantity}
           </li>
         ))}
       </ul>
