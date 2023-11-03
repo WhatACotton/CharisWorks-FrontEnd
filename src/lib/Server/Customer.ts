@@ -11,9 +11,10 @@ export interface Customer {
   PhoneNumber: string;
   CreatedDate: string;
   IsEmailVerified: boolean;
-  StripeAccountID: string;
   IsRegistered: boolean;
+  role: string;
 }
+
 interface CustomerAndCart {
   Customer: Customer;
   Cart: CartItem[];

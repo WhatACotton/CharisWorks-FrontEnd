@@ -19,14 +19,14 @@ interface IFormInput {
 const CartButton = (Props: Props) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
-  const { CartCount, CartGets } = useContext(CartCountContext);
+  const { Count, CartGets } = useContext(CartCountContext);
   const { isLogin, updateLoginStatus } = useContext(IsLogInContext);
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     await CartPost(Props.ItemID, Number(data.Quantity));
     await CartGets();
     alert("カートに追加しました");
-    console.log("Button", CartCount);
+    console.log("Button", Count);
 
     router.push("/");
   };

@@ -137,7 +137,13 @@ const ModifyForm = () => {
       setName(Customer.Name);
       setAddress1(Customer.Address1);
       setAddress2(Customer.Address2);
-      setAddress3(Customer.Address3);
+      setAddress3(
+        Customer.Address3 == undefined
+          ? ""
+          : Customer.Address3.replace(/&#(\d+);/g, (match, p1) =>
+              String.fromCharCode(parseInt(p1, 10))
+            )
+      );
       setZipCode(Customer.ZipCode);
       setPhoneNumber(Customer.PhoneNumber);
     }

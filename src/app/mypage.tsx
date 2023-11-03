@@ -28,8 +28,8 @@ const Mypage = () => {
   const [Address2, setAddress2] = useState("");
   const [Address3, setAddress3] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
-  const [StripeAccountID, setStripeAccountID] = useState("");
-  const { CartCount, CartGets, setCartCount } = useContext(CartCountContext);
+  const [Role, setRole] = useState("");
+  const { Carts, CartGets, Count } = useContext(CartCountContext);
   // フェッチする非同期関数の例
   useEffect(() => {
     fetchData();
@@ -38,7 +38,6 @@ const Mypage = () => {
     try {
       const response = await CustomerGet();
       const Customer = response?.Customer;
-      const Cart = response?.Cart;
       if (Customer) {
         if (Customer.UserID == undefined) {
           BackToSignIn();
@@ -61,11 +60,7 @@ const Mypage = () => {
             setAddress2(Customer.Address2);
             setAddress3(Customer.Address3);
             setPhoneNumber(Customer.PhoneNumber);
-            if (Customer.StripeAccountID == undefined) {
-              setStripeAccountID("not maker");
-            } else {
-              setStripeAccountID(Customer.StripeAccountID);
-            }
+            setRole(Customer.role);
           } else {
             alert("本登録に進みます。");
             router.push("./user/signUp");
@@ -74,12 +69,6 @@ const Mypage = () => {
         console.log(Customer.UserID);
       } else {
         BackToSignIn();
-      }
-      if (Cart) {
-        localStorage.setItem("CartCount", JSON.stringify(Cart));
-        setCartCount(Cart.length);
-      } else {
-        localStorage.removeItem("CartCount");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -125,7 +114,7 @@ const Mypage = () => {
               <br />
               {Address2}
               <br />
-              {Address3.replace(/&#(\d+);/g, (match, p1) =>
+              {Address3?.replace(/&#(\d+);/g, (match, p1) =>
                 String.fromCharCode(parseInt(p1, 10))
               )}
               <br />
@@ -168,7 +157,7 @@ const Mypage = () => {
                 </Link>
               </Grid>
             )}
-            {StripeAccountID.startsWith("acct") ? (
+            {Role == "Seller" ? (
               <Grid>
                 <Button
                   color="primary"
@@ -187,7 +176,7 @@ const Mypage = () => {
             )}
           </Grid>
         </Grid>
-        {StripeAccountID === "Allow" ? (
+        {Role === "preSeller" ? (
           <Grid>
             <Typography variant="h6" gutterBottom>
               出品者登録が可能です。下記ボタンより出品者登録を行ってください。
