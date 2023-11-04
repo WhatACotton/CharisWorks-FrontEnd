@@ -29,7 +29,7 @@ const Mypage = () => {
   const [Address3, setAddress3] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Role, setRole] = useState("");
-  const { setItem, Carts } = useContext(CartCountContext);
+  const { setCartsToLocalStorage, Carts } = useContext(CartCountContext);
   // フェッチする非同期関数の例
   useEffect(() => {
     fetchData();
@@ -62,8 +62,11 @@ const Mypage = () => {
             setPhoneNumber(Customer.PhoneNumber);
             setRole(Customer.role);
             console.log(Customer.Cart);
-            if (Carts) {
-              setItem(Customer.Cart.toString());
+            console.log(Carts);
+            const StringCarts = localStorage.getItem("Cart");
+            if (!StringCarts) {
+              console.log("Carts is null");
+              setCartsToLocalStorage(Customer.Cart.toString());
             }
           } else {
             alert("本登録に進みます。");

@@ -7,23 +7,26 @@ type CartItems = CartItem[] | null;
 export const CartCountContext = createContext<{
   Count: Count;
   Carts: CartItem[] | null;
-  setItem: (Carts: string) => void;
+  setCartsToLocalStorage: (Carts: string) => void;
 }>({
   Count: null,
   Carts: null,
-  setItem: () => {},
+  setCartsToLocalStorage: () => {},
 });
 // 生成したContextオブジェクトのProviderを定義する
 
 export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [isNull, setIsNull] = useState<boolean>(true);
   const [Count, setCartCount] = useState<Count>(null);
   const [Carts, setCarts] = useState<CartItems>(null);
-  const setItem = (Carts: string) => {
+  const setCartsToLocalStorage = (Carts: string) => {
     localStorage.setItem("Cart", Carts);
     setCartCount(JSON.parse(Carts)?.length);
+    setCarts(JSON.parse(Carts));
   };
+
   useEffect(() => {
     const StringCarts = localStorage.getItem("Cart");
     if (StringCarts) {
@@ -35,12 +38,15 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
       }
       if (Carts) {
         setCarts(Carts);
+        setIsNull(true);
+      } else {
+        setIsNull(false);
       }
     }
   }, []);
 
   return (
-    <CartCountContext.Provider value={{ Carts, Count, setItem }}>
+    <CartCountContext.Provider value={{ Carts, Count, setCartsToLocalStorage }}>
       {children}
     </CartCountContext.Provider>
   );
