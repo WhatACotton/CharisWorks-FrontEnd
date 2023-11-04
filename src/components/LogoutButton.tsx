@@ -10,7 +10,7 @@ const LogoutButton = () => {
       variant="contained"
       onClick={() => {
         LogOut();
-        localStorage.removeItem("CartCount");
+        localStorage.removeItem("Cart");
 
         router.push("/");
       }}
