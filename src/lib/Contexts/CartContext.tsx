@@ -1,5 +1,4 @@
 import React, { ReactNode, useState, createContext, useRef } from "react";
-import { CartGet } from "../Server/Customer";
 import { useEffect } from "react";
 import { CartItem, Purchase } from "../../lib/Server/Customer";
 type Count = number | null;
@@ -8,11 +7,11 @@ type CartItems = CartItem[] | null;
 export const CartCountContext = createContext<{
   Count: Count;
   Carts: CartItem[] | null;
-  CartGets: () => Promise<void>;
+  setItem: (Carts: string) => void;
 }>({
   Count: null,
   Carts: null,
-  CartGets: async () => {},
+  setItem: () => {},
 });
 // 生成したContextオブジェクトのProviderを定義する
 
@@ -21,12 +20,16 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [Count, setCartCount] = useState<Count>(null);
   const [Carts, setCarts] = useState<CartItems>(null);
+  const setItem = (Carts: string) => {
+    localStorage.setItem("Cart", Carts);
+    setCartCount(JSON.parse(Carts)?.length);
+  };
   useEffect(() => {
     const StringCarts = localStorage.getItem("Cart");
     if (StringCarts) {
       const Count = JSON.parse(StringCarts)?.length;
       const Carts: CartItems = JSON.parse(StringCarts);
-      console.log("CartCountProvider Called", Count);
+      console.log("CartCountProvider Called", Carts);
       if (Count) {
         setCartCount(Number(Count));
       }
@@ -35,25 +38,9 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
   }, []);
-  const CartGets = async () => {
-    try {
-      const res = await CartGet();
-      if (res !== undefined) {
-        if (typeof res === "object") {
-          console.log("CartGets Called", res.length);
-          localStorage.setItem("Cart", JSON.stringify(res));
-        } else {
-          localStorage.setItem("Cart", "");
-        }
-      }
-    } catch (error) {
-      // エラーハンドリング
-      console.error(error);
-    }
-  };
 
   return (
-    <CartCountContext.Provider value={{ Carts, CartGets, Count }}>
+    <CartCountContext.Provider value={{ Carts, Count, setItem }}>
       {children}
     </CartCountContext.Provider>
   );

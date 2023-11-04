@@ -13,6 +13,7 @@ export interface Customer {
   IsEmailVerified: boolean;
   IsRegistered: boolean;
   role: string;
+  Cart: CartItem[];
 }
 
 interface CustomerAndCart {
@@ -59,7 +60,7 @@ export const LogOut = async () => {
 };
 
 //購入処理　カートに入っている商品の購入　stripeの購入サイトへのURLを返す
-export const Purchase = async () => {
+export const Purchase = async (Carts: CartItem[]) => {
   try {
     const response = await fetch("http://" + IPAddress + ":80/go/Transaction", {
       method: "POST",
@@ -68,6 +69,7 @@ export const Purchase = async () => {
         "Content-Type": "application/json",
       },
       credentials: "include",
+      body: JSON.stringify(Carts),
     });
     const json = await response.json();
     console.log(json);
@@ -178,21 +180,16 @@ export const CustomerModify = async (MyData: CustomerRegisterPayload) => {
   }
 };
 //カートへの商品の登録
-export const CartPost = async (ItemID: string, Quantity: number) => {
-  const data = {
-    itemid: ItemID,
-    Quantity: Quantity,
-  };
-  console.log(data);
+export const CartPost = async (CartItems: CartItem[]) => {
   try {
-    const response = await fetch("http://" + IPAddress + ":80/go/PostCart", {
+    const response = await fetch("http://" + IPAddress + ":80/go/Cart", {
       method: "POST",
       mode: "cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(CartItems),
     });
     const json: CartItem[] = await response.json();
     console.log(json);

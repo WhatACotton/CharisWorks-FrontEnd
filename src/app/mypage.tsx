@@ -29,7 +29,7 @@ const Mypage = () => {
   const [Address3, setAddress3] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Role, setRole] = useState("");
-  const { Carts, CartGets, Count } = useContext(CartCountContext);
+  const { setItem } = useContext(CartCountContext);
   // フェッチする非同期関数の例
   useEffect(() => {
     fetchData();
@@ -61,6 +61,8 @@ const Mypage = () => {
             setAddress3(Customer.Address3);
             setPhoneNumber(Customer.PhoneNumber);
             setRole(Customer.role);
+            console.log(Customer.Cart);
+            setItem(Customer.Cart.toString());
           } else {
             alert("本登録に進みます。");
             router.push("./user/signUp");
