@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { CartGet, CartItem, Purchase } from "../lib/Server/Customer";
+import React, { use, useEffect, useState } from "react";
+import { CartItem, Purchase } from "../lib/Server/Customer";
 import { useRouter } from "next/router";
 import { Button, CheckIcon } from "../lib/mui";
 import { List, ListItem, ListItemText, Divider } from "@mui/material";
+import { useContext } from "react";
+import { CartCountContext } from "../lib/Contexts/CartContext";
 function Card({ cart }: { cart: CartItem }) {
   return (
     <>
@@ -26,20 +28,21 @@ const style = {
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[] | string>([]);
   const router = useRouter();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await CartGet();
-        if (data) {
-          setCartItems(data);
-        }
-      } catch (error) {
-        console.error(error);
+  const { Carts, Count } = useContext(CartCountContext);
+  const fetchData = async () => {
+    try {
+      console.log(Carts);
+      if (Carts) {
+        setCartItems(Carts);
       }
-    };
-
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [Count]);
+
   if (typeof cartItems === "object") {
     return (
       <div>
@@ -56,7 +59,7 @@ const Cart = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            Purchase().then((response) => {
+            Purchase(cartItems).then((response) => {
               alert("購入ページに進みます");
               if (response) {
                 router.push(response);

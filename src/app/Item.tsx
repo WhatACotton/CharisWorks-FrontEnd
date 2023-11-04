@@ -55,8 +55,9 @@ const Item = ({ ItemID }: Props) => {
   return (
     <>
       <Topbar />
-      <ExampleCarouselImage text="aa" />
       <Container>
+        <ExampleCarouselImage text="aa" />
+
         <Grid container>
           <Grid item xs={12} md={6} justifyContent="space-between">
             <Typography variant="h3" gutterBottom>

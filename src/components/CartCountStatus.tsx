@@ -9,19 +9,18 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useState } from "react";
 import { useEffect } from "react";
 const CartCount = () => {
-  const [Count, setCount] = useState<string | null>(null);
-  const { CartCount } = useContext(CartCountContext);
+  const { Count } = useContext(CartCountContext);
   console.log("Badge", Count);
 
   return (
     <>
-      {Count?.length === 0 ? (
+      {Count === 0 ? (
         <>
           <ShoppingCartIcon />
         </>
       ) : (
         <>
-          <Badge badgeContent={CartCount} color="primary">
+          <Badge badgeContent={Count} color="primary">
             <ShoppingCartIcon />
           </Badge>
         </>

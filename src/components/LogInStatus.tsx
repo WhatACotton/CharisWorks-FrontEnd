@@ -11,7 +11,7 @@ const LogInStatus = () => {
   return (
     <div>
       {isLogin === false ? (
-        <Button color="inherit" href="./user/signIn">
+        <Button color="inherit" href="/user/signIn">
           <PersonIcon />
           ログイン
         </Button>

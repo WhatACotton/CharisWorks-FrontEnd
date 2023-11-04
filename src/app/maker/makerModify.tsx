@@ -1,10 +1,12 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 import Topbar from "../../components/Topbar";
 import Footer from "../../components/Footer";
+import fbinitialize from "../../lib/FireBase/firebaseConfig";
+import { MakerRegister, MakerDetailsGet } from "../../lib/Server/Maker";
+import { theme } from "../../lib/theme";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { MakerDetailsGet, MakerRegister } from "../../lib/Server/Maker";
 import { useEffect } from "react";
 import {
   CssBaseline,
@@ -16,7 +18,6 @@ import {
   TextField,
   ThemeProvider,
 } from "../../lib/mui";
-import { theme } from "../../lib/theme";
 
 interface IFormInput {
   MakerName: string;
@@ -25,15 +26,12 @@ interface IFormInput {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const Modify = () => {
-  const { register, handleSubmit } = useForm<IFormInput>();
-  const [error, setError] = useState<string>("");
   const router = useRouter();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
-    MakerRegister(data.MakerName, data.MakerDescription).then(() => {
-      router.push("/maker");
-    });
-  };
+  const [MakerName, setMakerName] = useState("");
+  const [MakerDescription, setMakerDescription] = useState("");
+  const [MakerNameError, setMakerNameError] = useState("");
+  const [MakerDescriptionError, setMakerDescriptionError] = useState("");
+  fbinitialize();
   async function fetchData() {
     const response = await MakerDetailsGet();
     console.log(response);
@@ -45,84 +43,111 @@ const Modify = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  const [MakerName, setMakerName] = useState<string>("");
-  const [MakerDescription, setMakerDescription] = useState<string>("");
+  const MakerNameCheck = (Name: string) => {
+    if (Name != "") {
+      setMakerNameError("");
+      return true;
+    } else {
+      setMakerNameError("この欄は必須です。");
+      return false;
+    }
+  };
+  const MakerDescriptionCheck = (MakerDescription: string) => {
+    if (MakerDescription != "") {
+      setMakerDescriptionError("");
+      return true;
+    } else {
+      setMakerDescriptionError("この欄は必須です。");
+      return false;
+    }
+  };
+  const { register, handleSubmit } = useForm<IFormInput>();
+  const onSubmit: SubmitHandler<IFormInput> = () => {
+    try {
+      if (
+        MakerNameCheck(MakerName) &&
+        MakerDescriptionCheck(MakerDescription)
+      ) {
+        MakerRegister(MakerName, MakerDescription);
+        router.push("/maker");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Topbar />
+
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Topbar />
-
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            出品者情報の修正
+          </Typography>
           <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            component="form"
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ mt: 3 }}
           >
-            <Typography component="h1" variant="h5">
-              出品者情報の修正
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 3 }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="Name"
-                    label="出品者の名前"
-                    autoComplete="MakerName"
-                    {...register("MakerName")}
-                    variant="standard"
-                    placeholder={MakerName}
-                    value={MakerName}
-                    onChange={(e) => {
-                      setMakerName(e.target.value);
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="Description"
-                    label="出品者の説明"
-                    type="description"
-                    autoComplete="MakerDescription"
-                    {...register("MakerDescription")}
-                    variant="standard"
-                    placeholder={MakerDescription}
-                    value={MakerDescription}
-                    onChange={(e) => {
-                      setMakerDescription(e.target.value);
-                    }}
-                  />
-                </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  error={MakerNameError ? true : false}
+                  fullWidth
+                  variant="standard"
+                  autoComplete="address"
+                  value={MakerName}
+                  helperText={MakerNameError}
+                  label="出品者名"
+                  {...register("MakerName")}
+                  onChange={(e) => {
+                    MakerNameCheck(e.target.value);
+                    setMakerName(e.target.value);
+                  }}
+                />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={MakerDescriptionError ? true : false}
+                  fullWidth
+                  variant="standard"
+                  autoComplete="address"
+                  value={MakerDescription}
+                  helperText={MakerDescriptionError}
+                  label="出品者の説明"
+                  {...register("MakerDescription")}
+                  onChange={(e) => {
+                    MakerDescriptionCheck(e.target.value);
+                    setMakerDescription(e.target.value);
+                  }}
+                />
+              </Grid>
+            </Grid>
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                登録
-              </Button>
-            </Box>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              登録
+            </Button>
           </Box>
-          <Footer />
-        </Container>
-      </ThemeProvider>
-    </>
+        </Box>
+        <Footer />
+      </Container>
+    </ThemeProvider>
   );
 };
 export default Modify;

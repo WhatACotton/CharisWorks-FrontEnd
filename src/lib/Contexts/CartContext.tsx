@@ -1,53 +1,46 @@
 import React, { ReactNode, useState, createContext, useRef } from "react";
-import { CartGet } from "../Server/Customer";
 import { useEffect } from "react";
+import { CartItem, Purchase } from "../../lib/Server/Customer";
 type Count = number | null;
-
+type CartItems = CartItem[] | null;
 // Contextオブジェクトを生成する
 export const CartCountContext = createContext<{
-  CartCount: Count;
-  CartGets: () => Promise<void>;
-  setCartCount: React.Dispatch<React.SetStateAction<Count>>;
+  Count: Count;
+  Carts: CartItem[] | null;
+  setItem: (Carts: string) => void;
 }>({
-  CartCount: 0,
-  CartGets: () => Promise.resolve(),
-  setCartCount: () => {},
+  Count: null,
+  Carts: null,
+  setItem: () => {},
 });
 // 生成したContextオブジェクトのProviderを定義する
 
 export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [CartCount, setCartCount] = useState<Count>(0);
+  const [Count, setCartCount] = useState<Count>(null);
+  const [Carts, setCarts] = useState<CartItems>(null);
+  const setItem = (Carts: string) => {
+    localStorage.setItem("Cart", Carts);
+    setCartCount(JSON.parse(Carts)?.length);
+  };
   useEffect(() => {
-    const Carts = localStorage.getItem("CartCount");
-    if (Carts) {
-      const count = JSON.parse(Carts)?.length;
-      console.log("CartCountProvider Called", count);
-      if (count) {
-        setCartCount(Number(count));
+    const StringCarts = localStorage.getItem("Cart");
+    if (StringCarts) {
+      const Count = JSON.parse(StringCarts)?.length;
+      const Carts: CartItems = JSON.parse(StringCarts);
+      console.log("CartCountProvider Called", Carts);
+      if (Count) {
+        setCartCount(Number(Count));
+      }
+      if (Carts) {
+        setCarts(Carts);
       }
     }
   }, []);
-  const CartGets = async () => {
-    try {
-      const res = await CartGet();
-      if (res !== undefined) {
-        if (typeof res === "object") {
-          console.log("CartGets Called", res.length);
-          localStorage.setItem("CartCount", JSON.stringify(res));
-        } else {
-          localStorage.setItem("CartCount", String(0));
-        }
-      }
-    } catch (error) {
-      // エラーハンドリング
-      console.error(error);
-    }
-  };
 
   return (
-    <CartCountContext.Provider value={{ CartCount, CartGets, setCartCount }}>
+    <CartCountContext.Provider value={{ Carts, Count, setItem }}>
       {children}
     </CartCountContext.Provider>
   );
