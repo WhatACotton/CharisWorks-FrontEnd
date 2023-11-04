@@ -29,7 +29,6 @@ export const IsLogInProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const res = await Cookies.get("SessionKey");
       if (res) {
-        console.log(res?.length);
         if (res?.length > 110) {
           localStorage.setItem("isLogin", "true");
         } else {

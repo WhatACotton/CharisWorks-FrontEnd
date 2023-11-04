@@ -194,7 +194,7 @@ const ModifyForm = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        新規登録
+        登録情報の修正
       </Typography>
       <Box
         component="form"
@@ -320,7 +320,7 @@ const ModifyForm = () => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          新規登録
+          登録する
         </Button>
       </Box>
     </Box>
