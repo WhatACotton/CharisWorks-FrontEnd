@@ -1,5 +1,4 @@
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
-
 //stripeアカウント作成　アカウント作成サイトへのURLを返す
 export const StripeAccountCreate = async () => {
   try {
@@ -21,28 +20,30 @@ export const StripeAccountCreate = async () => {
     console.log(error);
   }
 };
-
+export interface PostItem {
+  Item: string;
+  Price: number;
+  Stock: number;
+  Series: string;
+  Size: string;
+  Color: string;
+  Status: string;
+  Name: string;
+  Description: string;
+}
 //商品の出品　ItemMain(ItemID,Status,ItemName,Price,Stock)を登録する
-export const ItemPost = async (
-  Name: string,
-  Price: number,
-  Stock: number,
-  Series: string,
-  Size: string,
-  Color: string,
-  Description: string
-) => {
+export const ItemPost = async (Item: PostItem) => {
   try {
     const UserreqPayload = {
       ItemID: "testItemID",
-      Price: Number(Price),
-      Stock: Number(Stock),
-      Series: Series,
-      Size: Size,
-      Color: Color,
+      Price: Number(Item.Price),
+      Stock: Number(Item.Stock),
+      Series: Item.Series,
+      Size: Item.Size,
+      Color: Item.Color,
       Status: "inactive",
-      Name: Name,
-      Description: Description,
+      Name: Item.Name,
+      Description: Item.Description,
     };
     console.log(UserreqPayload);
     const response = await fetch(
