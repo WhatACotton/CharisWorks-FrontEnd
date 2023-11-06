@@ -88,7 +88,11 @@ const Item = ({ ItemID }: Props) => {
               メーカー説明: {ItemMakerDescription}
             </Typography>
             <IsLogInProvider>
-              <CartButton ItemID={ItemID.toString()} Quantity={1} />
+              <CartButton
+                ItemID={ItemID.toString()}
+                Quantity={1}
+                Stock={ItemStock}
+              />
             </IsLogInProvider>
           </Grid>
         </Grid>

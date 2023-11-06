@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 const CartCount = () => {
   const { Count } = useContext(CartCountContext);
-  console.log("Badge", Count);
 
   return (
     <>
