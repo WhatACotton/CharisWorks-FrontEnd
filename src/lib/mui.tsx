@@ -31,6 +31,8 @@ import Paper from "@mui/material/Paper";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 export {
   createTheme,
   ThemeProvider,
@@ -66,4 +68,6 @@ export {
   Autocomplete,
   Stack,
   ShoppingCartIcon,
+  AddCircleIcon,
+  RemoveCircleIcon,
 };

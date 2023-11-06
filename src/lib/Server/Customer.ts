@@ -135,13 +135,8 @@ export const TransactionGet = async () => {
 };
 
 export interface CartItem {
-  Order: number;
   ItemID: string;
   Quantity: number;
-  Status: string;
-  ItemName: string;
-  Price: number;
-  Stock: number;
 }
 
 //カートに入っている商品を取得する
