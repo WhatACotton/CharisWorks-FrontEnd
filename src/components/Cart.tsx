@@ -2,20 +2,35 @@ import React, { use, useEffect, useState } from "react";
 import { CartItem, Purchase } from "../lib/Server/Customer";
 import { useRouter } from "next/router";
 import { Button, CheckIcon } from "../lib/mui";
-import { List, ListItem, ListItemText, Divider } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Typography,
+} from "@mui/material";
 import { useContext } from "react";
 import { CartCountContext } from "../lib/Contexts/CartContext";
-function Card({ cart }: { cart: CartItem }) {
+import { GetCartDetails, Cart, CartDetails } from "../lib/Server/ItemAPI";
+function Card({ cart }: { cart: CartDetails }) {
   return (
     <>
       <Divider />
       <div className="card border-1">
-        <p>ItemID: {cart.ItemID}</p>
-        <p>Quantity: {cart.Quantity}</p>
-        <p>Status: {cart.Status}</p>
-        <p>ItemName: {cart.ItemName}</p>
-        <p>Price: {cart.Price}</p>
-        <p>Stock: {cart.Stock}</p>
+        {cart.ItemID ? (
+          <>
+            <p>ItemID: {cart.ItemID}</p>
+            <p>Quantity: {cart.Quantity}</p>
+            <p>Status: {cart.Status}</p>
+            <p>ItemName: {cart.ItemName}</p>
+            <p>Price: {cart.Price}</p>
+            <p>Stock: {cart.Stock}</p>
+          </>
+        ) : (
+          <>
+            <Typography>エラーです。</Typography>
+          </>
+        )}
       </div>
     </>
   );
@@ -25,14 +40,19 @@ const style = {
   maxWidth: 360,
   bgcolor: "background.paper",
 };
-const Cart = () => {
-  const [cartItems, setCartItems] = useState<CartItem[] | string>([]);
+const CartDetails = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const router = useRouter();
   const { Carts, Count } = useContext(CartCountContext);
+  const [CartDetails, setCartDetails] = useState<CartDetails[]>([]);
   const fetchData = async () => {
     try {
       console.log(Carts);
       if (Carts) {
+        const response = await GetCartDetails(Carts);
+        if (response) {
+          setCartDetails(response.Cart);
+        }
         setCartItems(Carts);
       }
     } catch (error) {
@@ -43,15 +63,17 @@ const Cart = () => {
     fetchData();
   }, [Count]);
 
-  if (typeof cartItems === "object") {
+  if (typeof CartDetails === "object") {
     return (
       <div>
         <List sx={style} component="nav" aria-label="mailbox folders">
           <h1>Cart List</h1>
           <div className="card-container">
-            {cartItems.map((cart, index) => (
-              <Card key={index} cart={cart} />
-            ))}
+            {CartDetails ? (
+              CartDetails.map((cart, index) => <Card key={index} cart={cart} />)
+            ) : (
+              <></>
+            )}
           </div>
         </List>
 
@@ -60,9 +82,12 @@ const Cart = () => {
           color="primary"
           onClick={() => {
             Purchase(cartItems).then((response) => {
-              alert("購入ページに進みます");
-              if (response) {
-                router.push(response);
+              if (response?.url) {
+                alert("購入ページに進みます");
+                localStorage.removeItem("Cart");
+                router.push(response.url);
+              } else {
+                alert("エラーが発生しました。");
               }
             });
           }}
@@ -81,4 +106,4 @@ const Cart = () => {
   }
 };
 
-export default Cart;
+export default CartDetails;
