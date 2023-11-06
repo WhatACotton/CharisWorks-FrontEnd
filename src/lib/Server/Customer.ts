@@ -13,7 +13,7 @@ export interface Customer {
   IsEmailVerified: boolean;
   IsRegistered: boolean;
   role: string;
-  Cart: CartItem[];
+  Cart: CartItem[] | string;
 }
 
 interface CustomerAndCart {

@@ -64,9 +64,13 @@ const Mypage = () => {
             console.log(Customer.Cart);
             console.log(Carts);
             const StringCarts = localStorage.getItem("Cart");
-            if (!StringCarts) {
-              console.log("Carts is null");
-              setCartsToLocalStorage(Customer.Cart.toString());
+            if (Customer.Cart != "Purchased") {
+              if (!StringCarts) {
+                console.log("Carts is null");
+                setCartsToLocalStorage(Customer.Cart.toString());
+              }
+            } else {
+              localStorage.removeItem("Cart");
             }
           } else {
             alert("本登録に進みます。");

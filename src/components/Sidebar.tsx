@@ -40,7 +40,7 @@ const Sidebar = (props: SidebarProps) => {
         </Typography>
         <Typography>{description}</Typography>
       </Paper>
-      <Grid container item>
+      {/* <Grid container item>
         <Typography variant="h6" gutterBottom sx={{ mt: 3, ml: 0 }}>
           商品を探す
         </Typography>
@@ -64,7 +64,7 @@ const Sidebar = (props: SidebarProps) => {
             </Button>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
         お知らせ
       </Typography>

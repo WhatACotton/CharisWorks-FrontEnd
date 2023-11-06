@@ -95,7 +95,7 @@ export const ItemGetDetails = async (ItemID: string) => {
 export interface CartDetails {
   ItemID: string;
   Quantity: number;
-  ItemName: string;
+  Name: string;
   Price: number;
   Stock: number;
   Status: string;
