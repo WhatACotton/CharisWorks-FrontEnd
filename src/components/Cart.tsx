@@ -22,7 +22,7 @@ function Card({ cart }: { cart: CartDetails }) {
             <p>ItemID: {cart.ItemID}</p>
             <p>Quantity: {cart.Quantity}</p>
             <p>Status: {cart.Status}</p>
-            <p>ItemName: {cart.ItemName}</p>
+            <p>ItemName: {cart.Name}</p>
             <p>Price: {cart.Price}</p>
             <p>Stock: {cart.Stock}</p>
           </>

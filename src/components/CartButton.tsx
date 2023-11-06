@@ -104,13 +104,18 @@ const CartButton = (Props: Props) => {
   };
   useEffect(() => {
     const local = localStorage.getItem("Cart");
-    if (local || local != undefined) {
-      const c: CartItem[] = JSON.parse(local);
-      const q = count(c);
-      if (q) {
-        setQuantity(q);
-        setIsInCart(true);
+    console.log("local", local);
+    try {
+      if (local || local != undefined || local != null) {
+        const c: CartItem[] = JSON.parse(local);
+        const q = count(c);
+        if (q) {
+          setQuantity(q);
+          setIsInCart(true);
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
   }, [Props]);
 
