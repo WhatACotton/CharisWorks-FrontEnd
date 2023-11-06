@@ -58,7 +58,10 @@ export const LogOut = async () => {
     console.log(error);
   }
 };
-
+export interface PurchaseResponse {
+  message: string;
+  url: string;
+}
 //購入処理　カートに入っている商品の購入　stripeの購入サイトへのURLを返す
 export const Purchase = async (Carts: CartItem[]) => {
   try {
@@ -71,9 +74,9 @@ export const Purchase = async (Carts: CartItem[]) => {
       credentials: "include",
       body: JSON.stringify(Carts),
     });
-    const json = await response.json();
+    const json: PurchaseResponse = await response.json();
     console.log(json);
-    return json.url;
+    return json;
   } catch (error) {
     console.log(error);
   }

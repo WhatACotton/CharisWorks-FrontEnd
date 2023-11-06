@@ -1,3 +1,5 @@
+import { CartItem } from "./Customer";
+
 const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 export interface ItemData {
   ItemID: string;
@@ -85,6 +87,39 @@ export const ItemGetDetails = async (ItemID: string) => {
     );
     const json: Item = await response.json();
     // console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export interface CartDetails {
+  ItemID: string;
+  Quantity: number;
+  ItemName: string;
+  Price: number;
+  Stock: number;
+  Status: string;
+}
+export interface Cart {
+  Cart: CartDetails[];
+}
+export const GetCartDetails = async (Carts: CartItem[]) => {
+  try {
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/item/CartDetails",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(Carts),
+      }
+    );
+
+    const json: Cart = await response.json();
+    console.log(json);
     return json;
   } catch (error) {
     console.log(error);
