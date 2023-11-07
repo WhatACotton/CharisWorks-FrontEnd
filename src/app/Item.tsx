@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Topbar from "../components/Topbar";
 import { ItemGetDetails } from "../lib/Server/ItemAPI";
 import ExampleCarouselImage from "../components/ExampleCarouselImage";
-import { Container, Grid, Typography } from "../lib/mui";
+import { Container, Grid, Typography, CardMedia, Card } from "../lib/mui";
 import CartButton from "../components/CartButton";
 import { CartCountProvider } from "../lib/Contexts/CartContext";
 import { IsLogInProvider } from "../lib/Contexts/LogInContext";
@@ -56,10 +56,16 @@ const Item = ({ ItemID }: Props) => {
     <>
       <Topbar />
       <Container>
-        <ExampleCarouselImage text="aa" />
-
         <Grid container>
-          <Grid item xs={12} md={6} justifyContent="space-between">
+          <Grid item xs={12} md={12} justifyContent="space-between">
+            <CardMedia
+              component="div"
+              sx={{
+                // 16:9
+                pt: "56.25%",
+              }}
+              image={`images/${ItemID}.png`}
+            />
             <Typography variant="h3" gutterBottom>
               商品名: {ItemName}
             </Typography>

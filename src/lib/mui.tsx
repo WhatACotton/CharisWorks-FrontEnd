@@ -33,6 +33,7 @@ import Stack from "@mui/material/Stack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Image } from "react-bootstrap";
 export {
   createTheme,
   ThemeProvider,
@@ -70,4 +71,5 @@ export {
   ShoppingCartIcon,
   AddCircleIcon,
   RemoveCircleIcon,
+  Image,
 };
