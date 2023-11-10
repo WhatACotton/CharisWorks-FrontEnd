@@ -5,22 +5,21 @@ import {
   RemoveCircleIcon,
   TextField,
   Typography,
-} from "../lib/mui";
+} from "../../lib/mui";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { CartItem, CartPost } from "../lib/Server/Customer";
+import { CartItem, CartPost } from "../../lib/Server/Customer";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { CartCountContext } from "../lib/Contexts/CartContext";
+import { CartCountContext } from "../../lib/Contexts/CartContext";
 import { useState } from "react";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { ButtonGroup, Grid } from "@mui/material";
 interface Props {
-  ItemID: string;
-  Quantity: number;
-  Stock: number;
+  ItemID: string | undefined;
+  Stock: number | undefined;
 }
 interface IFormInput {
   Quantity: number;
@@ -81,7 +80,7 @@ const CartButton = (Props: Props) => {
   };
   const update = async (Quantity: number) => {
     console.log("update", Quantity);
-    if (Quantity >= 0) {
+    if (Quantity >= 0 && Props.Stock !== undefined) {
       if (Quantity < Props.Stock) {
         let UpdatedCart: CartItem[] | undefined;
         if (Carts) {
@@ -155,8 +154,10 @@ const CartButton = (Props: Props) => {
             variant="contained"
             color="primary"
             onClick={() => {
-              if (Quantity < Props.Stock) {
-                setQuantity(Quantity + 1);
+              if (Props.Stock !== undefined) {
+                if (Quantity < Props.Stock) {
+                  setQuantity(Quantity + 1);
+                }
               }
             }}
           >
@@ -164,36 +165,42 @@ const CartButton = (Props: Props) => {
           </Button>
         </ButtonGroup>
       </Grid>
-      <Button variant="contained" color="primary" type="submit">
-        <ShoppingCartIcon />
-        {isInCart ? "数量を変更する" : "カートに追加する"}
-      </Button>
-      {isInCart ? (
-        <>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={async () => {
-              let UpdatedCart: CartItem[] | undefined;
-              if (Carts) {
-                UpdatedCart = deleteItem(Carts);
-              }
-              if (UpdatedCart) {
-                await CartPost(UpdatedCart);
-              }
-              setCartsToLocalStorage(JSON.stringify(UpdatedCart));
-              alert("カートから削除しました");
-              console.log("Button", Count);
-              setQuantity(1);
-              setIsInCart(false);
-            }}
-          >
-            カートから削除する
+      <Grid container>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" type="submit">
+            <ShoppingCartIcon />
+            {isInCart ? "数量を変更する" : "カートに追加する"}
           </Button>
-        </>
-      ) : (
-        <></>
-      )}
+        </Grid>
+        {isInCart ? (
+          <>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={async () => {
+                  let UpdatedCart: CartItem[] | undefined;
+                  if (Carts) {
+                    UpdatedCart = deleteItem(Carts);
+                  }
+                  if (UpdatedCart) {
+                    await CartPost(UpdatedCart);
+                  }
+                  setCartsToLocalStorage(JSON.stringify(UpdatedCart));
+                  alert("カートから削除しました");
+                  console.log("Button", Count);
+                  setQuantity(1);
+                  setIsInCart(false);
+                }}
+              >
+                カートから削除する
+              </Button>
+            </Grid>
+          </>
+        ) : (
+          <></>
+        )}
+      </Grid>
     </Box>
   );
 };

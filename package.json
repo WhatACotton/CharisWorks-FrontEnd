@@ -32,10 +32,12 @@
     "react-bootstrap": "^2.9.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.47.0",
+    "react-id-swiper": "^3.0.0",
     "react-image-crop": "^10.1.8",
     "react-router-dom": "^6.17.0",
     "reactstrap": "^9.2.0",
     "recoil": "^0.7.7",
+    "swiper": "^6.8.4",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
   },

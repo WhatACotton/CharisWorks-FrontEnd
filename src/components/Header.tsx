@@ -1,63 +1,63 @@
 import * as React from "react";
-import {
-  Toolbar,
-  Typography,
-  IconButton,
-  Button,
-  SearchIcon,
-  Link,
-} from "../lib/mui";
-interface HeaderProps {
-  sections: ReadonlyArray<{
-    title: string;
-    url: string;
-  }>;
-  title: string;
-}
 
-const Header = (props: HeaderProps) => {
-  const { sections, title } = props;
+import {
+  AppBar,
+  Toolbar,
+  Grid,
+  Box,
+  Button,
+  Typography,
+  ShoppingCartIcon,
+} from "../lib/mui";
+import { IsLogInProvider } from "../lib/Contexts/LogInContext";
+import { CartCountProvider } from "../lib/Contexts/CartContext";
+import { Image } from "react-bootstrap";
+import LogInStatus from "./LogInStatus";
+import CartCount from "./CartCountStatus";
+const Topbar = () => {
+  const RegisterContext = React.createContext(false);
 
   return (
-    <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Button size="small">Subscribe</Button>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          sx={{ flex: 1 }}
+    <AppBar position="relative" color="secondary">
+      <Toolbar>
+        <Grid
+          container
+          spacing={1}
+          alignItems="center"
+          justifyContent={"space-between"}
         >
-          {title}
-        </Typography>
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
-        <Button variant="outlined" size="small">
-          Sign up
-        </Button>
+          <Grid item alignItems="center">
+            <Button href="/" color="inherit">
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Image
+                  src="/images/icon.png"
+                  alt="Charis Works Logo"
+                  width={50}
+                  height={50}
+                />
+                <Typography variant="h6" color="inherit" noWrap sx={{ ml: 1 }}>
+                  Charis Works
+                </Typography>
+              </Box>
+            </Button>
+          </Grid>
+
+          <Grid item>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Button color="inherit" href="../article/about">
+                Charis Worksについて
+              </Button>
+              <Button color="inherit" href="/mypage/cartlist">
+                <CartCount />
+              </Button>
+              <IsLogInProvider>
+                <LogInStatus />
+              </IsLogInProvider>
+            </Box>
+          </Grid>
+        </Grid>
       </Toolbar>
-      <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{ justifyContent: "space-between", overflowX: "auto" }}
-      >
-        {sections.map((section) => (
-          <Link
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
-          >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar>
-    </React.Fragment>
+    </AppBar>
   );
 };
-export default Header;
+export default Topbar;

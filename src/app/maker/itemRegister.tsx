@@ -9,7 +9,7 @@ import {
   CssBaseline,
 } from "../../lib/mui";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Topbar from "../../components/Topbar";
+import Topbar from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useRouter } from "next/router";
 import { PictureInput } from "../../components/pictureInputForm";
