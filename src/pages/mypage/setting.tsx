@@ -26,7 +26,7 @@ export default function setting() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="lg">
           <CssBaseline />
           <Typography variant="h4">設定</Typography>
           <MypageContents CardContents={CardContents} />

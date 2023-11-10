@@ -24,8 +24,8 @@ const MypageContents = (Props: Props) => {
   return (
     <>
       <Grid container spacing={3} sx={{ m: 3, p: 3, pr: 10 }}>
-        {CardContents.map((card) => (
-          <Grid item xs={6}>
+        {CardContents.map((card, index) => (
+          <Grid item key={index} xs={12} sm={12} md={6}>
             <Link href={card.link}>
               <Card>
                 <CardContent>
