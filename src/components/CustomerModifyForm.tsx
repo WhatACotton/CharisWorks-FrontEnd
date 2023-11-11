@@ -15,7 +15,7 @@ import {
   Button,
 } from "../lib/mui";
 import { useEffect } from "react";
-import { CustomerGet, CustomerModify } from "../lib/Server/Customer";
+import { GetCustomer, CustomerModify } from "../lib/Server/Customer";
 type Address = {
   address1: string;
   address2: string;
@@ -130,7 +130,7 @@ const ModifyForm = () => {
   const [ZipCodeError, setZipCodeError] = useState<string | null>("");
   const [PhoneNumberError, setPhoneNumberError] = useState<string | null>("");
   async function fetchData() {
-    const response = await CustomerGet();
+    const response = await GetCustomer();
     console.log(response);
     if (response) {
       const Customer = response.Customer;
@@ -172,7 +172,7 @@ const ModifyForm = () => {
         console.log("Customer", MyData);
         const res = await CustomerModify(MyData);
         console.log(res);
-        router.push("/mypage");
+        router.push("/mypage/shipping_info");
       } else {
         console.log("エラーが発生しました");
       }
@@ -194,7 +194,7 @@ const ModifyForm = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        登録情報の修正
+        配送先情報の修正
       </Typography>
       <Box
         component="form"
@@ -214,7 +214,6 @@ const ModifyForm = () => {
               autoComplete="name"
               value={Name}
               helperText={NameError}
-              {...register("name")}
               onChange={(e) => {
                 NameCheck(e.target.value);
                 setName(e.target.value);
@@ -233,7 +232,6 @@ const ModifyForm = () => {
                 placeholder="000-0000"
                 value={ZipCode}
                 helperText={ZipCodeError}
-                {...register("zipcode")}
                 onChange={(e) => {
                   ZipCodeCheck(e.target.value);
                   setZipCode(e.target.value);
@@ -259,7 +257,6 @@ const ModifyForm = () => {
               value={Address1}
               helperText={Address1Error}
               label="都道府県・市区町村"
-              {...register("address1")}
               onChange={(e) => {
                 Address1Check(e.target.value);
                 setAddress1(e.target.value);
@@ -275,7 +272,6 @@ const ModifyForm = () => {
               value={Address2}
               label="番地等"
               helperText={Address2Error}
-              {...register("address2")}
               onChange={(e) => {
                 Address2Check(e.target.value);
                 setAddress2(e.target.value);
@@ -290,7 +286,6 @@ const ModifyForm = () => {
                 variant="standard"
                 autoComplete="address"
                 value={Address3}
-                {...register("address3")}
                 onChange={(e) => setAddress3(e.target.value)}
               />
             </>
@@ -306,7 +301,6 @@ const ModifyForm = () => {
               autoComplete="phoneNumber"
               value={PhoneNumber}
               helperText={PhoneNumberError}
-              {...register("phoneNumber")}
               onChange={(e) => {
                 PhoneNumberCheck(e.target.value);
                 setPhoneNumber(e.target.value);

@@ -1,6 +1,6 @@
 import * as React from "react";
 import Footer from "../components/Footer";
-import Topbar from "../components/Topbar";
+import Topbar from "../components/Header";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { MakerDetailsGet } from "../lib/Server/Maker";

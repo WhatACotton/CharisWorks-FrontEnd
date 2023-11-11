@@ -1,16 +1,34 @@
-import * as React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper.min.css";
+import React from "react";
+import { Link } from "@mui/material";
+import Header from "../components/Header";
 import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../lib/theme";
-import { CssBaseline } from "@mui/material";
-import Index from "../app/index";
-import { CartCountProvider } from "../lib/Contexts/CartContext";
-export default function Mypage() {
+const ImageSlider = () => {
+  const images = [
+    "https://source.unsplash.com/random?wallpapers",
+    "https://source.unsplash.com/random?wallpapers",
+  ];
+
   return (
-    <CartCountProvider>
+    <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Index />
+        <Header />
+        <Swiper spaceBetween={10} slidesPerView={1}>
+          {images.map((image, index) => (
+            <SwiperSlide key={index}>
+              <Link href="/showcase">
+                <img src={image} alt={`Slide ${index}`} />
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </ThemeProvider>
-    </CartCountProvider>
+    </>
   );
-}
+};
+
+export default ImageSlider;

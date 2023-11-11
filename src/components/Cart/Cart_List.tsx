@@ -1,37 +1,49 @@
 import React, { use, useEffect, useState } from "react";
-import { CartItem, Purchase } from "../lib/Server/Customer";
+import { CartItem, Purchase } from "../../lib/Server/Customer";
 import { useRouter } from "next/router";
-import { Button, CheckIcon } from "../lib/mui";
+import { Button, CheckIcon, Card } from "../../lib/mui";
 import {
   List,
   ListItem,
   ListItemText,
   Divider,
   Typography,
+  CardContent,
+  CardMedia,
+  Grid,
+  Link,
 } from "@mui/material";
 import { useContext } from "react";
-import { CartCountContext } from "../lib/Contexts/CartContext";
-import { GetCartDetails, Cart, CartDetails } from "../lib/Server/ItemAPI";
-function Card({ cart }: { cart: CartDetails }) {
+import { CartCountContext } from "../../lib/Contexts/CartContext";
+import { GetCartDetails, Cart, CartDetails } from "../../lib/Server/ItemAPI";
+function CardContents({ cart }: { cart: CartDetails }) {
   return (
     <>
-      <Divider />
-      <div className="card border-1">
-        {cart.ItemID ? (
-          <>
-            <p>ItemID: {cart.ItemID}</p>
-            <p>Quantity: {cart.Quantity}</p>
-            <p>Status: {cart.Status}</p>
-            <p>ItemName: {cart.Name}</p>
-            <p>Price: {cart.Price}</p>
-            <p>Stock: {cart.Stock}</p>
-          </>
-        ) : (
-          <>
-            <Typography>エラーです。</Typography>
-          </>
-        )}
-      </div>
+      {cart.ItemID ? (
+        <>
+          <Grid item xs={12} sm={12} md={6}>
+            <Link href={`/item?ItemID=${cart.ItemID}`}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">{cart.Name}</Typography>
+                  <Typography>値段：{cart.Price}</Typography>
+                  <Typography>数量：{cart.Quantity}</Typography>
+                </CardContent>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={`../../images/${cart.ItemID}_thumb.png`}
+                  alt={cart.Name}
+                />
+              </Card>
+            </Link>
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Typography>エラーです。</Typography>
+        </>
+      )}
     </>
   );
 }
@@ -45,6 +57,7 @@ const CartDetails = () => {
   const router = useRouter();
   const { Carts, Count } = useContext(CartCountContext);
   const [CartDetails, setCartDetails] = useState<CartDetails[]>([]);
+  const [Price, setPrice] = useState(0);
   const fetchData = async () => {
     try {
       console.log(Carts);
@@ -52,6 +65,12 @@ const CartDetails = () => {
         const response = await GetCartDetails(Carts);
         if (response) {
           setCartDetails(response.Cart);
+          for (let i = 0; i < response.Cart.length; i++) {
+            setPrice(
+              (prev) =>
+                prev + response.Cart[i].Price * response.Cart[i].Quantity
+            );
+          }
         }
         setCartItems(Carts);
       }
@@ -66,17 +85,19 @@ const CartDetails = () => {
   if (typeof CartDetails === "object") {
     return (
       <div>
-        <List sx={style} component="nav" aria-label="mailbox folders">
-          <h1>Cart List</h1>
-          <div className="card-container">
+        <Grid container xs={10} spacing={1}>
+          <>
             {CartDetails ? (
-              CartDetails.map((cart, index) => <Card key={index} cart={cart} />)
+              CartDetails.map((cart, index) => (
+                <CardContents key={index} cart={cart} />
+              ))
             ) : (
               <></>
             )}
-          </div>
-        </List>
-
+          </>
+        </Grid>
+        <Divider />
+        <Typography variant="h6">合計金額：{Price}</Typography>
         <Button
           variant="contained"
           color="primary"

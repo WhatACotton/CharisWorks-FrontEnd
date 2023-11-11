@@ -14,6 +14,8 @@ import {
   TextField,
   Button,
 } from "../lib/mui";
+import { useEffect } from "react";
+import { GetCustomer, CustomerModify } from "../lib/Server/Customer";
 type Address = {
   address1: string;
   address2: string;
@@ -31,16 +33,17 @@ interface IFormInput {
 
 const SignUpForm = () => {
   // TODO remove, this demo shouldn't need to reset the theme.
-  const normalizeZipcode = (zipcode: string) => {
+  const ZipCodeCheck = (zipcode: string) => {
     // 正規表現で郵便番号のフォーマットにマッチするか判定
     if (zipcode == "") {
-      setZipCodeError("この欄は必須です。");
+      if (ZipCode == "") setZipCodeError("この欄は必須です。");
+      return false;
     } else {
       const isValidFormat = /^\d{3}-?\d{4}$/.test(zipcode);
 
       if (!isValidFormat) {
         setZipCodeError("郵便番号の形式が違います。");
-        return;
+        return false;
       } else {
         setZipCodeError("");
       }
@@ -51,22 +54,28 @@ const SignUpForm = () => {
   const NameCheck = (Name: string) => {
     if (Name != "") {
       setNameError("");
+      return true;
     } else {
       setNameError("この欄は必須です。");
+      return false;
     }
   };
   const Address1Check = (Address1: string) => {
     if (Address1 != "") {
       setAddress1Error("");
+      return true;
     } else {
       setAddress1Error("この欄は必須です。");
+      return false;
     }
   };
   const Address2Check = (Address2: string) => {
     if (Address2 != "") {
       setAddress2Error("");
+      return true;
     } else {
       setAddress2Error("この欄は必須です。");
+      return false;
     }
   };
 
@@ -75,17 +84,19 @@ const SignUpForm = () => {
     const isValidFormat = /^0\d{1,4}-\d{1,4}-\d{4}$/.test(PhoneNumber);
     if (PhoneNumber == "") {
       setPhoneNumberError("この欄は必須です。");
+      return false;
     } else {
       if (!isValidFormat) {
         setPhoneNumberError("電話番号の形式が違います。");
-        return;
+        return false;
       } else {
         setPhoneNumberError("");
+        return true;
       }
     }
   };
   async function GetAddressFromZipCode(ZipCode: string) {
-    const zipcode = normalizeZipcode(ZipCode);
+    const zipcode = ZipCodeCheck(ZipCode);
     if (zipcode) {
       GetAddress(zipcode)
         .then((addressData) => {
@@ -106,49 +117,40 @@ const SignUpForm = () => {
   fbinitialize();
   const { register, handleSubmit } = useForm<IFormInput>();
   const router = useRouter();
+  const [Name, setName] = useState<string>("");
   const [Address1, setAddress1] = useState<string>("");
   const [Address2, setAddress2] = useState<string>("");
+  const [Address3, setAddress3] = useState<string>("");
   const [ZipCode, setZipCode] = useState<string>("");
+  const [PhoneNumber, setPhoneNumber] = useState<string>("");
 
-  const [NameError, setNameError] = useState<string | null>(null);
-  const [Address1Error, setAddress1Error] = useState<string | null>(null);
-  const [Address2Error, setAddress2Error] = useState<string | null>(null);
-  const [ZipCodeError, setZipCodeError] = useState<string | null>(null);
-  const [PhoneNumberError, setPhoneNumberError] = useState<string | null>(null);
-
+  const [NameError, setNameError] = useState<string | null>("");
+  const [Address1Error, setAddress1Error] = useState<string | null>("");
+  const [Address2Error, setAddress2Error] = useState<string | null>("");
+  const [ZipCodeError, setZipCodeError] = useState<string | null>("");
+  const [PhoneNumberError, setPhoneNumberError] = useState<string | null>("");
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      console.log(data);
-      await normalizeZipcode(data.zipcode);
-      await NameCheck(data.name);
-      await Address1Check(data.address1);
-      await Address2Check(data.address2);
-      await PhoneNumberCheck(data.phoneNumber);
-      console.log(PhoneNumberError);
-      console.log(NameError);
-      console.log(Address1Error);
-      console.log(Address2Error);
-      console.log(ZipCodeError);
       if (
-        ZipCodeError == "" &&
-        Address1Error == "" &&
-        Address2Error == "" &&
-        PhoneNumberError == "" &&
-        NameError == ""
+        NameCheck(Name) &&
+        Address1Check(Address1) &&
+        Address2Check(Address2) &&
+        ZipCodeCheck(ZipCode) &&
+        PhoneNumberCheck(PhoneNumber)
       ) {
         console.log(data);
         const MyData = {
-          Name: data.name,
-          ZipCode: data.zipcode,
-          Address1: data.address1,
-          Address2: data.address2,
-          Address3: data.address3,
-          PhoneNumber: data.phoneNumber,
+          Name: Name,
+          ZipCode: ZipCode,
+          Address1: Address1,
+          Address2: Address2,
+          Address3: Address3,
+          PhoneNumber: PhoneNumber,
         };
-        console.log(MyData);
+        console.log("Customer", MyData);
         const res = await Register(MyData);
         console.log(res);
-        router.push("/mypage");
+        router.push("/mypage/shipping_info");
       } else {
         console.log("エラーが発生しました");
       }
@@ -170,7 +172,7 @@ const SignUpForm = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        新規登録
+        配送先情報の登録
       </Typography>
       <Box
         component="form"
@@ -180,63 +182,39 @@ const SignUpForm = () => {
       >
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {!NameError ? (
-              <>
-                <TextField
-                  required
-                  fullWidth
-                  label="氏名"
-                  variant="standard"
-                  autoComplete="name"
-                  {...register("name")}
-                />
-              </>
-            ) : (
-              <>
-                <TextField
-                  error
-                  required
-                  fullWidth
-                  label="氏名"
-                  variant="standard"
-                  autoComplete="name"
-                  helperText={NameError}
-                  {...register("name")}
-                />
-              </>
-            )}
+            <TextField
+              error={NameError ? true : false}
+              autoFocus
+              required
+              fullWidth
+              label="氏名"
+              variant="standard"
+              autoComplete="name"
+              value={Name}
+              helperText={NameError}
+              onChange={(e) => {
+                NameCheck(e.target.value);
+                setName(e.target.value);
+              }}
+            />
           </Grid>
           <Grid item xs={12} sx={{ display: "flex", alignItems: "center" }}>
             <Grid item xs={3}>
-              {!ZipCodeError ? (
-                <>
-                  <TextField
-                    required
-                    fullWidth
-                    label="郵便番号"
-                    variant="standard"
-                    autoComplete="zipcode"
-                    placeholder="000-0000"
-                    {...register("zipcode")}
-                    onChange={(e) => setZipCode(e.target.value)}
-                  />
-                </>
-              ) : (
-                <>
-                  <TextField
-                    error
-                    required
-                    fullWidth
-                    label="郵便番号"
-                    variant="standard"
-                    autoComplete="zipcode"
-                    placeholder="000-0000"
-                    helperText={ZipCodeError}
-                    {...register("zipcode")}
-                    onChange={(e) => setZipCode(e.target.value)}
-                  />
-                </>
-              )}
+              <TextField
+                error={ZipCodeError ? true : false}
+                required
+                fullWidth
+                label="郵便番号"
+                variant="standard"
+                autoComplete="zipcode"
+                placeholder="000-0000"
+                value={ZipCode}
+                helperText={ZipCodeError}
+                onChange={(e) => {
+                  ZipCodeCheck(e.target.value);
+                  setZipCode(e.target.value);
+                }}
+              />
             </Grid>
             <Grid item xs={6}>
               <Button
@@ -249,62 +227,34 @@ const SignUpForm = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            {!Address1Error ? (
-              <>
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  autoComplete="address"
-                  value={Address1}
-                  label="都道府県・市区町村"
-                  {...register("address1")}
-                  onChange={(e) => setAddress1(e.target.value)}
-                />
-              </>
-            ) : (
-              <>
-                <TextField
-                  error
-                  fullWidth
-                  variant="standard"
-                  autoComplete="address"
-                  value={Address1}
-                  label="都道府県・市区町村"
-                  helperText={Address1Error}
-                  {...register("address1")}
-                  onChange={(e) => setAddress1(e.target.value)}
-                />
-              </>
-            )}
+            <TextField
+              error={Address1Error ? true : false}
+              fullWidth
+              variant="standard"
+              autoComplete="address"
+              value={Address1}
+              helperText={Address1Error}
+              label="都道府県・市区町村"
+              onChange={(e) => {
+                Address1Check(e.target.value);
+                setAddress1(e.target.value);
+              }}
+            />
           </Grid>
           <Grid item xs={12}>
-            {!Address2Error ? (
-              <>
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  autoComplete="address"
-                  value={Address2}
-                  label="番地等"
-                  {...register("address2")}
-                  onChange={(e) => setAddress2(e.target.value)}
-                />
-              </>
-            ) : (
-              <>
-                <TextField
-                  error
-                  fullWidth
-                  variant="standard"
-                  autoComplete="address"
-                  label="番地等"
-                  value={Address2}
-                  helperText={Address2Error}
-                  {...register("address2")}
-                  onChange={(e) => setAddress2(e.target.value)}
-                />
-              </>
-            )}
+            <TextField
+              error={Address2Error ? true : false}
+              fullWidth
+              variant="standard"
+              autoComplete="address"
+              value={Address2}
+              label="番地等"
+              helperText={Address2Error}
+              onChange={(e) => {
+                Address2Check(e.target.value);
+                setAddress2(e.target.value);
+              }}
+            />
           </Grid>
           <Grid item xs={12}>
             <>
@@ -313,38 +263,27 @@ const SignUpForm = () => {
                 label="マンション等"
                 variant="standard"
                 autoComplete="address"
-                {...register("address3")}
+                value={Address3}
+                onChange={(e) => setAddress3(e.target.value)}
               />
             </>
           </Grid>
           <Grid item xs={12}>
-            {!PhoneNumberError ? (
-              <>
-                <TextField
-                  required
-                  fullWidth
-                  label="電話番号"
-                  variant="standard"
-                  placeholder="000-0000-0000"
-                  autoComplete="phoneNumber"
-                  {...register("phoneNumber")}
-                />
-              </>
-            ) : (
-              <>
-                <TextField
-                  error
-                  required
-                  fullWidth
-                  label="電話番号"
-                  variant="standard"
-                  placeholder="000-0000-0000"
-                  autoComplete="phoneNumber"
-                  helperText={PhoneNumberError}
-                  {...register("phoneNumber")}
-                />
-              </>
-            )}
+            <TextField
+              error={PhoneNumberError ? true : false}
+              required
+              fullWidth
+              label="電話番号"
+              variant="standard"
+              placeholder="000-0000-0000"
+              autoComplete="phoneNumber"
+              value={PhoneNumber}
+              helperText={PhoneNumberError}
+              onChange={(e) => {
+                PhoneNumberCheck(e.target.value);
+                setPhoneNumber(e.target.value);
+              }}
+            />
           </Grid>
         </Grid>
         <Button
@@ -353,7 +292,7 @@ const SignUpForm = () => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          新規登録
+          登録する
         </Button>
       </Box>
     </Box>

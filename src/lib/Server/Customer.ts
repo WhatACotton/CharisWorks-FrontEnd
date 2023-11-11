@@ -12,7 +12,7 @@ export interface Customer {
   CreatedDate: string;
   IsEmailVerified: boolean;
   IsRegistered: boolean;
-  role: string;
+  Role: string;
   Cart: CartItem[] | string;
 }
 
@@ -21,7 +21,7 @@ interface CustomerAndCart {
   Cart: CartItem[];
 }
 //顧客情報の取得
-export const CustomerGet = async () => {
+export const GetCustomer = async () => {
   try {
     const response = await fetch("http://" + IPAddress + ":80/go/GetCustomer", {
       method: "GET",
