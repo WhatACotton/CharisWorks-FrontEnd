@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../../lib/theme";
+import { theme } from "../../api/theme";
 import ItemList from "../../app/maker/itemlist";
 import { CssBaseline } from "@mui/material";
-import { CartCountProvider } from "../../lib/Contexts/CartContext";
+import { CartCountProvider } from "../../api/Contexts/CartContext";
 
 export default function Mypage() {
   return (

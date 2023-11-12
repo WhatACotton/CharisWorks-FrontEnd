@@ -7,11 +7,11 @@ import {
   Typography,
   CardActions,
   Button,
-} from "../lib/mui";
+} from "../api/mui";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ItemGetALL } from "../lib/Server/ItemAPI";
-import { ItemData } from "../lib/Server/ItemAPI";
+import { ItemGetALL } from "../api/Server/ItemAPI";
+import { ItemData } from "../api/Server/ItemAPI";
 
 const IndexCard = () => {
   const [Items, setItems] = useState<ItemData[]>([]);

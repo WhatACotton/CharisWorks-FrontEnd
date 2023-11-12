@@ -1,12 +1,12 @@
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
-import { theme } from "../../lib/theme";
+import { theme } from "../../api/theme";
 import Transaction from "../../app/user/transaction";
-import { CartCountProvider } from "../../lib/Contexts/CartContext";
+import { CartCountProvider } from "../../api/Contexts/CartContext";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import { Container } from "../../lib/mui";
+import { Container } from "../../api/mui";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TransactionSection from "../../components/Transaction";

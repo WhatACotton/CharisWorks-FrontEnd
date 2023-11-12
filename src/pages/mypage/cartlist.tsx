@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
-import { theme } from "../../lib/theme";
-import { CartCountProvider } from "../../lib/Contexts/CartContext";
+import { theme } from "../../api/theme";
+import { CartCountProvider } from "../../api/Contexts/CartContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Container, Grid, Typography } from "@mui/material";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ItemData } from "../lib/Server/ItemAPI";
-import { MakerItemGet } from "../lib/Server/Maker";
+import { ItemData } from "../api/Server/ItemAPI";
+import { MakerItemGet } from "../api/Server/Maker";
 
 const Card = ({ Item }: { Item: ItemData }) => {
   return (

@@ -3,7 +3,7 @@ import {
   TransactionCardProps,
   TransactionData,
   TransactionGet,
-} from "../lib/Server/Customer";
+} from "../api/Server/Customer";
 
 const Card = ({ transaction }: TransactionCardProps) => {
   return (

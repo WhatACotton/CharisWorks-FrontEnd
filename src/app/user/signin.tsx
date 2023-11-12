@@ -2,10 +2,10 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import Topbar from "../../components/Header";
 import Footer from "../../components/Footer";
-import { SignInServer } from "../../lib/Server/FireBase";
+import { SignInServer } from "../../api/Server/FireBase";
 import { useRouter } from "next/router";
-import fbinitialize from "../../lib/FireBase/firebaseConfig";
-import { FireBaseGoogleSignIn } from "../../lib/FireBase/reqForFirebase";
+import fbinitialize from "../../api/FireBase/firebaseConfig";
+import { FireBaseGoogleSignIn } from "../../api/FireBase/reqForFirebase";
 
 import {
   Container,
@@ -16,7 +16,7 @@ import {
   Grid,
   Box,
   Button,
-} from "../../lib/mui";
+} from "../../api/mui";
 interface IFormInput {
   email: string;
   password: string;

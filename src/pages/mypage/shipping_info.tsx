@@ -1,14 +1,14 @@
 import React, { use, useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "../../lib/theme";
-import { CartCountProvider } from "../../lib/Contexts/CartContext";
-import { GetCustomer } from "../../lib/Server/Customer";
+import { theme } from "../../api/theme";
+import { CartCountProvider } from "../../api/Contexts/CartContext";
+import { GetCustomer } from "../../api/Server/Customer";
 import { useRouter } from "next/router";
 import MypageContents from "../../components/MypageContents";
 import Header from "../../components/Header";
 import { Grid, Paper, Typography } from "@mui/material";
-import { IsLogInProvider } from "../../lib/Contexts/LogInContext";
+import { IsLogInProvider } from "../../api/Contexts/LogInContext";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 type Customer = {

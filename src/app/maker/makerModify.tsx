@@ -3,9 +3,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import Topbar from "../../components/Header";
 import Footer from "../../components/Footer";
-import fbinitialize from "../../lib/FireBase/firebaseConfig";
-import { MakerRegister, MakerDetailsGet } from "../../lib/Server/Maker";
-import { theme } from "../../lib/theme";
+import fbinitialize from "../../api/FireBase/firebaseConfig";
+import { MakerRegister, MakerDetailsGet } from "../../api/Server/Maker";
+import { theme } from "../../api/theme";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
@@ -17,7 +17,7 @@ import {
   Button,
   TextField,
   ThemeProvider,
-} from "../../lib/mui";
+} from "../../api/mui";
 
 interface IFormInput {
   MakerName: string;

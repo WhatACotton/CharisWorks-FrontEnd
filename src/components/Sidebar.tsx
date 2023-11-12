@@ -9,7 +9,7 @@ import {
   SearchIcon,
   Link,
   Stack,
-} from "../lib/mui";
+} from "../api/mui";
 interface SidebarProps {
   archives: ReadonlyArray<{
     url: string;

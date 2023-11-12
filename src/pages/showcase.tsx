@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../lib/theme";
+import { theme } from "../api/theme";
 import { CssBaseline } from "@mui/material";
-import { CartCountProvider } from "../lib/Contexts/CartContext";
+import { CartCountProvider } from "../api/Contexts/CartContext";
 import UncontrolledExample from "../components/UncontrolledExample";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
@@ -15,7 +15,7 @@ import {
   Container,
   Grid,
   Box,
-} from "../lib/mui";
+} from "../api/mui";
 const sidebar = {
   title: "Charis Worksとは",
   description:

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Register } from "../lib/Server/FireBase";
+import { Register } from "../api/Server/FireBase";
 import { useRouter } from "next/router";
-import fbinitialize from "../lib/FireBase/firebaseConfig";
-import { GetAddress } from "../lib/Address";
+import fbinitialize from "../api/FireBase/firebaseConfig";
+import { GetAddress } from "../api/Address";
 import { useState } from "react";
 import {
   Box,
@@ -13,9 +13,9 @@ import {
   Grid,
   TextField,
   Button,
-} from "../lib/mui";
+} from "../api/mui";
 import { useEffect } from "react";
-import { GetCustomer, CustomerModify } from "../lib/Server/Customer";
+import { GetCustomer, CustomerModify } from "../api/Server/Customer";
 type Address = {
   address1: string;
   address2: string;

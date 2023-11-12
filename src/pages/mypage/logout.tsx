@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { LogOut } from "../../lib/Server/Customer";
+import { LogOut } from "../../api/Server/Customer";
 const LogOutPage = () => {
   const router = useRouter();
   useEffect(() => {

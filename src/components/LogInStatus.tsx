@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { IsLogInContext } from "../lib/Contexts/LogInContext";
+import { IsLogInContext } from "../api/Contexts/LogInContext";
 import React from "react";
 import { Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";

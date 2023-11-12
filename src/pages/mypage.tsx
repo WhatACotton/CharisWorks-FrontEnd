@@ -1,9 +1,9 @@
 import React, { use, useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "../lib/theme";
-import { CartCountProvider } from "../lib/Contexts/CartContext";
-import { GetCustomer } from "../lib/Server/Customer";
+import { theme } from "../api/theme";
+import { CartCountProvider } from "../api/Contexts/CartContext";
+import { GetCustomer } from "../api/Server/Customer";
 import { useRouter } from "next/router";
 import MypageContents from "../components/MypageContents";
 import Header from "../components/Header";

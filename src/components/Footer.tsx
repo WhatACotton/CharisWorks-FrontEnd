@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Container, Typography, Link } from "../lib/mui";
+import { Box, Container, Typography, Link } from "../api/mui";
 const Copyright = () => {
   return (
     <Typography variant="body2" color="text.secondary" align="center">

@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from "react";
-import { CartItem, Purchase } from "../../lib/Server/Customer";
+import { CartItem, Purchase } from "../../api/Server/Customer";
 import { useRouter } from "next/router";
-import { Button, CheckIcon, Card } from "../../lib/mui";
+import { Button, CheckIcon, Card } from "../../api/mui";
 import {
   List,
   ListItem,
@@ -14,8 +14,8 @@ import {
   Link,
 } from "@mui/material";
 import { useContext } from "react";
-import { CartCountContext } from "../../lib/Contexts/CartContext";
-import { GetCartDetails, Cart, CartDetails } from "../../lib/Server/ItemAPI";
+import { CartCountContext } from "../../api/Contexts/CartContext";
+import { GetCartDetails, Cart, CartDetails } from "../../api/Server/ItemAPI";
 function CardContents({ cart }: { cart: CartDetails }) {
   return (
     <>

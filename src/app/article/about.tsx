@@ -1,7 +1,7 @@
 import * as React from "react";
 import Footer from "../../components/Footer";
 import Topbar from "../../components/Header";
-import { Container, Typography } from "../../lib/mui";
+import { Container, Typography } from "../../api/mui";
 const About = () => {
   return (
     <>

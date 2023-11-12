@@ -5,14 +5,14 @@ import {
   RemoveCircleIcon,
   TextField,
   Typography,
-} from "../../lib/mui";
+} from "../../api/mui";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { CartItem, CartPost } from "../../lib/Server/Customer";
+import { CartItem, CartPost } from "../../api/Server/Customer";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { CartCountContext } from "../../lib/Contexts/CartContext";
+import { CartCountContext } from "../../api/Contexts/CartContext";
 import { useState } from "react";
 import React from "react";
 import { useSearchParams } from "next/navigation";

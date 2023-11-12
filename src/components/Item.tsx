@@ -1,8 +1,7 @@
 import * as React from "react";
 import Footer from "../components/Footer";
 import Topbar from "../components/Header";
-import { ItemGetDetails } from "../lib/Server/ItemAPI";
-import ExampleCarouselImage from "../components/ExampleCarouselImage";
+import { ItemGetDetails } from "../api/Server/ItemAPI";
 import {
   Container,
   Grid,
@@ -11,10 +10,10 @@ import {
   Card,
   Image,
   Box,
-} from "../lib/mui";
+} from "../api/mui";
 import CartButton from "../components/Cart/CartButton";
-import { CartCountProvider } from "../lib/Contexts/CartContext";
-import { IsLogInProvider } from "../lib/Contexts/LogInContext";
+import { CartCountProvider } from "../api/Contexts/CartContext";
+import { IsLogInProvider } from "../api/Contexts/LogInContext";
 import { useState, useEffect } from "react";
 interface Props {
   ItemID: string | string[];
