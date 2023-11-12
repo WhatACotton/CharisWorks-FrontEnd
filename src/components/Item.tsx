@@ -63,7 +63,7 @@ const Item = ({ ItemID }: Props) => {
         container
         spacing={2}
         sx={{ m: 3, p: 3, pr: 10 }}
-        justifyContent={"space-between"}
+        justifyContent={"center"}
       >
         <Grid item>
           <Image src={`images/${ItemID}.png`} />
@@ -100,6 +100,8 @@ const Item = ({ ItemID }: Props) => {
               メーカー説明: {Item?.MakerDescription}
             </Typography>
           </Box>
+        </Grid>
+        <Grid item>
           <IsLogInProvider>
             {Item?.Stock === null ? (
               <Typography variant="h5" gutterBottom>
