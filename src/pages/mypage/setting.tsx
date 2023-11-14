@@ -32,7 +32,9 @@ export default function setting() {
         <Header />
         <Container component="main" maxWidth="lg">
           <CssBaseline />
-          <Typography variant="h4">設定</Typography>
+          <Typography variant="h4" sx={{ pl: 10, pt: 5 }}>
+            その他の設定
+          </Typography>
           <MypageContents CardContents={CardContents} />
         </Container>
         <Footer />

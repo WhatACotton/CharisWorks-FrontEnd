@@ -25,7 +25,78 @@ interface Props {
 interface IFormInput {
   Quantity: number;
 }
-
+const CartCount = (Carts: CartItem[], ItemID: string) => {
+  for (const Item of Carts) {
+    if (Item.ItemID === ItemID) {
+      return Item.Quantity;
+    }
+  }
+};
+const CartChange = (Carts: CartItem[], ItemID: string, Quantity: number) => {
+  const newCarts: CartItem[] = [];
+  const ItemList: string[] = [];
+  if (Quantity !== 0) {
+    for (const Item of Carts) {
+      if (Item.ItemID === ItemID) {
+        Item.Quantity = Quantity;
+        if (!ItemList.includes(Item.ItemID)) {
+          ItemList.push(Item.ItemID);
+          newCarts.push(Item);
+        }
+      } else {
+        newCarts.push(Item);
+      }
+    }
+    if (!ItemList.includes(ItemID)) {
+      newCarts.push({ ItemID, Quantity });
+    }
+  } else {
+    for (const Item of Carts) {
+      if (Item.ItemID !== ItemID) {
+        newCarts.push(Item);
+      }
+    }
+  }
+  return newCarts;
+};
+const CartDeleteItem = (Carts: CartItem[], ItemID: string) => {
+  const newCarts: CartItem[] = [];
+  for (const Item of Carts) {
+    if (Item.ItemID !== ItemID) {
+      newCarts.push(Item);
+    }
+  }
+  return newCarts;
+};
+const CartUpdate = async (
+  Carts: CartItem[] | null,
+  Quantity: number,
+  ItemID: string,
+  stock: number | undefined
+) => {
+  console.log("update", Quantity);
+  if (Quantity >= 0 && stock !== undefined) {
+    if (Quantity < stock) {
+      let UpdatedCart: CartItem[] | undefined;
+      if (Carts) {
+        UpdatedCart = CartChange(Carts, ItemID, Quantity);
+      } else {
+        UpdatedCart = [{ ItemID, Quantity }];
+      }
+      if (UpdatedCart) {
+        await CartPost(UpdatedCart);
+        alert("カートに追加しました");
+      }
+      return UpdatedCart;
+    } else {
+      alert("在庫数を超えています。");
+      return Carts;
+    }
+  } else {
+    alert("1以上を入力してください。");
+    return Carts;
+  }
+};
 const CartButton = (Props: Props) => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
@@ -34,76 +105,17 @@ const CartButton = (Props: Props) => {
   const [CountState, setCountState] = useState(0);
   const [isInCart, setIsInCart] = useState(false);
   const ItemID = useSearchParams().get("ItemID") ?? "";
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setIsInCart(true);
-    update(Quantity);
+    const UpdatedCart: CartItem[] | null = await CartUpdate(
+      Carts,
+      Quantity,
+      ItemID,
+      Props.Stock
+    );
+    setCartsToLocalStorage(JSON.stringify(UpdatedCart));
+    console.log("Button", Count);
     setCountState(Quantity);
-  };
-  const count = (Carts: CartItem[]) => {
-    for (const Item of Carts) {
-      if (Item.ItemID === ItemID) {
-        return Item.Quantity;
-      }
-    }
-  };
-  const change = (Carts: CartItem[]) => {
-    const newCarts: CartItem[] = [];
-    const ItemList: string[] = [];
-    if (Quantity !== 0) {
-      for (const Item of Carts) {
-        if (Item.ItemID === ItemID) {
-          Item.Quantity = Quantity;
-          if (!ItemList.includes(Item.ItemID)) {
-            ItemList.push(Item.ItemID);
-            newCarts.push(Item);
-          }
-        } else {
-          newCarts.push(Item);
-        }
-      }
-      if (!ItemList.includes(ItemID)) {
-        newCarts.push({ ItemID, Quantity });
-      }
-    } else {
-      for (const Item of Carts) {
-        if (Item.ItemID !== ItemID) {
-          newCarts.push(Item);
-        }
-      }
-    }
-    return newCarts;
-  };
-  const deleteItem = (Carts: CartItem[]) => {
-    const newCarts: CartItem[] = [];
-    for (const Item of Carts) {
-      if (Item.ItemID !== ItemID) {
-        newCarts.push(Item);
-      }
-    }
-    return newCarts;
-  };
-  const update = async (Quantity: number) => {
-    console.log("update", Quantity);
-    if (Quantity >= 0 && Props.Stock !== undefined) {
-      if (Quantity < Props.Stock) {
-        let UpdatedCart: CartItem[] | undefined;
-        if (Carts) {
-          UpdatedCart = change(Carts);
-        } else {
-          UpdatedCart = [{ ItemID, Quantity }];
-        }
-        if (UpdatedCart) {
-          await CartPost(UpdatedCart);
-        }
-        setCartsToLocalStorage(JSON.stringify(UpdatedCart));
-        alert("カートに追加しました");
-        console.log("Button", Count);
-      } else {
-        alert("在庫数を超えています。");
-      }
-    } else {
-      alert("1以上を入力してください。");
-    }
   };
 
   useEffect(() => {
@@ -112,7 +124,7 @@ const CartButton = (Props: Props) => {
     try {
       if (local || local != undefined || local != null) {
         const c: CartItem[] = JSON.parse(local);
-        const q = count(c);
+        const q = CartCount(c, ItemID);
         if (q) {
           setQuantity(q);
           setIsInCart(true);
@@ -187,7 +199,7 @@ const CartButton = (Props: Props) => {
                 onClick={async () => {
                   let UpdatedCart: CartItem[] | undefined;
                   if (Carts) {
-                    UpdatedCart = deleteItem(Carts);
+                    UpdatedCart = CartDeleteItem(Carts, ItemID);
                   }
                   if (UpdatedCart) {
                     await CartPost(UpdatedCart);
@@ -226,7 +238,7 @@ const CartButton = (Props: Props) => {
                 onClick={async () => {
                   let UpdatedCart: CartItem[] | undefined;
                   if (Carts) {
-                    UpdatedCart = deleteItem(Carts);
+                    UpdatedCart = CartDeleteItem(Carts, ItemID);
                   }
                   if (UpdatedCart) {
                     await CartPost(UpdatedCart);
@@ -261,3 +273,4 @@ const CartButton = (Props: Props) => {
   );
 };
 export default CartButton;
+export { CartCount, CartChange, CartDeleteItem, CartUpdate };
