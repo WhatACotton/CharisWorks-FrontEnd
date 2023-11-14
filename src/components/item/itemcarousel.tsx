@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ImageList, ImageListItem } from "@mui/material";
 import { Grid } from "@mui/material";
 import Image from "next/image";
+import { CircularProgress } from "@mui/material";
 export type Item = {
   img: string;
   title: string;
@@ -43,33 +44,7 @@ export function Example(Props: Props) {
       order: 4,
     },
   ];
-  const itemsDefault: Item[] = [
-    {
-      img: `/images/main.png`,
-      title: "image",
-      order: 0,
-    },
-    {
-      img: `/images/main2.png`,
-      title: "image",
-      order: 1,
-    },
-    {
-      img: `/images/main3.png`,
-      title: "image",
-      order: 2,
-    },
-    {
-      img: `/images/main4.png`,
-      title: "image",
-      order: 3,
-    },
-    {
-      img: `/images/main5.png`,
-      title: "image",
-      order: 4,
-    },
-  ];
+
   return (
     <>
       <Grid container justifyContent={"space-between"}>
@@ -143,9 +118,7 @@ export function Example(Props: Props) {
                   setOrder(order);
                 }}
               >
-                {itemsDefault.map((item, i) => (
-                  <Item key={i} ImageSrc={item.img} />
-                ))}
+                <CircularProgress />
               </Carousel>
             </>
           )}
