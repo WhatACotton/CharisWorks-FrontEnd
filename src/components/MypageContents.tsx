@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -15,6 +15,7 @@ type CardContents = {
   title: string;
   link: string;
   description: string;
+  icon: ReactElement;
 };
 interface Props {
   CardContents: CardContents[];
@@ -29,12 +30,23 @@ const MypageContents = (Props: Props) => {
             <Link href={card.link}>
               <Card>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {card.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {card.description}
-                  </Typography>
+                  <Grid
+                    container
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Grid item xs={8} sm={8} md={8}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {card.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {card.description}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2}>
+                      {card.icon}
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
             </Link>

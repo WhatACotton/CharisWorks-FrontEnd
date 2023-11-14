@@ -16,7 +16,7 @@ export default function SignUpPage() {
         <Header />
         <Container maxWidth="lg">
           <Typography variant="h4" gutterBottom sx={{ mt: 5 }}>
-            カート確認
+            カート内容の確認
           </Typography>
           <Typography variant="h6" gutterBottom sx={{ mt: 5 }}>
             現在カートに入っている商品を確認できます。

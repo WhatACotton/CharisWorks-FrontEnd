@@ -8,16 +8,20 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Container } from "../../api/mui";
 import MypageContents from "../../components/MypageContents";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 const CardContents = [
   {
     title: "アカウントの削除",
     link: "/mypage/delete_account",
     description: "アカウントを削除します。",
+    icon: <DeleteIcon fontSize="large" />,
   },
   {
     title: "配送先情報の修正",
     link: "/mypage/shipping_info/edit",
     description: "配送先情報が修正できます。",
+    icon: <ModeEditIcon fontSize="large" />,
   },
 ];
 export default function setting() {

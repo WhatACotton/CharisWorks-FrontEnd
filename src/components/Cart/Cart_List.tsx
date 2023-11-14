@@ -32,7 +32,7 @@ function CardContents({ cart }: { cart: CartDetails }) {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={`../../images/${cart.ItemID}_thumb.png`}
+                  image={`../../images/${cart.ItemID}/thumb.png`}
                   alt={cart.Name}
                 />
               </Card>
@@ -96,7 +96,7 @@ const CartDetails = () => {
             )}
           </>
         </Grid>
-        <Divider />
+        <Divider sx={{ mt: 3 }} />
         <Typography variant="h6">合計金額：{Price}</Typography>
         <Button
           variant="contained"

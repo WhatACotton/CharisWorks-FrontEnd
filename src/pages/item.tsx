@@ -11,11 +11,13 @@ export default function ItemPage() {
   const ItemID = useSearchParams().get("ItemID") ?? "";
   console.log(ItemID);
   return (
-    <CartCountProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Item ItemID={ItemID} />
-      </ThemeProvider>
-    </CartCountProvider>
+    <>
+      <CartCountProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Item ItemID={ItemID} />
+        </ThemeProvider>
+      </CartCountProvider>
+    </>
   );
 }
