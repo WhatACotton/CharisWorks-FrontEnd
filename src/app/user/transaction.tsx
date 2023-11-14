@@ -3,7 +3,7 @@ import Footer from "../../components/Footer";
 import Topbar from "../../components/Header";
 import Container from "@mui/material/Container";
 import TransactionSection from "../../components/Transaction";
-import { Typography, Grid } from "../../lib/mui";
+import { Typography, Grid } from "../../api/mui";
 const Transaction = () => {
   return (
     <>

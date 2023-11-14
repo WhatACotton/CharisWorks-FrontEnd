@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from "react";
-import { CartItem, Purchase } from "../../lib/Server/Customer";
+import { CartItem, Purchase } from "../../api/Server/Customer";
 import { useRouter } from "next/router";
-import { Button, CheckIcon, Card } from "../../lib/mui";
+import { Button, CheckIcon, Card } from "../../api/mui";
 import {
   List,
   ListItem,
@@ -14,8 +14,8 @@ import {
   Link,
 } from "@mui/material";
 import { useContext } from "react";
-import { CartCountContext } from "../../lib/Contexts/CartContext";
-import { GetCartDetails, Cart, CartDetails } from "../../lib/Server/ItemAPI";
+import { CartCountContext } from "../../api/Contexts/CartContext";
+import { GetCartDetails, Cart, CartDetails } from "../../api/Server/ItemAPI";
 function CardContents({ cart }: { cart: CartDetails }) {
   return (
     <>
@@ -32,7 +32,7 @@ function CardContents({ cart }: { cart: CartDetails }) {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={`../../images/${cart.ItemID}_thumb.png`}
+                  image={`../../images/${cart.ItemID}/thumb.png`}
                   alt={cart.Name}
                 />
               </Card>
@@ -96,7 +96,7 @@ const CartDetails = () => {
             )}
           </>
         </Grid>
-        <Divider />
+        <Divider sx={{ mt: 3 }} />
         <Typography variant="h6">合計金額：{Price}</Typography>
         <Button
           variant="contained"

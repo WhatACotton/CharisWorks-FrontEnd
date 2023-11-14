@@ -6,10 +6,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { deleteUser } from "firebase/auth";
-import { FireBaseDeleteUser } from "../../lib/FireBase/reqForFirebase";
+import { FireBaseDeleteUser } from "../../api/FireBase/reqForFirebase";
 import { useRouter } from "next/router";
-import fbinitialize from "../../lib/FireBase/firebaseConfig";
-import { LogOut } from "../../lib/Server/Customer";
+import fbinitialize from "../../api/FireBase/firebaseConfig";
+import { LogOut } from "../../api/Server/Customer";
 export default function AlertDialog() {
   fbinitialize();
   const [open, setOpen] = React.useState(true);

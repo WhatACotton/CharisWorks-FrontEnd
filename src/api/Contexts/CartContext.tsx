@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, createContext, useRef } from "react";
 import { useEffect } from "react";
-import { CartItem, Purchase } from "../../lib/Server/Customer";
+import { CartItem, Purchase } from "../../api/Server/Customer";
 type Count = number | null;
 type CartItems = CartItem[] | null;
 // Contextオブジェクトを生成する
@@ -22,15 +22,24 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
   const [Count, setCartCount] = useState<Count>(null);
   const [Carts, setCarts] = useState<CartItems>(null);
   const setCartsToLocalStorage = (Carts: string) => {
-    localStorage.setItem("Cart", Carts);
-    setCartCount(JSON.parse(Carts)?.length);
-    setCarts(JSON.parse(Carts));
+    if (Carts) {
+      let Count = 0;
+      for (const Item of JSON.parse(Carts)) {
+        Count += Item.Quantity;
+      }
+      localStorage.setItem("Cart", Carts);
+      setCartCount(Number(Count));
+      setCarts(JSON.parse(Carts));
+    }
   };
 
   useEffect(() => {
     const StringCarts = localStorage.getItem("Cart");
     if (StringCarts) {
-      const Count = JSON.parse(StringCarts)?.length;
+      let Count = 0;
+      for (const Item of JSON.parse(StringCarts)) {
+        Count += Item.Quantity;
+      }
       const Carts: CartItems = JSON.parse(StringCarts);
       console.log("CartCountProvider Called", Carts);
       if (Count) {

@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { CartCountContext } from "../lib/Contexts/CartContext";
+import { CartCountContext } from "../api/Contexts/CartContext";
 import React, { use } from "react";
 import { Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";

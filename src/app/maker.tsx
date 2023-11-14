@@ -3,8 +3,8 @@ import Footer from "../components/Footer";
 import Topbar from "../components/Header";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { MakerDetailsGet } from "../lib/Server/Maker";
-import { Container, Typography, Grid, Button } from "../lib/mui";
+import { MakerDetailsGet } from "../api/Server/Maker";
+import { Container, Typography, Grid, Button } from "../api/mui";
 const Maker = () => {
   const router = useRouter();
   const [Registered, setRegistered] = useState<boolean>(false);

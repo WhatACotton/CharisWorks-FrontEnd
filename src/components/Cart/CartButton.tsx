@@ -5,18 +5,19 @@ import {
   RemoveCircleIcon,
   TextField,
   Typography,
-} from "../../lib/mui";
+} from "../../api/mui";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { CartItem, CartPost } from "../../lib/Server/Customer";
+import { CartItem, CartPost } from "../../api/Server/Customer";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { CartCountContext } from "../../lib/Contexts/CartContext";
+import { CartCountContext } from "../../api/Contexts/CartContext";
 import { useState } from "react";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { ButtonGroup, Grid } from "@mui/material";
+import { green } from "@mui/material/colors";
 interface Props {
   ItemID: string | undefined;
   Stock: number | undefined;
@@ -26,14 +27,17 @@ interface IFormInput {
 }
 
 const CartButton = (Props: Props) => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
   const { Count, Carts, setCartsToLocalStorage } = useContext(CartCountContext);
   const [Quantity, setQuantity] = useState(1);
+  const [CountState, setCountState] = useState(0);
   const [isInCart, setIsInCart] = useState(false);
   const ItemID = useSearchParams().get("ItemID") ?? "";
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     setIsInCart(true);
     update(Quantity);
+    setCountState(Quantity);
   };
   const count = (Carts: CartItem[]) => {
     for (const Item of Carts) {
@@ -101,6 +105,7 @@ const CartButton = (Props: Props) => {
       alert("1以上を入力してください。");
     }
   };
+
   useEffect(() => {
     const local = localStorage.getItem("Cart");
     console.log("local", local);
@@ -111,6 +116,7 @@ const CartButton = (Props: Props) => {
         if (q) {
           setQuantity(q);
           setIsInCart(true);
+          setCountState(q);
         }
       }
     } catch (e) {
@@ -125,57 +131,96 @@ const CartButton = (Props: Props) => {
       onSubmit={handleSubmit(onSubmit)}
       sx={{ mt: 3 }}
     >
-      {isInCart ? (
-        <>
-          <Typography variant="h6">カートに入っています。</Typography>
-        </>
-      ) : (
-        <>
-          <Typography variant="h6">カートに追加しますか？</Typography>
-        </>
-      )}
-      <Grid container>
-        <ButtonGroup>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              if (Quantity > 1) {
-                setQuantity(Quantity - 1);
-              }
-            }}
-          >
-            <RemoveCircleIcon />
-          </Button>
-          <Typography variant="h6" sx={{ p: 4 }}>
-            {Quantity}
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              if (Props.Stock !== undefined) {
-                if (Quantity < Props.Stock) {
-                  setQuantity(Quantity + 1);
-                }
-              }
-            }}
-          >
-            <AddCircleIcon />
-          </Button>
-        </ButtonGroup>
-      </Grid>
-      <Grid container>
+      <Grid container justifyContent={"center"}>
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" type="submit">
+          <Typography variant="h6" color={green[800]}>
+            在庫あり
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sx={{ pt: 2 }}>
+          <ButtonGroup fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                if (Quantity > 1) {
+                  setQuantity(Quantity - 1);
+                }
+              }}
+            >
+              <RemoveCircleIcon />
+            </Button>
+            <Typography variant="h4" sx={{ pl: 1, pr: 1 }}>
+              {Quantity}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                if (Props.Stock !== undefined) {
+                  if (Quantity < Props.Stock) {
+                    setQuantity(Quantity + 1);
+                  }
+                }
+              }}
+            >
+              <AddCircleIcon />
+            </Button>
+          </ButtonGroup>
+          <Typography variant="body2" sx={{ pt: 1 }}>
+            在庫:{Props.Stock}個
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sx={{ pt: 2 }}>
+          <Button fullWidth variant="contained" color="primary" type="submit">
             <ShoppingCartIcon />
             {isInCart ? "数量を変更する" : "カートに追加する"}
           </Button>
         </Grid>
         {isInCart ? (
           <>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ pt: 2 }}>
               <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={async () => {
+                  let UpdatedCart: CartItem[] | undefined;
+                  if (Carts) {
+                    UpdatedCart = deleteItem(Carts);
+                  }
+                  if (UpdatedCart) {
+                    await CartPost(UpdatedCart);
+                  }
+                  setCartsToLocalStorage(JSON.stringify(UpdatedCart));
+                  alert("カートから削除しました");
+                  console.log("Button", Count);
+                  setQuantity(1);
+                  setIsInCart(false);
+                }}
+              >
+                カートから削除する
+              </Button>
+              {isInCart ? (
+                <>
+                  <Typography variant="body2" sx={{ pt: 1 }}>
+                    カートに入っています。
+                  </Typography>
+                  <Typography variant="body2">
+                    現在の数量:{CountState}
+                  </Typography>
+                </>
+              ) : (
+                <></>
+              )}
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item xs={12} sx={{ pt: 2 }}>
+              <Button
+                disabled
+                fullWidth
                 variant="contained"
                 color="primary"
                 onClick={async () => {
@@ -197,9 +242,20 @@ const CartButton = (Props: Props) => {
               </Button>
             </Grid>
           </>
-        ) : (
-          <></>
         )}
+        <Typography sx={{ mt: 4 }} variant="body2">
+          商品はカリスワークス本部から発送されます。
+        </Typography>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={async () => {
+            router.push("/mypage/cartlist");
+          }}
+        >
+          カート一覧へ
+        </Button>
       </Grid>
     </Box>
   );

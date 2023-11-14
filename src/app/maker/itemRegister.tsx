@@ -7,7 +7,7 @@ import {
   TextField,
   Box,
   CssBaseline,
-} from "../../lib/mui";
+} from "../../api/mui";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Topbar from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -15,8 +15,8 @@ import { useRouter } from "next/router";
 import { PictureInput } from "../../components/pictureInputForm";
 
 import { useState } from "react";
-import { ItemPost } from "../../lib/Server/Maker";
-import { PostItem } from "../../lib/Server/Maker";
+import { ItemPost } from "../../api/Server/Maker";
+import { PostItem } from "../../api/Server/Maker";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const ItemRegister = () => {

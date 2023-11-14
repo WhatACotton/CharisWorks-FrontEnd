@@ -1,21 +1,17 @@
 import * as React from "react";
 import Footer from "../components/Footer";
 import Topbar from "../components/Header";
-import { ItemGetDetails } from "../lib/Server/ItemAPI";
-import ExampleCarouselImage from "../components/ExampleCarouselImage";
-import {
-  Container,
-  Grid,
-  Typography,
-  CardMedia,
-  Card,
-  Image,
-  Box,
-} from "../lib/mui";
+import { ItemGetDetails } from "../api/Server/ItemAPI";
+import { Container, Grid, Typography, CardMedia, Card, Box } from "../api/mui";
+import Divider from "@mui/material/Divider";
 import CartButton from "../components/Cart/CartButton";
-import { CartCountProvider } from "../lib/Contexts/CartContext";
-import { IsLogInProvider } from "../lib/Contexts/LogInContext";
+import { CartCountProvider } from "../api/Contexts/CartContext";
+import { IsLogInProvider } from "../api/Contexts/LogInContext";
 import { useState, useEffect } from "react";
+import { Chip, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { ImageList, ImageListItem } from "@mui/material";
+import Image from "next/image";
+import { Example } from "./item/itemcarousel";
 interface Props {
   ItemID: string | string[];
 }
@@ -33,6 +29,7 @@ type Item = {
 };
 const Item = ({ ItemID }: Props) => {
   const [Item, setItem] = useState<Item | null>(null);
+  const [ImageSrc, setImageSrc] = useState<string>("");
   function getItem() {
     if (String(ItemID) !== "") {
       ItemGetDetails(ItemID.toString())
@@ -53,65 +50,97 @@ const Item = ({ ItemID }: Props) => {
         });
     }
   }
+
   useEffect(() => {
     getItem();
+    setImageSrc(`/images/${ItemID}/main.png`);
   }, [ItemID]);
+  const itemData = [
+    {
+      img: `/images/${ItemID}/main.png`,
+      title: "image",
+    },
+    {
+      img: `/images/${ItemID}/main2.png`,
+      title: "image",
+    },
+    {
+      img: `/images/${ItemID}/main3.png`,
+      title: "image",
+    },
+    {
+      img: `/images/${ItemID}/main4.png`,
+      title: "image",
+    },
+    {
+      img: `/images/${ItemID}/main5.png`,
+      title: "image",
+    },
+  ];
 
   return (
     <>
       <Topbar />
-      <Grid
-        container
-        spacing={2}
-        sx={{ m: 3, p: 3, pr: 10 }}
-        justifyContent={"space-between"}
-      >
-        <Grid item>
-          <Image src={`images/${ItemID}.png`} />
+      <Grid spacing={1} justifyContent={"center"} container sx={{ mt: 2 }}>
+        <Grid item xs={12} sm={12} md={5}>
+          <Card sx={{ p: 3 }}>
+            <Grid container justifyContent={"space-between"}>
+              <Example ItemID={Item?.ItemID} />
+            </Grid>
+          </Card>
         </Grid>
-        <Grid item>
-          <Box
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-          >
-            <Typography variant="h3" gutterBottom>
-              {Item?.Name}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              価格: {Item?.Price}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              在庫: {Item?.Stock}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              シリーズ: {Item?.Series}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              サイズ: {Item?.Size}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              色: {Item?.Color}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              説明: {Item?.Description}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              メーカー: {Item?.MakerName}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              メーカー説明: {Item?.MakerDescription}
-            </Typography>
-          </Box>
-          <IsLogInProvider>
-            {Item?.Stock === null ? (
-              <Typography variant="h5" gutterBottom>
-                在庫がありません。
+        <Grid item xs={6} sm={6} md={4}>
+          <Card variant="outlined" sx={{ p: 2 }}>
+            <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+              <Typography variant="h4">{Item?.Name}</Typography>
+              <Typography variant="body2" gutterBottom>
+                by {Item?.MakerName}
               </Typography>
-            ) : (
-              <>
-                <CartButton ItemID={Item?.ItemID} Stock={Item?.Stock} />
-              </>
-            )}
-          </IsLogInProvider>
+              <Divider />
+              <Typography variant="h4" gutterBottom sx={{ mt: 1, p: 1 }}>
+                ¥{Item?.Price}-
+              </Typography>
+              <List>
+                <ListItem>
+                  <ListItemText primary="シリーズ" secondary={Item?.Series} />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="サイズ" secondary={Item?.Size} />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primary="カラー" secondary={Item?.Color} />
+                </ListItem>
+              </List>
+              <Divider sx={{ mt: 2 }} />
+              <Paper sx={{ p: 2, mt: 2 }}>{Item?.Description}</Paper>
+
+              <Card sx={{ mt: 3, p: 2 }} variant="outlined">
+                <Grid container justifyContent={"space-between"}>
+                  <Grid item>
+                    <Typography gutterBottom variant="h6">
+                      出品者について
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography gutterBottom variant="h6">
+                      {Item?.MakerName}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Paper sx={{ p: 2, mt: 2 }}>{Item?.MakerDescription}</Paper>
+              </Card>
+            </Box>
+          </Card>
+        </Grid>
+        <Grid item xs={6} sm={6} md={2}>
+          <Card variant="outlined" sx={{ p: 2 }}>
+            <IsLogInProvider>
+              <Typography variant="h5" gutterBottom>
+                {Item?.Stock === null ? "在庫がありません。" : ""}
+              </Typography>
+              <CartButton ItemID={Item?.ItemID} Stock={Item?.Stock} />
+            </IsLogInProvider>
+          </Card>
         </Grid>
       </Grid>
       <Footer />

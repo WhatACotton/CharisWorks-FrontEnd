@@ -7,11 +7,11 @@ import {
   Typography,
   CardActions,
   Button,
-} from "../lib/mui";
+} from "../api/mui";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ItemGetALL } from "../lib/Server/ItemAPI";
-import { ItemData } from "../lib/Server/ItemAPI";
+import { ItemGetALL } from "../api/Server/ItemAPI";
+import { ItemData } from "../api/Server/ItemAPI";
 
 const IndexCard = () => {
   const [Items, setItems] = useState<ItemData[]>([]);
@@ -49,14 +49,13 @@ const IndexCard = () => {
                   // 16:9
                   pt: "56.25%",
                 }}
-                image={`images/${card.ItemID}_thumb.png`}
+                image={`images/${card.ItemID}/thumb.png`}
               />
 
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography gutterBottom variant="h5" component="h2">
                   {card.Name}
                 </Typography>
-                <Typography>{card.Description}</Typography>
                 <Typography>値段:{card.Price}</Typography>
                 <Typography>在庫:{card.Stock}</Typography>
               </CardContent>
