@@ -22,7 +22,8 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
   const [Count, setCartCount] = useState<Count>(null);
   const [Carts, setCarts] = useState<CartItems>(null);
   const setCartsToLocalStorage = (Carts: string) => {
-    if (Carts) {
+    if (Carts !== null) {
+      console.log("setCartsToLocalStorage", Carts);
       let Count = 0;
       for (const Item of JSON.parse(Carts)) {
         Count += Item.Quantity;

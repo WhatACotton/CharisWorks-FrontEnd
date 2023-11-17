@@ -7,6 +7,7 @@ const LogOutPage = () => {
     const fetchData = async () => {
       await LogOut();
       localStorage.setItem("isLogin", "false");
+      localStorage.removeItem("Cart");
       router.push("/");
     };
     fetchData();
