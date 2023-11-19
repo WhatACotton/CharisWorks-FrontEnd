@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, use, useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -6,6 +6,12 @@ import Divider from "@mui/material/Divider";
 import { Grid, Link, ListItemButton, Typography } from "@mui/material";
 import { CardHeader } from "react-bootstrap";
 import { Card, CardContent } from "@mui/material";
+import { CartGet } from "../api/Server/Customer";
+import { CartCountProvider } from "../api/Contexts/CartContext";
+import { useContext } from "react";
+import { CartCountContext } from "../api/Contexts/CartContext";
+import { GetCustomer } from "../api/Server/Customer";
+
 const style = {
   width: "100%",
   maxWidth: 360,
@@ -22,6 +28,26 @@ interface Props {
 }
 const MypageContents = (Props: Props) => {
   const CardContents = Props.CardContents;
+  const { setCartsToLocalStorage } = useContext(CartCountContext);
+  useEffect(() => {
+    const Carts = localStorage.getItem("Cart");
+    GetCustomer().then((response) => {
+      if (response) {
+        const CustomerData = response.Customer;
+        if (CustomerData.Cart !== undefined) {
+          const CartData = CustomerData.Cart;
+          console.log("CartData", CartData);
+          console.log("Carts", Carts);
+          if (Carts?.length === 0 || Carts === undefined || Carts === null) {
+            localStorage.setItem("Cart", CartData.toString());
+            setCartsToLocalStorage(CartData.toString());
+          }
+        } else {
+        }
+      } else {
+      }
+    });
+  }, []);
   return (
     <>
       <Grid container spacing={3} sx={{ m: 3, p: 3, pr: 10 }}>

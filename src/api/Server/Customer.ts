@@ -138,7 +138,9 @@ export interface CartItem {
   ItemID: string;
   Quantity: number;
 }
-
+export interface CartItemProps {
+  Cart: CartItem[];
+}
 //カートに入っている商品を取得する
 export const CartGet = async () => {
   try {
@@ -150,7 +152,7 @@ export const CartGet = async () => {
       },
       credentials: "include",
     });
-    const json: CartItem[] = await response.json();
+    const json: CartItemProps = await response.json();
     console.log(json);
     return json;
   } catch (error) {
