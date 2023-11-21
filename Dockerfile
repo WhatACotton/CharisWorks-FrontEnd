@@ -2,12 +2,12 @@ FROM node:18.10.0
 
 WORKDIR /appq
 
-COPY ./FrontEnd/package.json .
-COPY ./FrontEnd/package-lock.json .
+COPY ./package.json .
+COPY ./package-lock.json .
 
 RUN npm install
 
-COPY ./FrontEnd .
+COPY . /appq/
 
 EXPOSE 3000
 
