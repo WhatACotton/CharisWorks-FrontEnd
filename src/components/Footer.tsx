@@ -25,7 +25,7 @@ const Footer = () => {
         <Typography variant="h6" align="center" gutterBottom>
           Charis Works
         </Typography>
-        <Link href="./privacy_policy" color="inherit">
+        <Link href="/privacy_policy" color="inherit">
           <Typography variant="body2" align="center" gutterBottom>
             プライバシーポリシー
           </Typography>

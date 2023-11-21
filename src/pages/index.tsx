@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../api/theme";
+import Head from "next/head";
 const ImageSlider = () => {
   const images = [
     "https://source.unsplash.com/random?wallpapers",

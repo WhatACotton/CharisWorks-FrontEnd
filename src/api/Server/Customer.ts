@@ -36,6 +36,7 @@ export const GetCustomer = async () => {
     if (response.status === 401) {
       localStorage.setItem("IsRegistered", "false");
     }
+    
     return json;
   } catch (error) {
     console.log(error);
