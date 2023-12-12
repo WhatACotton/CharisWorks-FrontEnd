@@ -101,6 +101,7 @@ interface Transaction {
   TransactionTime: string;
   StripeID: string;
   status: string;
+  ShipID:string;
   items: TransactionItem[];
 }
 
@@ -127,7 +128,7 @@ export const TransactionGet = async () => {
         credentials: "include",
       }
     );
-    const json = await response.json();
+    const json:TransactionData = await response.json();
     console.log(json);
     return json;
   } catch (error) {

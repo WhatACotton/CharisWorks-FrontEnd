@@ -4,31 +4,29 @@ import {
   TransactionData,
   TransactionGet,
 } from "../api/Server/Customer";
-
-const Card = ({ transaction }: TransactionCardProps) => {
+import { List, Divider, Card, Grid, CardContent } from "@mui/material";
+const InternalCard = ({ transaction }: TransactionCardProps) => {
   return (
-    <div className="card">
-      <h2>Transaction ID: {transaction.TransactionID}</h2>
-      <p>Name: {transaction.Name}</p>
-      <p>Total Amount: {transaction.TotalAmount}</p>
-      <p>Address: {transaction.Address1}</p>
-      <p>{transaction.Address2}</p>
-      <p>{transaction.Address3}</p>
-      <p>Zip Code: {transaction.ZipCode}</p>
-
-      <p>Phone Number: {transaction.PhoneNumber}</p>
-      <p>Transaction Time: {transaction.TransactionTime}</p>
-      <p>Stripe ID: {transaction.StripeID}</p>
-      <p>Status: {transaction.status}</p>
-      <h3>Items:</h3>
-      <ul>
-        {transaction.items.map((item, index) => (
-          <li key={index}>
-            Item ID: {item.ItemID}, Quantity: {item.Quantity}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Grid item>
+        <CardContent>
+          <List>
+            <h3>Items:</h3>
+            <ul>
+              {transaction.items.map((item, index) => (
+                <li key={index}>
+                  Item ID: {item.ItemID}, Quantity: {item.Quantity}
+                </li>
+              ))}
+            </ul>
+            <p>購入金額: ¥{transaction.TotalAmount} -</p>
+            <Divider />
+            <p>Status: {transaction.status}</p>
+            <p>ShipID:{transaction.ShipID}</p>
+          </List>
+        </CardContent>
+      </Grid>
+    </>
   );
 };
 
@@ -73,18 +71,20 @@ const CardList = () => {
   };
   if (data.TransactionLists !== null) {
     return (
-      <div className="card-container">
-        {data.TransactionLists.map((transaction, index) => {
-          const transactionData = getTransactionByTransactionID(
-            transaction.TransactionID
-          );
+      <div>
+        <Grid item sx={{ p: 1 }}>
+          {data.TransactionLists.map((transaction, index) => {
+            const transactionData = getTransactionByTransactionID(
+              transaction.TransactionID
+            );
 
-          if (transactionData) {
-            return <Card key={index} transaction={transactionData} />;
-          }
+            if (transactionData) {
+              return <InternalCard key={index} transaction={transactionData} />;
+            }
 
-          return null;
-        })}
+            return null;
+          })}
+        </Grid>
       </div>
     );
   } else {
@@ -100,7 +100,10 @@ function TransactionLists() {
   return (
     <div>
       <h1>Transaction Card List</h1>
-      <CardList />
+      <Grid container spacing={2}>
+        {" "}
+        <CardList />
+      </Grid>
     </div>
   );
 }
