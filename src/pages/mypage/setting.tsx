@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Container } from "../../api/mui";
-import MypageContents from "../../components/MypageContents";
+import MypageContents from "../../components/mypage/MypageContents";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 const CardContents = [

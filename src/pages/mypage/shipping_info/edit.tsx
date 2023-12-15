@@ -6,7 +6,7 @@ import { CartCountProvider } from "../../../api/Contexts/CartContext";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { Container } from "../../../api/mui";
-import ModifyForm from "../../../components/CustomerModifyForm";
+import ModifyForm from "../../../components/mypage/CustomerModifyForm";
 export default function edit() {
   return (
     <CartCountProvider>

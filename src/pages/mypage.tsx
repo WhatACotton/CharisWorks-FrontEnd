@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../api/theme";
 import { CartCountProvider } from "../api/Contexts/CartContext";
 import { useRouter } from "next/router";
-import MypageContents from "../components/MypageContents";
+import MypageContents from "../components/mypage/MypageContents";
 import Header from "../components/Header";
 import { Grid } from "@mui/material";
 import Footer from "../components/Footer";

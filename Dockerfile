@@ -7,7 +7,9 @@ COPY ./package-lock.json .
 
 RUN npm install
 
-COPY . .
+
+COPY . /appq/
+
 
 EXPOSE 3000
 

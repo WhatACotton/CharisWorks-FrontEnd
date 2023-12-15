@@ -8,21 +8,24 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../api/theme";
 import Head from "next/head";
 const ImageSlider = () => {
-  const images = [
-    "https://source.unsplash.com/random?wallpapers",
-    "https://source.unsplash.com/random?wallpapers",
-  ];
+  const images = ["images/CharisTop.png"];
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <Swiper spaceBetween={10} slidesPerView={1}>
+        <Swiper slidesPerView={1}>
           {images.map((image, index) => (
             <SwiperSlide key={index}>
               <Link href="/showcase">
-                <img src={image} alt={`Slide ${index}`} />
+                <img
+                  srcSet={`${image}`}
+                  src={`${image}`}
+                  alt={image}
+                  loading="lazy"
+                  width="100%"
+                />
               </Link>
             </SwiperSlide>
           ))}
