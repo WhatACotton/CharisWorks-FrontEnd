@@ -5,7 +5,7 @@ import { theme } from "../../api/theme";
 import { CartCountProvider } from "../../api/Contexts/CartContext";
 import { GetCustomer } from "../../api/Server/Customer";
 import { useRouter } from "next/router";
-import MypageContents from "../../components/MypageContents";
+import MypageContents from "../../components/mypage/MypageContents";
 import Header from "../../components/Header";
 import { Grid, Paper, Typography } from "@mui/material";
 import { IsLogInProvider } from "../../api/Contexts/LogInContext";

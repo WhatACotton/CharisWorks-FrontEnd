@@ -11,7 +11,6 @@ import {
   Image,
 } from "../api/mui";
 import { IsLogInProvider } from "../api/Contexts/LogInContext";
-import { CartCountProvider } from "../api/Contexts/CartContext";
 import LogInStatus from "./LogInStatus";
 import CartCount from "./CartCountStatus";
 const Topbar = () => {

@@ -38,20 +38,22 @@ export const CartCountProvider: React.FC<{ children: ReactNode }> = ({
     const StringCarts = localStorage.getItem("Cart");
     if (StringCarts) {
       let Count = 0;
-      for (const Item of JSON.parse(StringCarts)) {
-        Count += Item.Quantity;
-      }
-      const Carts: CartItems = JSON.parse(StringCarts);
-      console.log("CartCountProvider Called", Carts);
-      if (Count) {
-        setCartCount(Number(Count));
-      }
-      if (Carts) {
-        setCarts(Carts);
-        setIsNull(true);
-      } else {
-        setIsNull(false);
-      }
+      try {
+        for (const Item of JSON.parse(StringCarts)) {
+          Count += Item.Quantity;
+        }
+        const Carts: CartItems = JSON.parse(StringCarts);
+        console.log("CartCountProvider Called", Carts);
+        if (Count) {
+          setCartCount(Number(Count));
+        }
+        if (Carts) {
+          setCarts(Carts);
+          setIsNull(true);
+        } else {
+          setIsNull(false);
+        }
+      } catch (e) {}
     }
   }, []);
 
