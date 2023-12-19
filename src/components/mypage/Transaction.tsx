@@ -23,6 +23,14 @@ const InternalCard = ({ transaction }: TransactionCardProps) => {
             <p>購入金額: ¥{transaction.TotalAmount} -</p>
             <Divider />
             <p>Status: {transaction.status}</p>
+            <a
+              href={
+                "https://trackings.post.japanpost.jp/services/srv/search/direct?reqCodeNo1=" +
+                transaction.ShipID
+              }
+            >
+              郵便局の追跡サイト
+            </a>
             <p>ShipID:{transaction.ShipID}</p>
           </List>
         </CardContent>
