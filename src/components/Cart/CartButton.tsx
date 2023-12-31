@@ -76,7 +76,7 @@ const CartUpdate = async (
 ) => {
   console.log("update", Quantity);
   if (Quantity >= 0 && stock !== undefined) {
-    if (Quantity < stock) {
+    if (Quantity <= stock) {
       let UpdatedCart: CartItem[] | undefined;
       if (Carts) {
         UpdatedCart = CartChange(Carts, ItemID, Quantity);
