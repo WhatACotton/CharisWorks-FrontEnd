@@ -119,7 +119,13 @@ const Item = ({ ItemID }: Props) => {
                 </ListItem>
               </List>
               <Divider sx={{ mt: 2 }} />
-              <Paper sx={{ p: 2, mt: 2 }}>{Item?.Description}</Paper>
+              <Paper sx={{ p: 2, mt: 2 }}>
+                {Item?.Description != null ? (
+                  <div dangerouslySetInnerHTML={{ __html: Item.Description }} />
+                ) : (
+                  <></>
+                )}
+              </Paper>
 
               <Card sx={{ mt: 3, p: 2 }} variant="outlined">
                 <Grid container justifyContent={"space-between"}>
