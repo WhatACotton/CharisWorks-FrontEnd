@@ -106,15 +106,12 @@ const ItemRegister = () => {
       ColorCheck(data.Color) &&
       DescriptionCheck(data.Description)
     ) {
-      ItemPost(data)
-        .then((res) => {
-          console.log(res);
-          router.push("../mypage");
-        })
-        .then((res) => {
-          console.log(res);
-          router.push("../mypage");
-        });
+      ItemPost(data).then((res) => {
+        console.log(res);
+        const restext = "以下の内容で登録しました。\n" + res;
+        alert(restext);
+        router.push("../mypage");
+      });
     }
   };
   return (

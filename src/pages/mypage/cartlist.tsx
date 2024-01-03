@@ -6,7 +6,7 @@ import { CartCountProvider } from "../../api/Contexts/CartContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Container, Grid, Typography } from "@mui/material";
-import Cart from "../../components/Cart/Cart_List";
+import Cart from "../../components/Cart/CartList";
 
 export default function SignUpPage() {
   return (
