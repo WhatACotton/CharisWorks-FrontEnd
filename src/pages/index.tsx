@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../api/theme";
 import Head from "next/head";
+import "../styles/imageoverlay.scss";
 const ImageSlider = () => {
   const images = ["images/CharisTop.png"];
 
@@ -19,13 +20,15 @@ const ImageSlider = () => {
           {images.map((image, index) => (
             <SwiperSlide key={index}>
               <Link href="/showcase">
-                <img
-                  srcSet={`${image}`}
-                  src={`${image}`}
-                  alt={image}
-                  loading="lazy"
-                  width="100%"
-                />
+                <div className="overlay" key={index}>
+                  <img
+                    srcSet={`${image}`}
+                    src={`${image}`}
+                    alt={image}
+                    loading="lazy"
+                    width="100%"
+                  />
+                </div>
               </Link>
             </SwiperSlide>
           ))}
