@@ -8,12 +8,26 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* オーバーレイの色と透明度を設定します */
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 1), transparent); /* グラデーションを設定します */
     z-index: 2;
-  }
+    overflow: hidden;
 
-  img {
-    position: relative;
-    z-index: 1;
   }
+  
+  img {
+    display:flex;
+    z-index: 1;
+    height: 100vh;
+    width: 100%;
+    object-fit:cover;
+    transform-origin: top;
+    object-position: top;
+  }
+}
+.text{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 3;
+  color: white;
 }

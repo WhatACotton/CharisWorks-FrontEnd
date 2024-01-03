@@ -1,5 +1,5 @@
 import React, { Fragment, use, useEffect, useState } from "react";
-import { CartItem, Purchase } from "../../api/Server/Customer";
+import { CartItem, Purchase, CartPost } from "../../api/Server/Customer";
 import { useRouter } from "next/router";
 import { Button, CheckIcon, Card } from "../../api/mui";
 import {
@@ -40,6 +40,7 @@ function CardContents({ cart }: { cart: CartDetails }) {
   const handleDelete = () => {
     if (!Carts) return;
     const newCarts = CartDeleteItem(Carts, cart.ItemID);
+    CartPost(newCarts);
     setCartsToLocalStorage(JSON.stringify(newCarts));
     handleClose();
   };
@@ -168,7 +169,8 @@ const CartDetails = () => {
   } else {
     return (
       <div>
-        <h1>カートが空です</h1>
+        <Divider sx={{ mt: 3 }} />
+        <Typography variant="h6">合計金額：{Price}</Typography>
       </div>
     );
   }

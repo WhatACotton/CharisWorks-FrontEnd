@@ -12,6 +12,7 @@ import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { CartSave } from "../components/Cart/CartSave";
 type Customer = {
   UserID: string;
   Email: string;
@@ -53,6 +54,7 @@ const CardContents = [
   },
 ];
 export default function Mypage() {
+  CartSave();
   return (
     <CartCountProvider>
       <ThemeProvider theme={theme}>

@@ -28,26 +28,6 @@ interface Props {
 }
 const MypageContents = (Props: Props) => {
   const CardContents = Props.CardContents;
-  const { setCartsToLocalStorage } = useContext(CartCountContext);
-  useEffect(() => {
-    const Carts = localStorage.getItem("Cart");
-    GetCustomer().then((response) => {
-      if (response) {
-        const CustomerData = response.Customer;
-        if (CustomerData.Cart !== undefined) {
-          const CartData = CustomerData.Cart;
-          console.log("CartData", CartData);
-          console.log("Carts", Carts);
-          if (Carts?.length === 0 || Carts === undefined || Carts === null) {
-            localStorage.setItem("Cart", CartData.toString());
-            setCartsToLocalStorage(CartData.toString());
-          }
-        } else {
-        }
-      } else {
-      }
-    });
-  }, []);
   return (
     <>
       <Grid container spacing={3} sx={{ m: 3, p: 3, pr: 10 }}>
