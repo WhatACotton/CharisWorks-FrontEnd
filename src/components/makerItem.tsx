@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ItemData } from "../api/Server/ItemAPI";
 import { MakerItemGet } from "../api/Server/Maker";
+import { Divider } from "@mui/material";
 
 const Card = ({ Item }: { Item: ItemData }) => {
   return (
@@ -14,6 +15,7 @@ const Card = ({ Item }: { Item: ItemData }) => {
       <p>Series: {Item.Series}</p>
       <p>Size: {Item.Size}</p>
       <p>Description: {Item.Description}</p>
+      <Divider />
     </div>
   );
 };

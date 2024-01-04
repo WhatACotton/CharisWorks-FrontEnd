@@ -15,18 +15,23 @@ const Maker = () => {
       const response = await MakerDetailsGet();
       if (response) {
         const MakerData = response;
-        if (!MakerData.Maker.MakerName) {
-          setRegistered(false);
+        if (MakerData.Maker.MakerName == "") {
+          router.push("/signin");
+          alert("権限がないためアクセスできません");
         } else {
-          setRegistered(true);
-          console.log(response);
-          if (
-            MakerData.Maker.MakerName !== undefined &&
-            MakerData.Maker.MakerName !== undefined
-          ) {
-            setMakerName(MakerData.Maker.MakerName);
-            setMakerDescription(MakerData.Maker.MakerDescription);
+          if (MakerData.Maker.MakerName == "preseller") {
+            setRegistered(false);
           } else {
+            setRegistered(true);
+            console.log(response);
+            if (
+              MakerData.Maker.MakerName !== undefined &&
+              MakerData.Maker.MakerName !== undefined
+            ) {
+              setMakerName(MakerData.Maker.MakerName);
+              setMakerDescription(MakerData.Maker.MakerDescription);
+            } else {
+            }
           }
         }
         console.log(MakerData.Maker.MakerName);
@@ -39,7 +44,9 @@ const Maker = () => {
       console.error("Error fetching data:", error);
     }
   };
-  fetchData(); // マウント時にデータをフェッチする
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
