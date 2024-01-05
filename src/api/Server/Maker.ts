@@ -13,9 +13,7 @@ export const StripeAccountCreate = async () => {
         credentials: "include",
       }
     );
-    const json = await response.json();
-    console.log(json);
-    return json.URL;
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -100,30 +98,31 @@ export const ItemDetailsPost = async (
   }
 };
 
-//出品者情報の登録　出品者しか実行できないので注意
+//出品者情報の登録　出品者しか実行できないので注意 この段階だともうすでにアカウントは作成されている
 export const MakerRegister = async (Name: string, Description: string) => {
   const data = {
     MakerName: Name,
     MakerDescription: Description,
   };
   console.log(data);
-  function postDemoforcustomer() {
-    return fetch("http://" + IPAddress + ":80/go/Maker/DetailsRegister", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        return json;
-      });
-  }
+
+  const postDemoforcustomer = async () => {
+    const response = await fetch(
+      "http://" + IPAddress + ":80/go/Maker/DetailsRegister",
+      {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    if (response) {
+      console.log(response);
+    }
+  };
   console.log(postDemoforcustomer());
 };
 export interface MakerData {
@@ -150,28 +149,6 @@ export const MakerDetailsGet = async () => {
     const json: MakerData = await response.json();
     console.log(json);
     return json;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//stripeアカウントの作成　stripeのアカウント作成のURLを返す
-export const MakerStripeAccountCreate = async () => {
-  try {
-    const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/AccountCreate",
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-    const json = await response.json();
-    console.log(json);
-    return json.URL;
   } catch (error) {
     console.log(error);
   }

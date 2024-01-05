@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import fbinitialize from "../../api/FireBase/firebaseConfig";
 import { GetAddress } from "../../api/Address";
 import { useState } from "react";
+import { CustomerReq } from "../../api/Server/Customer";
+
 import {
   Box,
   Avatar,
@@ -130,10 +132,9 @@ const ModifyForm = () => {
   const [ZipCodeError, setZipCodeError] = useState<string | null>("");
   const [PhoneNumberError, setPhoneNumberError] = useState<string | null>("");
   async function fetchData() {
-    const response = await GetCustomer();
-    console.log(response);
-    if (response) {
-      const Customer = response.Customer;
+    const Customer = await CustomerReq();
+    console.log(Customer);
+    if (Customer) {
       setName(Customer.Name);
       setAddress1(Customer.Address1);
       setAddress2(Customer.Address2);

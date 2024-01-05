@@ -16,10 +16,6 @@ export interface Customer {
   Cart: CartItem[] | string;
 }
 
-interface CustomerAndCart {
-  Customer: Customer;
-  Cart: CartItem[];
-}
 //顧客情報の取得
 export const GetCustomer = async () => {
   try {
@@ -31,13 +27,10 @@ export const GetCustomer = async () => {
       },
       credentials: "include",
     });
-    const json: CustomerAndCart = await response.json();
-
     if (response.status === 401) {
       localStorage.setItem("IsRegistered", "false");
     }
-    
-    return json;
+    return response
   } catch (error) {
     console.log(error);
   }
@@ -97,7 +90,7 @@ interface Transaction {
   TransactionTime: string;
   StripeID: string;
   status: string;
-  ShipID:string;
+  ShipID: string;
   items: TransactionItem[];
 }
 
@@ -124,7 +117,7 @@ export const TransactionGet = async () => {
         credentials: "include",
       }
     );
-    const json:TransactionData = await response.json();
+    const json: TransactionData = await response.json();
     console.log(json);
     return json;
   } catch (error) {
@@ -195,4 +188,16 @@ export const CartPost = async (CartItems: CartItem[]) => {
   } catch (error) {
     console.log(error);
   }
+};
+import Router from "next/router";
+
+export const CustomerReq = async () => {
+  const response = await GetCustomer();
+  if (response?.status == 200) {
+    const CustomerData = await response.json();
+    return CustomerData.Customer;
+  }
+  alert("ログインしてください");
+  Router.router?.push("/signin");
+  return null;
 };
