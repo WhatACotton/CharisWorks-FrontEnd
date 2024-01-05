@@ -13,9 +13,7 @@ export const StripeAccountCreate = async () => {
         credentials: "include",
       }
     );
-    const json = await response.json();
-    console.log(json);
-    return json.URL;
+    return response;
   } catch (error) {
     console.log(error);
   }
