@@ -16,10 +16,6 @@ export interface Customer {
   Cart: CartItem[] | string;
 }
 
-interface CustomerAndCart {
-  Customer: Customer;
-  Cart: CartItem[];
-}
 //顧客情報の取得
 export const GetCustomer = async () => {
   try {
@@ -31,13 +27,10 @@ export const GetCustomer = async () => {
       },
       credentials: "include",
     });
-    const json: CustomerAndCart = await response.json();
-
     if (response.status === 401) {
       localStorage.setItem("IsRegistered", "false");
     }
-    
-    return json;
+    return response    
   } catch (error) {
     console.log(error);
   }

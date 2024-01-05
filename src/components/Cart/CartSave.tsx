@@ -2,27 +2,25 @@ import { useEffect } from "react";
 import { GetCustomer } from "../../api/Server/Customer";
 import { useContext } from "react";
 import { CartCountContext } from "../../api/Contexts/CartContext";
-export const CartSave = () => {
+interface Props {
+  Cart: string | undefined;
+}
+export const CartSave = (Cart: string | undefined) => {
   const { setCartsToLocalStorage } = useContext(CartCountContext);
 
   useEffect(() => {
     const Carts = localStorage.getItem("Cart");
-    GetCustomer().then((response) => {
-      if (response) {
-        const CustomerData = response.Customer;
-        try {
-          const CartData = CustomerData.Cart;
-          if (Carts?.length === 0 || Carts === undefined || Carts === null) {
-          } else {
-            localStorage.setItem("Cart", CartData.toString());
-            setCartsToLocalStorage(CartData.toString());
-            console.log("successfully saved Cart:", CustomerData.Cart);
-          }
-        } catch (e) {
-          console.log(e);
-        }
+    try {
+      if (Carts?.length === 0 || Carts === undefined || Carts === null) {
       } else {
+        if (Cart != undefined) {
+          localStorage.setItem("Cart", Cart);
+          setCartsToLocalStorage(Cart);
+          console.log("successfully saved Cart:", Cart);
+        }
       }
-    });
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 };

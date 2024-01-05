@@ -19,23 +19,18 @@ const Maker = () => {
           router.push("/signin");
           alert("権限がないためアクセスできません");
         } else {
-          if (MakerData.Maker.MakerName == "preseller") {
+          if (MakerData.Maker.MakerName == "preSeller") {
             setRegistered(false);
           } else {
             setRegistered(true);
             console.log(response);
-            if (
-              MakerData.Maker.MakerName !== undefined &&
-              MakerData.Maker.MakerName !== undefined
-            ) {
+            if (MakerData.Maker.MakerName !== undefined) {
               setMakerName(MakerData.Maker.MakerName);
               setMakerDescription(MakerData.Maker.MakerDescription);
             } else {
             }
           }
         }
-        console.log(MakerData.Maker.MakerName);
-        console.log(MakerData.Maker.MakerDescription);
       } else {
         router.push("/signin");
         alert("ログインしてください");
