@@ -11,7 +11,6 @@ const ItemList = () => {
         <Typography variant="h4" gutterBottom sx={{ mt: 5 }}>
           出品者管理画面
         </Typography>
-        <Grid justifyContent="space-between" container></Grid>
         <Typography variant="h4" gutterBottom sx={{ mt: 5 }}>
           商品管理
         </Typography>
