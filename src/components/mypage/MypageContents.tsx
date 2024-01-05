@@ -80,7 +80,7 @@ interface CardContents {
 interface Props {
   Role: string | null | undefined;
 }
-const CardMapping = (CardContents: CardContents) => {
+export const CardMapping = (CardContents: CardContents) => {
   return (
     <>
       <Grid container spacing={3} sx={{ m: 3, p: 3, pr: 10 }}>
@@ -118,7 +118,7 @@ const CardMapping = (CardContents: CardContents) => {
 const MypageContents = (Props: Props) => {
   const Role = Props.Role;
   if (typeof Role == "string") {
-    if (Role == "Seller" || Role == "Admin"||Role =="preSeller") {
+    if (Role == "Seller" || Role == "Admin" || Role == "preSeller") {
       return <CardMapping CardContents={SellerCard} />;
     } else {
       return <CardMapping CardContents={BuyerCard} />;

@@ -189,3 +189,15 @@ export const CartPost = async (CartItems: CartItem[]) => {
     console.log(error);
   }
 };
+import Router from "next/router";
+
+export const CustomerReq = async () => {
+  const response = await GetCustomer();
+  if (response?.status == 200) {
+    const CustomerData = await response.json();
+    return CustomerData.Customer;
+  }
+  alert("ログインしてください");
+  Router.router?.push("/signin");
+  return null;
+};

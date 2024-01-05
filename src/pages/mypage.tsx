@@ -9,15 +9,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { GetCustomer, Customer } from "../api/Server/Customer";
 import { CartSave } from "../components/Cart/CartSave";
+import { CustomerReq } from "../api/Server/Customer";
 
-const CustomerReq = async () => {
-  const response = await GetCustomer();
-  if (response?.status == 200) {
-    const CustomerData = await response.json();
-    return CustomerData.Customer;
-  }
-  return null;
-};
 export default function Mypage() {
   const [Customer, setCustomer] = useState<Customer | null>();
   useEffect(() => {
@@ -30,10 +23,6 @@ export default function Mypage() {
     try {
       CartSave(Customer?.Cart.toString());
     } catch {}
-    if (Customer == null) {
-      alert("ログインしてください");
-      Router.router?.push("/signin");
-    }
   };
   return (
     <CartCountProvider>

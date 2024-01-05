@@ -10,6 +10,7 @@ import { Container } from "../../api/mui";
 import MypageContents from "../../components/mypage/MypageContents";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { CardMapping } from "../../components/mypage/MypageContents";
 const CardContents = [
   {
     title: "アカウントの削除",
@@ -35,7 +36,7 @@ export default function setting() {
           <Typography variant="h4" sx={{ pl: 10, pt: 5 }}>
             その他の設定
           </Typography>
-          <MypageContents CardContents={CardContents} />
+          <CardMapping CardContents={CardContents} />
         </Container>
         <Footer />
       </ThemeProvider>
