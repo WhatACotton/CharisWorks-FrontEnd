@@ -9,7 +9,8 @@ import { deleteUser } from "firebase/auth";
 import { FireBaseDeleteUser } from "../../api/FireBase/reqForFirebase";
 import { useRouter } from "next/router";
 import fbinitialize from "../../api/FireBase/firebaseConfig";
-import { LogOut } from "../../api/Server/Customer";
+import { LogOut, CustomerReq } from "../../api/Server/Customer";
+import { useEffect } from "react";
 export default function AlertDialog() {
   fbinitialize();
   const [open, setOpen] = React.useState(true);
@@ -22,7 +23,9 @@ export default function AlertDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  useEffect(() => {
+    CustomerReq();
+  }, []);
   return (
     <React.Fragment>
       <Dialog

@@ -11,6 +11,8 @@ import MypageContents from "../../components/mypage/MypageContents";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { CardMapping } from "../../components/mypage/MypageContents";
+import { CustomerReq } from "../../api/Server/Customer";
+import { useEffect } from "react";
 const CardContents = [
   {
     title: "アカウントの削除",
@@ -26,6 +28,9 @@ const CardContents = [
   },
 ];
 export default function setting() {
+  useEffect(() => {
+    CustomerReq();
+  }, []);
   return (
     <CartCountProvider>
       <ThemeProvider theme={theme}>

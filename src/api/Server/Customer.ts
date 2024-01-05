@@ -30,7 +30,7 @@ export const GetCustomer = async () => {
     if (response.status === 401) {
       localStorage.setItem("IsRegistered", "false");
     }
-    return response    
+    return response
   } catch (error) {
     console.log(error);
   }
@@ -90,7 +90,7 @@ interface Transaction {
   TransactionTime: string;
   StripeID: string;
   status: string;
-  ShipID:string;
+  ShipID: string;
   items: TransactionItem[];
 }
 
@@ -117,7 +117,7 @@ export const TransactionGet = async () => {
         credentials: "include",
       }
     );
-    const json:TransactionData = await response.json();
+    const json: TransactionData = await response.json();
     console.log(json);
     return json;
   } catch (error) {
