@@ -3,7 +3,7 @@ const IPAddress = process.env.NEXT_PUBLIC_IP_ADDRESS;
 export const StripeAccountCreate = async () => {
   try {
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/AccountCreate",
+       IPAddress + "/go/Maker/AccountCreate",
       {
         method: "POST",
         mode: "cors",
@@ -45,7 +45,7 @@ export const ItemPost = async (Item: PostItem) => {
     };
     console.log(UserreqPayload);
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/ItemMainCreate",
+       IPAddress + "/go/Maker/ItemMainCreate",
       {
         method: "POST",
         mode: "cors",
@@ -80,7 +80,7 @@ export const ItemDetailsPost = async (
     };
     console.log(UserreqPayload);
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/ItemDetailCreate",
+       IPAddress + "/go/Maker/ItemDetailCreate",
       {
         method: "POST",
         mode: "cors",
@@ -108,7 +108,7 @@ export const MakerRegister = async (Name: string, Description: string) => {
 
   const postDemoforcustomer = async () => {
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/DetailsRegister",
+       IPAddress + "/go/Maker/DetailsRegister",
       {
         method: "POST",
         mode: "cors",
@@ -136,7 +136,7 @@ export interface MakerData {
 export const MakerDetailsGet = async () => {
   try {
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/Details",
+       IPAddress + "/go/Maker/Details",
       {
         method: "GET",
         mode: "cors",
@@ -157,7 +157,7 @@ export const MakerDetailsGet = async () => {
 export const MakerItemGet = async () => {
   try {
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/Maker/GetItem",
+       IPAddress + "/go/Maker/GetItem",
       {
         method: "GET",
         mode: "cors",
@@ -177,7 +177,7 @@ export const MakerItemGet = async () => {
 export const MakerItemIDGet = async (StripeAccountID: string) => {
   try {
     const response = await fetch(
-      "http://" + IPAddress + ":80/go/item/maker/id/" + StripeAccountID,
+       IPAddress + "/go/item/maker/id/" + StripeAccountID,
       {
         method: "GET",
         mode: "cors",
