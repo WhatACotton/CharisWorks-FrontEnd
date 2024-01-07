@@ -31,19 +31,20 @@ export default function Mypage() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const router = useRouter();
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await GetCustomer();
-      if (response?.Customer) {
-        setCustomer(response.Customer);
-      } else {
-        localStorage.setItem("isLogin", "false");
-        alert("ログインしてください。");
-        await router.push("/signin");
-      }
-      setIsLoading(false);
-    };
     fetchData();
   }, []);
+  const fetchData = async () => {
+    const resFromAPI = await GetCustomer();
+    const response = await resFromAPI?.json();
+    if (response?.Customer) {
+      setCustomer(response.Customer);
+    } else {
+      localStorage.setItem("isLogin", "false");
+      alert("ログインしてください。");
+      await router.push("/signin");
+    }
+    setIsLoading(false);
+  };
 
   return (
     <IsLogInProvider>
