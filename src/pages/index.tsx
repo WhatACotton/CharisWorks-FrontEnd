@@ -9,6 +9,7 @@ import { theme } from "../api/theme";
 import Head from "next/head";
 import "../styles/imageoverlay.scss";
 import zIndex from "@mui/material/styles/zIndex";
+
 const ImageSlider = () => {
   const images = ["images/CharisTop.png"];
 
@@ -16,12 +17,13 @@ const ImageSlider = () => {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <div className="overlay">
         <Header />
         <Swiper slidesPerView={1}>
           {images.map((image, index) => (
             <SwiperSlide key={index}>
               <Link href="/showcase">
-                <div className="overlay" key={index}>
+                <div className="calouselimage" key={index}>
                   <img
                     srcSet={`${image}`}
                     src={`${image}`}
@@ -36,6 +38,7 @@ const ImageSlider = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        </div>
       </ThemeProvider>
     </>
   );
