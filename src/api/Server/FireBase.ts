@@ -13,7 +13,7 @@ export interface CustomerRegisterPayload {
 export const Register = async (MyData: CustomerRegisterPayload) => {
   try {
     const response = await fetch(
-       IPAddress + "/go/Registration",
+      IPAddress + "/go/Registration",
       {
         method: "POST",
         mode: "cors",
@@ -36,7 +36,7 @@ export const Register = async (MyData: CustomerRegisterPayload) => {
 export const SignInServer = async (idToken: string) => {
   try {
     console.log(idToken);
-    const response = await fetch( IPAddress + "/go/Login", {
+    const response = await fetch(IPAddress + "/go/Login", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -55,7 +55,7 @@ export const SignInServer = async (idToken: string) => {
 export const UserDelete = async (idToken: string) => {
   try {
     const response = await fetch(
-       IPAddress + "/go/DeleteCustomer",
+      IPAddress + "/go/DeleteCustomer",
       {
         method: "DELETE",
         mode: "cors",

@@ -19,7 +19,7 @@ export interface Customer {
 //顧客情報の取得
 export const GetCustomer = async () => {
   try {
-    const response = await fetch( IPAddress + "/go/GetCustomer", {
+    const response = await fetch(IPAddress + "/go/GetCustomer", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -38,7 +38,7 @@ export const GetCustomer = async () => {
 //ログアウト処理
 export const LogOut = async () => {
   try {
-    const response = await fetch( IPAddress + "/go/SessionEnd", {
+    const response = await fetch(IPAddress + "/go/SessionEnd", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -59,7 +59,7 @@ export interface PurchaseResponse {
 //購入処理　カートに入っている商品の購入　stripeの購入サイトへのURLを返す
 export const Purchase = async (Carts: CartItem[]) => {
   try {
-    const response = await fetch( IPAddress + "/go/Transaction", {
+    const response = await fetch(IPAddress + "/go/Transaction", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -107,7 +107,7 @@ export interface TransactionCardProps {
 export const TransactionGet = async () => {
   try {
     const response = await fetch(
-       IPAddress + "/go/GetTransactions",
+      IPAddress + "/go/GetTransactions",
       {
         method: "GET",
         mode: "cors",
@@ -135,7 +135,7 @@ export interface CartItemProps {
 //カートに入っている商品を取得する
 export const CartGet = async () => {
   try {
-    const response = await fetch( IPAddress + "/go/GetCart", {
+    const response = await fetch(IPAddress + "/go/GetCart", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -155,14 +155,13 @@ import { CustomerRegisterPayload } from "./FireBase";
 export const CustomerModify = async (MyData: CustomerRegisterPayload) => {
   try {
     console.log(MyData);
-    const response = await fetch( IPAddress + "/go/Modify", {
+    const response = await fetch(IPAddress + "/go/Modify", {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(MyData),
     });
     const json = await response.json();
     console.log(json);
@@ -173,7 +172,7 @@ export const CustomerModify = async (MyData: CustomerRegisterPayload) => {
 //カートへの商品の登録
 export const CartPost = async (CartItems: CartItem[]) => {
   try {
-    const response = await fetch( IPAddress + "/go/Cart", {
+    const response = await fetch(IPAddress + "/go/Cart", {
       method: "POST",
       mode: "cors",
       credentials: "include",

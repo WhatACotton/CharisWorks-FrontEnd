@@ -21,7 +21,7 @@ export interface Item {
 //現在購入可能な商品をすべて取得する
 export const ItemGetALL = async () => {
   try {
-    const response = await fetch( IPAddress + "/go/item/all", {
+    const response = await fetch(IPAddress + "/go/item/all", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -39,7 +39,7 @@ export const ItemGetALL = async () => {
 //Topに表示する商品を取得する
 export const ItemGetTop = async () => {
   try {
-    const response = await fetch( IPAddress + "/go/item/top", {
+    const response = await fetch(IPAddress + "/go/item/top", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -57,7 +57,7 @@ export const ItemGetTop = async () => {
 export const ItemGetMaker = async (maker: string) => {
   try {
     const response = await fetch(
-       IPAddress + "/go/item/maker/" + maker,
+      IPAddress + "/go/item/maker/" + maker,
       {
         method: "GET",
         mode: "cors",
@@ -76,7 +76,7 @@ export const ItemGetMaker = async (maker: string) => {
 export const ItemGetDetails = async (ItemID: string) => {
   try {
     const response = await fetch(
-       IPAddress + "/go/item/details/" + ItemID,
+      IPAddress + "/go/item/details/" + ItemID,
       {
         method: "GET",
         mode: "cors",
@@ -106,7 +106,7 @@ export interface Cart {
 export const GetCartDetails = async (Carts: CartItem[]) => {
   try {
     const response = await fetch(
-       IPAddress + "/go/item/CartDetails",
+      IPAddress + "/go/item/CartDetails",
       {
         method: "POST",
         mode: "cors",
