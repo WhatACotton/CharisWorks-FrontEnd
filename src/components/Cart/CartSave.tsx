@@ -11,6 +11,7 @@ export const CartSave = (Cart: string | undefined) => {
   useEffect(() => {
     const Carts = localStorage.getItem("Cart");
     try {
+      console.log(Carts);
       if (Carts?.length === 0 || Carts === undefined || Carts === null) {
       } else {
         if (Cart != undefined) {
