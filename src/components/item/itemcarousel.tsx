@@ -104,10 +104,10 @@ function Item(Props: ItemProps) {
     <Paper>
       <Image
         src={Props.ImageSrc}
-        style={{ width: "100%", height: "auto" }}
+        style={{  height: 'auto',width:"100%"}}
         alt="image"
-        width={500}
-        height={500}
+        width={400}
+        height={300}
       />
     </Paper>
   );

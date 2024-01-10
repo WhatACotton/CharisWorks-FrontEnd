@@ -9,10 +9,11 @@ import { theme } from "../api/theme";
 import Head from "next/head";
 import "../styles/imageoverlay.scss";
 import zIndex from "@mui/material/styles/zIndex";
-
+import {Button} from "@mui/material";
+import { Router, useRouter } from "next/router";
 const ImageSlider = () => {
   const images = ["images/CharisTop.png"];
-
+  const router = useRouter()
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -22,7 +23,6 @@ const ImageSlider = () => {
         <Swiper slidesPerView={1}>
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <Link href="/showcase">
                 <div className="calouselimage" key={index}>
                   <img
                     srcSet={`${image}`}
@@ -32,9 +32,23 @@ const ImageSlider = () => {
                   />
                 </div>
                 <div className="text" key={index}>
-                  <Typography>test</Typography>
+                  <Typography >
+                    CharisWorksは星回りや運勢にまつわる商品を販売しています。
+                    </Typography>
+                  <Typography >
+
+                    様々なブレスレットをお楽しみください。
+                    </Typography>
+                    <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={()=>
+                      router.push("/showcase")}
+                  >
+                    商品を見に行く
+                  </Button>
                 </div>
-              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
